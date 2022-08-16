@@ -6,7 +6,7 @@ import { getRoute } from '~/utils';
 
 const LINKS = [
     {
-        to: getRoute('home', {}),
+        to: getRoute('createPost', {}),
         title: 'create message',
     },
 ];
