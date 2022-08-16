@@ -8,7 +8,7 @@ import { auth } from './app';
 import { trhowTransformedError } from '~/utils/trhowTransformedError';
 
 
-export async function register({ email, password }: {email: string, password: string}) {
+export async function registerRequest({ email, password }: {email: string, password: string}) {
     try {
         await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -17,7 +17,7 @@ export async function register({ email, password }: {email: string, password: st
     }
 }
 
-export async function login({ email, password }: {email: string, password: string}) {
+export async function loginRequest({ email, password }: {email: string, password: string}) {
     try {
         await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -25,7 +25,7 @@ export async function login({ email, password }: {email: string, password: strin
     }
 }
 
-export async function logout() {
+export async function logoutRequest() {
     try {
         await signOut(auth);
     } catch (error) {

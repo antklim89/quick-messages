@@ -2,12 +2,12 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import * as auth from '../../firebase/auth';
+import * as auth from '../../firebase/authRequests';
 import Auth from './Auth';
 
 
-const register = vi.spyOn(auth, 'register');
-const login = vi.spyOn(auth, 'login');
+const register = vi.spyOn(auth, 'registerRequest');
+const login = vi.spyOn(auth, 'loginRequest');
 
 
 describe('Auth', () => {

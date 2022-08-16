@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { ZodError } from 'zod';
 import { authSchema } from './Auth.schemas';
 import { AuthProps, AuthType } from './Auth.types';
-import { login, register } from '~/firebase/auth';
+import { loginRequest, registerRequest } from '~/firebase/authRequests';
 
 
 export function useAuth({ type = 'login' }: AuthProps) {
@@ -14,10 +14,10 @@ export function useAuth({ type = 'login' }: AuthProps) {
         async onSubmit(val) {
             try {
                 if (type === 'login') {
-                    await login(val);
+                    await loginRequest(val);
                     toast({ title: 'You have successfully logged in!', status: 'success' });
                 } else {
-                    await register(val);
+                    await registerRequest(val);
                     toast({ title: 'You have successfully registred!', status: 'success' });
                 }
             } catch (error) {

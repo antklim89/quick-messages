@@ -1,7 +1,7 @@
 import { Box, Button } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { logout } from '~/firebase/auth';
+import { logoutRequest } from '~/firebase/authRequests';
 import { useUser } from '~/hooks';
 import { getRoute } from '~/utils';
 
@@ -29,7 +29,7 @@ const HeaderAuth: FC = () => {
                                     as="a"
                                     color="primary.textLight"
                                     variant="ghost"
-                                    onClick={logout}
+                                    onClick={logoutRequest}
                                 >
                                     Logout
                                 </Button>
