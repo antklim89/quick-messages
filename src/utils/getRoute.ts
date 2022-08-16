@@ -1,5 +1,5 @@
 import type { S, L } from 'ts-toolbelt';
-import { routes } from '~/components/Router/Router';
+import { routes } from '~/routes';
 
 
 type SplitBySlash<T extends string> = S.Split<T, '/'>;
@@ -10,13 +10,17 @@ type CretateObject<T extends string> = Record<T, string>;
 type RouteToObject<T extends string> = CretateObject<StripConons<SelectItemsWithColon<SplitBySlash<T>>>>;
 
 
-export function createRoutesGetter<Routes extends Record<string, {path: string}>>(providedRoutes: Routes) {
+export function createRoutesGetter<
+    Routes extends Record<string, {path: string}>
+>(providedRoutes: () => Routes) {
+
     return function getRoute<
-    RouteName extends keyof Routes,
-    Params extends RouteToObject<Routes[RouteName]['path']>
->(routeName: RouteName, providedParams: Params) {
-        const path = providedRoutes[routeName]?.path;
-        if (!path) throw new Error(`There is no route with name ${String(routeName)}`);
+        RouteName extends keyof Routes,
+        Params extends RouteToObject<Routes[RouteName]['path']>
+    >(routeName: RouteName, providedParams: Params) {
+        const route = providedRoutes()[routeName];
+        if (!route) throw new Error(`There is no route with name ${String(routeName)}`);
+        const { path } = route;
 
         const pathParams = path.match(/:\w+/g);
         if (!pathParams) return path;
@@ -35,4 +39,4 @@ export function createRoutesGetter<Routes extends Record<string, {path: string}>
 }
 
 
-export const getRoute = createRoutesGetter(routes);
+export const getRoute = createRoutesGetter(() => routes);

@@ -12,7 +12,7 @@ const pathes = {
 } as const;
 
 
-const getRoute = createRoutesGetter(pathes);
+const getRoute = createRoutesGetter(() => pathes);
 
 
 describe('getRoute', () => {
