@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port 3000",
+    "dev": "firebase emulators:exec \"vite --host --port 3000\" --ui",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest --ui"
+    "test": "firebase emulators:exec \"vitest --ui\" --ui"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.6",
@@ -41,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "firebase-tools": "^11.7.0",
     "jsdom": "^20.0.0",
     "typescript": "^4.6.4",
     "vite": "^3.0.0",
