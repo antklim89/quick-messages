@@ -6,7 +6,7 @@ import { AuthProps, AuthType } from './Auth.types';
 import { login, register } from '~/firebase/auth';
 
 
-export function useAuth({ type }: AuthProps) {
+export function useAuth({ type = 'login' }: AuthProps) {
     const toast = useToast();
 
     const formik = useFormik<AuthType>({
