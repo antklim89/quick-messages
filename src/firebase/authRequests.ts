@@ -1,7 +1,6 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    AuthError,
     signOut,
 } from 'firebase/auth';
 import { auth } from './app';
@@ -12,8 +11,7 @@ export async function registerRequest({ email, password }: {email: string, passw
     try {
         await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
-        const errorMessage = (error as AuthError).code.replace('/', ' error: ').replace(/-/g, ' ');
-        throw new Error(errorMessage);
+        trhowTransformedError(error);
     }
 }
 
