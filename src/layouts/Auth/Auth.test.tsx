@@ -2,16 +2,13 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import * as auth from '../../firebase/auth';
 import Auth from './Auth';
-import { login, register } from '~/firebase/auth';
 
 
-vi.mock('~/firebase/auth', () => {
-    return {
-        login: vi.fn(),
-        register: vi.fn(),
-    };
-});
+const register = vi.spyOn(auth, 'register');
+const login = vi.spyOn(auth, 'login');
+
 
 describe('Auth', () => {
     beforeEach(() => {
@@ -68,11 +65,12 @@ describe('Auth', () => {
 
     it('register request only should be called', async () => {
         render(<Auth type="register" />);
-        await userEvent.type(emailInput(), 'test@mail.ru', {});
+        await userEvent.type(emailInput(), 'BBBtest@mail.ru', {});
         await userEvent.type(passwordInput(), 'qwer1234');
         await userEvent.type(confirmdInput(), 'qwer1234');
 
         await userEvent.click(submitButton());
+
 
         expect(login).not.toBeCalled();
         expect(register).toHaveBeenCalledOnce();
