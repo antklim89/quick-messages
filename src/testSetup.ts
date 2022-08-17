@@ -14,6 +14,7 @@ vi.mock('@chakra-ui/react', async () => {
 
 vi.mock('react-router-dom', () => ({
     Link: Box,
+    useNavigate: () => () => {}
 }));
 
 
