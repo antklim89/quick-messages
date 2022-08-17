@@ -1,6 +1,7 @@
 import { Box, Button, FlexboxProps } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import Protected from '~/components/Protected';
 import { getRoute } from '~/utils';
 
 
@@ -8,6 +9,7 @@ const LINKS = [
     {
         to: getRoute('createPost', {}),
         title: 'create message',
+        isProtected: true,
     },
 ];
 
@@ -20,18 +22,20 @@ const HeaderLinks: FC<FlexboxProps> = (props) => {
                 listStyleType="none"
                 {...props}
             >
-                {LINKS.map(({ to, title }) => (
-                    <Box as="li" key={to}>
-                        <Button
-                            as={Link}
-                            colorScheme="primary"
-                            textTransform="uppercase"
-                            to={to}
-                            variant="ghost"
-                        >
-                            {title}
-                        </Button>
-                    </Box>
+                {LINKS.map(({ to, title, isProtected }) => (
+                    <Protected disableProtection={!isProtected} key={to}>
+                        <Box as="li">
+                            <Button
+                                as={Link}
+                                colorScheme="primary"
+                                textTransform="uppercase"
+                                to={to}
+                                variant="ghost"
+                            >
+                                {title}
+                            </Button>
+                        </Box>
+                    </Protected>
                 ))}
             </Box>
         </Box>

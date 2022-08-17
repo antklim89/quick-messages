@@ -1,3 +1,4 @@
+import Protected from './components/Protected';
 import CreateMessagePage from '~/pages/CreateMessagePage';
 import HomePage from '~/pages/HomePage';
 import LoginPage from '~/pages/LoginPage';
@@ -18,7 +19,9 @@ export const routes = {
         path: '/register',
     },
     createPost: {
-        element: <CreateMessagePage />,
+        element: (
+            <Protected><CreateMessagePage /></Protected>
+        ),
         path: '/create-post',
     },
 } as const;
