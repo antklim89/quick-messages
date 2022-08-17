@@ -5,6 +5,7 @@ import { IMessage } from '~/types/message';
 
 export interface EditMessageProps {
     message?: IMessage
+    id?: string
 }
 
 

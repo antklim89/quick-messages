@@ -3,11 +3,11 @@ import { useFormik } from 'formik';
 import { ZodError } from 'zod';
 import { editMessageSchema } from './EditMessage.schemas';
 import { EditMessageProps, EditMessageType } from './EditMessage.types';
-import { createMessageRequest } from '~/firebase/messageRequests';
+import { createMessageRequest, updateMessageRequest } from '~/firebase/messageRequests';
 import { useUser } from '~/hooks';
 
 
-export function useEditMessage({ message }: EditMessageProps) {
+export function useEditMessage({ message, id }: EditMessageProps) {
     const toast = useToast();
     const { user } = useUser();
 
@@ -22,10 +22,16 @@ export function useEditMessage({ message }: EditMessageProps) {
             }
 
             try {
-                await createMessageRequest({
-                    ...submitValue,
-                    author: user.uid,
-                });
+                if (id) {
+                    await updateMessageRequest(id, {
+                        ...submitValue,
+                    });
+                } else {
+                    await createMessageRequest({
+                        ...submitValue,
+                        author: user.uid,
+                    });
+                }
 
                 toast({ description: 'Message successfully posted.', status: 'success' });
             } catch (error) {
