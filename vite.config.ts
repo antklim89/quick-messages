@@ -1,4 +1,3 @@
-// eslint-disable-next-line spaced-comment
 /// <reference types="vitest" />
 import { resolve } from 'path';
 import { URL } from 'url';
@@ -17,6 +16,7 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'jsdom',
-        maxConcurrency: 1,
+        setupFiles: ['./src/testSetup.ts'],
+        open: false,
     },
 });

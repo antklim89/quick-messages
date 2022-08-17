@@ -167,5 +167,6 @@ module.exports = {
         '**/build/**/*',
         '**/.tmp/**/*',
         '**/.cache/**/*',
+        '**/testSetup.ts',
     ],
 };

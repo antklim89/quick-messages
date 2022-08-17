@@ -11,10 +11,6 @@ const login = vi.spyOn(auth, 'loginRequest');
 
 
 describe('Auth', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     const emailInput = () => screen.getByPlaceholderText(/e-mail/i);
     const passwordInput = () => screen.getByPlaceholderText(/enter your password/i);
     const confirmdInput = () => screen.getByPlaceholderText(/confirm your password/i);
@@ -65,7 +61,7 @@ describe('Auth', () => {
 
     it('register request only should be called', async () => {
         render(<Auth type="register" />);
-        await userEvent.type(emailInput(), 'BBBtest@mail.ru', {});
+        await userEvent.type(emailInput(), 'test@mail.ru', {});
         await userEvent.type(passwordInput(), 'qwer1234');
         await userEvent.type(confirmdInput(), 'qwer1234');
 
