@@ -2,14 +2,16 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    updateProfile,
 } from 'firebase/auth';
 import { auth } from './app';
 import { trhowTransformedError } from '~/utils/trhowTransformedError';
 
 
-export async function registerRequest({ email, password }: {email: string, password: string}) {
+export async function registerRequest({ email, password, name }: {email: string, password: string, name: string}) {
     try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const createdUser = await createUserWithEmailAndPassword(auth, email, password);
+        updateProfile(createdUser.user, { displayName: name });
     } catch (error) {
         trhowTransformedError(error);
     }
