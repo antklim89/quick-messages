@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { beforeEach, vi } from 'vitest';
 import fetch from 'node-fetch';
 import { Box } from '@chakra-ui/react';
@@ -9,6 +10,7 @@ vi.mock('@chakra-ui/react', async () => {
         ...actual.default,
         useMediaQuery: () => [true],
         useTheme: () => ({ breakpoints: { md: 500 } }),
+        useToast: () => vi.fn()
     };
 });
 
@@ -20,8 +22,4 @@ vi.mock('react-router-dom', () => ({
 
 beforeEach(async () => {
     vi.clearAllMocks();
-    await fetch('http://localhost:8080/emulator/v1/projects/quick-messages-56476/databases/(default)/documents', { method: 'DELETE' });
-    await fetch('http://localhost:9099/emulator/v1/projects/quick-messages-56476/accounts', { method: 'DELETE' });
 });
-
-
