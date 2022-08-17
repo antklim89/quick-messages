@@ -24,7 +24,7 @@ const Auth: FC<AuthProps> = ({ type = 'login' }) => {
                         autoComplete="username"
                         formik={formik}
                         name="name"
-                        placeholder="Confirm your username..."
+                        placeholder="Enter your username..."
                     />
                 )}
                 <InputField

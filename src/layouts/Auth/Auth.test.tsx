@@ -13,6 +13,7 @@ const login = vi.spyOn(auth, 'loginRequest');
 describe('Auth', () => {
     const emailInput = () => screen.getByPlaceholderText(/e-mail/i);
     const passwordInput = () => screen.getByPlaceholderText(/enter your password/i);
+    const usernameInput = () => screen.getByPlaceholderText(/enter your username/i);
     const confirmdInput = () => screen.getByPlaceholderText(/confirm your password/i);
     const submitButton = () => screen.getByRole('button');
 
@@ -36,6 +37,7 @@ describe('Auth', () => {
         await userEvent.type(emailInput(), 'test@mail.ru');
         await userEvent.type(passwordInput(), 'qwer1234');
         await userEvent.type(confirmdInput(), 'qwer');
+        await userEvent.type(usernameInput(), 'Username');
 
         await userEvent.click(submitButton());
 
@@ -64,6 +66,7 @@ describe('Auth', () => {
         await userEvent.type(emailInput(), 'test@mail.ru', {});
         await userEvent.type(passwordInput(), 'qwer1234');
         await userEvent.type(confirmdInput(), 'qwer1234');
+        await userEvent.type(usernameInput(), 'Username');
 
         await userEvent.click(submitButton());
 
