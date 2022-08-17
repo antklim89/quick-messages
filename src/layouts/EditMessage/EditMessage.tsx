@@ -20,13 +20,19 @@ const EditMessage: FC<EditMessageProps> = (props) => {
             <form onSubmit={formik.handleSubmit}>
                 <InputField
                     as="textarea"
+                    data-testid="message-body-input"
                     formik={formik}
                     name="body"
                     placeholder="Enter your message..."
                     resize="none"
                 />
                 <Flex justifyContent="end">
-                    <Button disabled={!formik.isValid} isLoading={formik.isSubmitting} type="submit">
+                    <Button
+                        data-testid="submit-message-button"
+                        disabled={!formik.isValid}
+                        isLoading={formik.isSubmitting}
+                        type="submit"
+                    >
                         Send
                     </Button>
                 </Flex>
