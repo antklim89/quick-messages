@@ -27,7 +27,7 @@ const EditMessage: FC<EditMessageProps> = (props) => {
                 />
                 <Flex justifyContent="end">
                     <Button disabled={!formik.isValid} isLoading={formik.isSubmitting} type="submit">
-                        Confirm
+                        Send
                     </Button>
                 </Flex>
             </form>
