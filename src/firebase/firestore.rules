@@ -1,10 +1,22 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /messages/{messageId} {
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.author;
-      allow create: if request.resource.data.author != null && request.resource.data.author == request.auth.uid;
-      allow read;
+    match /{document=**} {
+      allow read, write;
     }
   }
 }
+
+
+// ========================
+//
+// rules_version = '2';
+// service cloud.firestore {
+//   match /databases/{database}/documents {
+//     match /messages/{messageId} {
+//       allow update, delete: if request.auth != null && request.auth.uid == resource.data.author;
+//       allow create: if request.resource.data.author != null && request.resource.data.author == request.auth.uid;
+//       allow read;
+//     }
+//   }
+// }
