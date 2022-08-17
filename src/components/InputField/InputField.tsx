@@ -27,7 +27,6 @@ const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => 
             return (
                 <Select
                     {...props as SelectProps}
-                    data-testid="select"
                     name={String(name)}
                     value={String(value)}
                     onChange={formik.handleChange}
@@ -37,7 +36,6 @@ const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => 
             return (
                 <Textarea
                     {...props as TextareaProps}
-                    data-testid="textarea"
                     name={String(name)}
                     value={String(value)}
                     onChange={formik.handleChange}
@@ -47,7 +45,6 @@ const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => 
             return (
                 <Switch
                     {...props as SwitchProps}
-                    data-testid="switch"
                     isChecked={typeof value === 'boolean' ? value : false}
                     name={String(name)}
                     onChange={formik.handleChange}
@@ -58,7 +55,6 @@ const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => 
             return (
                 <Input
                     {...props as InputProps}
-                    data-testid="input"
                     name={String(name)}
                     value={String(value)}
                     onChange={formik.handleChange}

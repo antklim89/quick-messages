@@ -24,7 +24,14 @@ const formikDefault: FormikType<{test1: string}> = {
 
 describe('InputField', () => {
     it.each(['input', 'select', 'switch', 'textarea'] as const)('should be %s', async (as) => {
-        render(<InputField as={as as 'input'} formik={formikDefault} name="test1" />);
+        render((
+            <InputField
+                as={as as 'input'}
+                data-testid={as}
+                formik={formikDefault}
+                name="test1"
+            />
+        ));
         expect(screen.getByTestId(as)).toBeInTheDocument();
     });
 
