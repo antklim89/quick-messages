@@ -64,6 +64,7 @@ module.exports = {
         /**
         * React
         */
+        'react/jsx-no-useless-fragment': [2, { allowExpressions: true }],
         'react-hooks/exhaustive-deps': 0,
         'react/jsx-one-expression-per-line': 0,
         'react/forbid-component-props': 0,
