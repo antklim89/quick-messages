@@ -7,7 +7,7 @@ import { getRoute } from '~/utils';
 
 
 const HeaderAuth: FC = () => {
-    const user = useUser();
+    const { user } = useUser();
 
     return (
         <nav>
