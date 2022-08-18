@@ -1,26 +1,48 @@
+import { lazy, Suspense } from 'react';
 import Protected from './components/Protected';
-import CreateMessagePage from '~/pages/CreateMessagePage';
-import HomePage from '~/pages/HomePage';
-import LoginPage from '~/pages/LoginPage';
-import RegisterPage from '~/pages/RegisterPage';
+import RouteLoading from './components/RouteLoading';
+
+
+const CreateMessagePage = lazy(() => import('~/pages/CreateMessagePage'));
+const HomePage = lazy(() => import('~/pages/HomePage'));
+const LoginPage = lazy(() => import('~/pages/LoginPage'));
+const RegisterPage = lazy(() => import('~/pages/RegisterPage'));
 
 
 export const routes = {
     home: {
-        element: <HomePage />,
+        element: (
+            <Suspense fallback={<RouteLoading />}>
+                <HomePage />
+            </Suspense>
+        ),
         path: '/',
     },
     login: {
-        element: <Protected protectIfAuth><LoginPage /></Protected>,
+        element: (
+            <Suspense fallback={<RouteLoading />}>
+                <Protected protectIfAuth><LoginPage /></Protected>
+            </Suspense>
+        ),
         path: '/login',
     },
     register: {
-        element: <Protected protectIfAuth><RegisterPage /></Protected>,
+        element: (
+            <Suspense fallback={<RouteLoading />}>
+                <Protected protectIfAuth>
+                    <RegisterPage />
+                </Protected>
+            </Suspense>
+        ),
         path: '/register',
     },
     createPost: {
         element: (
-            <Protected><CreateMessagePage /></Protected>
+            <Suspense fallback={<RouteLoading />}>
+                <Protected>
+                    <CreateMessagePage />
+                </Protected>
+            </Suspense>
         ),
         path: '/create-post',
     },
