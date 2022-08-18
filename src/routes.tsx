@@ -11,11 +11,11 @@ export const routes = {
         path: '/',
     },
     login: {
-        element: <LoginPage />,
+        element: <Protected protectIfAuth><LoginPage /></Protected>,
         path: '/login',
     },
     register: {
-        element: <RegisterPage />,
+        element: <Protected protectIfAuth><RegisterPage /></Protected>,
         path: '/register',
     },
     createPost: {
