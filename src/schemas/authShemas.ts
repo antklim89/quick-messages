@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-export const authSchema = z.object({
+export const registerSchema = z.object({
     name: z.string()
         .max(50)
         .min(2),
@@ -14,8 +14,6 @@ export const authSchema = z.object({
         .trim()
         .max(50)
         .min(5),
-    confirm: z.string()
-        .trim()
-        .max(50)
-        .min(5),
 });
+
+export const loginSchema = registerSchema.pick({ email: true, password: true });

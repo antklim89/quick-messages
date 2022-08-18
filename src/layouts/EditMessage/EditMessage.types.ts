@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { editMessageSchema } from './EditMessage.schemas';
-import { IMessage } from '~/types/message';
+import { editMessageSchema } from '~/schemas';
+import { IMessage } from '~/types';
 
 
 export interface EditMessageProps {

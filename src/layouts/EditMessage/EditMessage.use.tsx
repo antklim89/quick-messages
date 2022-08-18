@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { ZodError } from 'zod';
-import { editMessageSchema } from './EditMessage.schemas';
 import { EditMessageProps, EditMessageType } from './EditMessage.types';
 import { createMessageRequest, updateMessageRequest } from '~/firebase/messageRequests';
 import { useUser } from '~/hooks';
+import { editMessageSchema } from '~/schemas';
 
 
 export function useEditMessage({ message, id }: EditMessageProps) {

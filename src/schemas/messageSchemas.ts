@@ -8,4 +8,3 @@ export const editMessageSchema = z.object({
         .min(5),
 });
 
-export type EditMessageSchemaType = z.infer<typeof editMessageSchema>

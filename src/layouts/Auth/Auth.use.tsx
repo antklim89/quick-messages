@@ -2,16 +2,16 @@ import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { ZodError } from 'zod';
-import { authSchema } from './Auth.schemas';
-import { AuthProps, AuthType } from './Auth.types';
+import { AuthProps, RegisterSchemaType } from './Auth.types';
 import { loginRequest, registerRequest } from '~/firebase/authRequests';
+import { registerSchema, loginSchema } from '~/schemas';
 
 
 export function useAuth({ type = 'login' }: AuthProps) {
     const toast = useToast();
     const navigate = useNavigate();
 
-    const formik = useFormik<AuthType>({
+    const formik = useFormik<RegisterSchemaType & { confirm: string }>({
         initialValues: { email: '', password: '', confirm: '', name: '' },
         async onSubmit(val) {
             try {
@@ -31,9 +31,9 @@ export function useAuth({ type = 'login' }: AuthProps) {
         async validate(val) {
             try {
                 if (type === 'login') {
-                    await authSchema.pick({ email: true, password: true }).parseAsync(val);
+                    await loginSchema.parseAsync(val);
                 } else {
-                    await authSchema.pick({ email: true, password: true, name: true }).parseAsync(val);
+                    await registerSchema.parseAsync(val);
                     if (val.confirm !== val.password) return { confirm: 'Passwords do not match.' };
                 }
             } catch (error) {
