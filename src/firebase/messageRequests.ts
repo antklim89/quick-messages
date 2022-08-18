@@ -1,14 +1,15 @@
 import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore/lite';
 import { db } from './app';
-import { IMessage } from '~/types/message';
+import { IEditMessageInput, IMessage } from '~/types/message';
 import { trhowTransformedError } from '~/utils';
 
 
-export async function createMessageRequest(body: Pick<IMessage, 'body'|'author'>) {
+export async function createMessageRequest(authorId: string, body: IEditMessageInput) {
     try {
         await addDoc(collection(db, 'messages'), {
             ...body,
             createdAt: serverTimestamp(),
+            author: authorId,
         });
     } catch (error) {
         trhowTransformedError(error);

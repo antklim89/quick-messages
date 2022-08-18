@@ -1,17 +1,18 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { ZodError } from 'zod';
-import { EditMessageProps, EditMessageType } from './EditMessage.types';
+import { EditMessageProps } from './EditMessage.types';
 import { createMessageRequest, updateMessageRequest } from '~/firebase/messageRequests';
 import { useUser } from '~/hooks';
 import { editMessageSchema } from '~/schemas';
+import { IEditMessageInput } from '~/types';
 
 
 export function useEditMessage({ message, id }: EditMessageProps) {
     const toast = useToast();
     const { user } = useUser();
 
-    const formik = useFormik<EditMessageType>({
+    const formik = useFormik<IEditMessageInput>({
         initialValues: {
             body: message?.body || '',
         },
@@ -23,14 +24,9 @@ export function useEditMessage({ message, id }: EditMessageProps) {
 
             try {
                 if (id) {
-                    await updateMessageRequest(id, {
-                        ...submitValue,
-                    });
+                    await updateMessageRequest(id, { ...submitValue });
                 } else {
-                    await createMessageRequest({
-                        ...submitValue,
-                        author: user.uid,
-                    });
+                    await createMessageRequest(user.uid, submitValue);
                 }
 
                 toast({ description: 'Message successfully posted.', status: 'success' });

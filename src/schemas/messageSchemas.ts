@@ -8,3 +8,8 @@ export const editMessageSchema = z.object({
         .min(5),
 });
 
+export const messageSchema = z.object({
+    body: z.string(),
+    auttor: z.string(),
+    createdAt: z.string(),
+});
