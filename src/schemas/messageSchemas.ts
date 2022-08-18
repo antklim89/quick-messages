@@ -9,7 +9,8 @@ export const editMessageSchema = z.object({
 });
 
 export const messageSchema = z.object({
+    id: z.string(),
     body: z.string(),
-    auttor: z.string(),
+    author: z.string(),
     createdAt: z.string(),
 });

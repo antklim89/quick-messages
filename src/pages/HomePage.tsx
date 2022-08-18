@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import MessagesList from '~/layouts/MessagesList';
 
 
 const HomePage: FC = () => {
     return (
-        <div>HomePage</div>
+        <MessagesList />
     );
 };
 

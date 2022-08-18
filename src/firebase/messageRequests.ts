@@ -1,4 +1,6 @@
-import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore/lite';
+import {
+    addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc,
+} from 'firebase/firestore/lite';
 import { db } from './app';
 import { IEditMessageInput, IMessage } from '~/types/message';
 import { trhowTransformedError } from '~/utils';
@@ -23,3 +25,18 @@ export async function updateMessageRequest(messageId: string, body: Partial<Pick
         trhowTransformedError(error);
     }
 }
+
+export async function findMessagesRequest(): Promise<IMessage[]> {
+    try {
+        const q = query(collection(db, 'messages'));
+        const messagesDocs = await getDocs(q);
+        const messages = messagesDocs.docs.map((messageDoc) => ({
+            id: messageDoc.id,
+            ...messageDoc.data(),
+        })) as unknown[];
+        return messages as IMessage[];
+    } catch (error) {
+        return trhowTransformedError(error);
+    }
+}
+
