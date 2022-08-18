@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "firebase emulators:exec \"vite --host --port 3000\" --ui",
+    "dev": "vite --host --port 3000",
+    "emulator": "firebase emulators:exec \"vite --host --port 3000\" --ui",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "firebase emulators:exec \"vitest --ui\" --ui"
