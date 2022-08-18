@@ -1,14 +1,17 @@
 import {
-    Heading, Container, Flex, Button,
+    Heading, Container, Flex, Button, Text,
 } from '@chakra-ui/react';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthProps } from './Auth.types';
 import { useAuth } from './Auth.use';
 import InputField from '~/components/InputField';
+import { getRoute } from '~/utils';
 
 
 const Auth: FC<AuthProps> = ({ type = 'login' }) => {
     const { formik } = useAuth({ type });
+    const opositeType = type === 'login' ? 'register' : 'login';
 
     return (
         <Container
@@ -49,9 +52,15 @@ const Auth: FC<AuthProps> = ({ type = 'login' }) => {
                         type="password"
                     />
                 )}
+                <Text pb={4} textAlign="center">Or <Text as={Link} color="blue" to={getRoute(opositeType, {})}>{opositeType}</Text></Text>
                 <Flex justifyContent="end">
-                    <Button disabled={!formik.isValid} isLoading={formik.isSubmitting} type="submit">
-                        Confirm
+                    <Button
+                        disabled={!formik.isValid}
+                        isLoading={formik.isSubmitting}
+                        textTransform="uppercase"
+                        type="submit"
+                    >
+                        {type}
                     </Button>
                 </Flex>
             </form>

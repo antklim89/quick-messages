@@ -22,7 +22,7 @@ export function useAuth({ type = 'login' }: AuthProps) {
                     await registerRequest(val);
                     toast({ title: 'You have successfully registred!', status: 'success' });
                 }
-                navigate(-1);
+                navigate('/');
                 navigate(0);
             } catch (error) {
                 if (error instanceof Error) toast({ title: error.message, status: 'error' });
