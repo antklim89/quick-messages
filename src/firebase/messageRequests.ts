@@ -2,8 +2,9 @@ import {
     addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc,
 } from 'firebase/firestore/lite';
 import { db } from './app';
+import { messageSchema } from '~/schemas';
 import { IEditMessageInput, IMessage } from '~/types/message';
-import { trhowTransformedError } from '~/utils';
+import { trhowTransformedError, transformFirebaseResponse } from '~/utils';
 
 
 export async function createMessageRequest(authorId: string, body: IEditMessageInput) {
@@ -30,11 +31,11 @@ export async function findMessagesRequest(): Promise<IMessage[]> {
     try {
         const q = query(collection(db, 'messages'));
         const messagesDocs = await getDocs(q);
-        const messages = messagesDocs.docs.map((messageDoc) => ({
-            id: messageDoc.id,
-            ...messageDoc.data(),
-        })) as unknown[];
-        return messages as IMessage[];
+        const messagesData = messagesDocs.docs.map(transformFirebaseResponse);
+
+        const messages = await messageSchema.array().parseAsync(messagesData);
+
+        return messages;
     } catch (error) {
         return trhowTransformedError(error);
     }
