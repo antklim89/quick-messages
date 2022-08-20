@@ -13,6 +13,9 @@ export default defineConfig({
             '~': resolve(new URL('.', import.meta.url).pathname, './src'),
         },
     },
+    define: {
+        IS_EMULATOR: process.env.IS_EMULATOR === 'true',
+    },
     test: {
         globals: true,
         environment: 'jsdom',
