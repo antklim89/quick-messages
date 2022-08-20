@@ -30,7 +30,7 @@ describe('EditMessage', () => {
 
     async function createNewMessage() {
         const data: IMessage = {
-            body: randomUUID(), author: '2222', createdAt: new Date().toISOString(),
+            id: randomUUID(), body: randomUUID(), author: '2222', createdAt: new Date().toISOString(),
         };
         const newMessageSnap = await addDoc(collection(db, 'messages'), data);
         return { id: newMessageSnap.id, data };
