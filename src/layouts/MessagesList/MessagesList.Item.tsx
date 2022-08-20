@@ -7,7 +7,7 @@ const MessagesListItem: FC<MessagesListItemProps> = ({ body, author, createdAt }
     return (
         <Flex boxShadow="lg" flexDirection="column" p={4}>
             <header>
-                <Text>{author}</Text>
+                {/* <Text>{author}</Text> */}
             </header>
             <Text
                 bg="gray.50"
