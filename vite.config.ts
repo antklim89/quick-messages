@@ -15,6 +15,7 @@ export default defineConfig({
     },
     define: {
         IS_EMULATOR: process.env.IS_EMULATOR === 'true',
+        IS_DEV: process.env.NODE_ENV === 'development',
     },
     test: {
         globals: true,

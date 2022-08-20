@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "IS_EMULATOR=true firebase emulators:exec \"vite --host --port 3000\" --ui --import=./.data --export-on-exit=./.data",
+    "dev": "NODE_ENV=development IS_EMULATOR=true firebase emulators:exec \"vite --host --port 3000\" --ui --import=./.data --export-on-exit=./.data",
     "live": "vite --host --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",

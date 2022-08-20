@@ -12,7 +12,12 @@ export function useAuth({ type = 'login' }: AuthProps) {
     const navigate = useNavigate();
 
     const formik = useFormik<RegisterSchemaType & { confirm: string }>({
-        initialValues: { email: '', password: '', confirm: '', name: '' },
+        initialValues: {
+            email: IS_DEV ? 't@t.com' : '',
+            password: IS_DEV ? 'qwer123' : '',
+            confirm: IS_DEV ? 'qwer123' : '',
+            name: IS_DEV ? 'John' : '',
+        },
         async onSubmit(val) {
             try {
                 if (type === 'login') {

@@ -2,3 +2,4 @@
 
 
 declare const IS_EMULATOR: boolean;
+declare const IS_DEV: boolean;
