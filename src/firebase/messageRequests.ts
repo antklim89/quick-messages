@@ -1,18 +1,20 @@
 import {
     addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc,
 } from 'firebase/firestore/lite';
-import { db } from './app';
+import { auth, db } from './app';
 import { messageSchema } from '~/schemas';
 import { IEditMessageInput, IMessage } from '~/types/message';
 import { trhowTransformedError, transformFirebaseResponse } from '~/utils';
 
 
-export async function createMessageRequest(authorId: string, body: IEditMessageInput) {
+export async function createMessageRequest(body: IEditMessageInput) {
     try {
+        if (!auth.currentUser) throw new Error('You are not authenticated.');
+
         await addDoc(collection(db, 'messages'), {
             ...body,
             createdAt: serverTimestamp(),
-            author: authorId,
+            author: doc(db, `users/${auth.currentUser.uid}`),
         });
     } catch (error) {
         trhowTransformedError(error);
