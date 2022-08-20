@@ -1,21 +1,17 @@
 import { randomUUID } from 'crypto';
+import { faker } from '@faker-js/faker';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {
-    addDoc, collection, getDocs, query, where,
+    addDoc, collection, doc, getDocs, query, serverTimestamp, where,
 } from 'firebase/firestore/lite';
 import { describe, it, vi } from 'vitest';
 import EditMessage from './EditMessage';
-import { Collection, db } from '~/firebase/app';
+import { auth, Collection, db } from '~/firebase/app';
 import * as messageRequests from '~/firebase/messageRequests';
-import { IMessage } from '~/types/message';
+import { IEditMessageInput, IMessage } from '~/types';
 
-
-vi.mock('~/hooks/useUser', () => ({
-    useUser: () => ({
-        user: { email: 't@t.com', uid: '1111' },
-    }),
-}));
 
 const createMessageRequest = vi.spyOn(messageRequests, 'createMessageRequest');
 const updateMessageRequest = vi.spyOn(messageRequests, 'updateMessageRequest');
@@ -28,12 +24,16 @@ describe('EditMessage', () => {
     const bodyInput = () => screen.getByTestId('message-body-input');
     const submitButton = () => screen.getByTestId('submit-message-button');
 
-    async function createNewMessage() {
-        const data: IMessage = {
-            id: randomUUID(), body: randomUUID(), author: '2222', createdAt: new Date().toISOString(),
+    async function createNewMessage(): Promise<{id: string, message: IEditMessageInput}> {
+        const { user } = await createUserWithEmailAndPassword(auth, faker.internet.email(), 'qwer1234');
+        const data = {
+            body: randomUUID(), author: doc(db, `users/${user.uid}`), createdAt: serverTimestamp(),
         };
         const newMessageSnap = await addDoc(collection(db, Collection.MESSAGES), data);
-        return { id: newMessageSnap.id, data };
+        return {
+            id: newMessageSnap.id,
+            message: { body: data.body },
+        };
     }
 
     it('should not send message if not correct input', async () => {
@@ -46,7 +46,7 @@ describe('EditMessage', () => {
         expect(submitButton()).toBeDisabled();
     });
 
-    it('should send message if correct input', async () => {
+    it.only('should send message if correct input', async () => {
         render(<EditMessage />);
 
         const messageBody = randomUUID();
@@ -66,9 +66,9 @@ describe('EditMessage', () => {
 
 
     it('should update message', async () => {
-        const { id, data } = await createNewMessage();
+        const { id, message } = await createNewMessage();
 
-        render(<EditMessage id={id} message={data} />);
+        render(<EditMessage id={id} message={message} />);
 
         const updatedBody = randomUUID();
 
@@ -86,11 +86,11 @@ describe('EditMessage', () => {
     });
 
     it('body input should contain body from props', async () => {
-        const { id, data } = await createNewMessage();
+        const { id, message } = await createNewMessage();
 
-        render(<EditMessage id={id} message={data} />);
+        render(<EditMessage id={id} message={message} />);
 
-        expect(screen.getByText(data.body)).toBeInTheDocument();
+        expect(screen.getByText(message.body)).toBeInTheDocument();
     });
 });
 
