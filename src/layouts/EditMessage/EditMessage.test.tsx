@@ -6,7 +6,7 @@ import {
 } from 'firebase/firestore/lite';
 import { describe, it, vi } from 'vitest';
 import EditMessage from './EditMessage';
-import { db } from '~/firebase/app';
+import { Collection, db } from '~/firebase/app';
 import * as messageRequests from '~/firebase/messageRequests';
 import { IMessage } from '~/types/message';
 
@@ -32,7 +32,7 @@ describe('EditMessage', () => {
         const data: IMessage = {
             id: randomUUID(), body: randomUUID(), author: '2222', createdAt: new Date().toISOString(),
         };
-        const newMessageSnap = await addDoc(collection(db, 'messages'), data);
+        const newMessageSnap = await addDoc(collection(db, Collection.MESSAGES), data);
         return { id: newMessageSnap.id, data };
     }
 
@@ -58,7 +58,7 @@ describe('EditMessage', () => {
         expect(updateMessageRequest).not.toBeCalled();
 
         await waitFor(async () => {
-            const querySnapshot = await getDocs(query(collection(db, 'messages'), where('body', '==', messageBody)));
+            const querySnapshot = await getDocs(query(collection(db, Collection.MESSAGES), where('body', '==', messageBody)));
 
             expect(querySnapshot.docs).toHaveLength(1);
         });
@@ -80,7 +80,7 @@ describe('EditMessage', () => {
         expect(createMessageRequest).not.toBeCalled();
 
         await waitFor(async () => {
-            const updatedSnap = await getDocs(query(collection(db, 'messages'), where('body', '==', updatedBody)));
+            const updatedSnap = await getDocs(query(collection(db, Collection.MESSAGES), where('body', '==', updatedBody)));
             expect(updatedSnap.docs).toHaveLength(1);
         });
     });

@@ -4,7 +4,7 @@ import {
     signOut,
 } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore/lite';
-import { auth, db } from './app';
+import { auth, Collection, db } from './app';
 import { LoginInput, RegisterInput } from '~/types';
 import { trhowTransformedError } from '~/utils/trhowTransformedError';
 
@@ -12,7 +12,7 @@ import { trhowTransformedError } from '~/utils/trhowTransformedError';
 export async function registerRequest({ email, password, name }: RegisterInput) {
     try {
         const createdUser = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'profiles', createdUser.user.uid), { name });
+        await setDoc(doc(db, Collection.PROFILES, createdUser.user.uid), { name });
     } catch (error) {
         trhowTransformedError(error);
     }
