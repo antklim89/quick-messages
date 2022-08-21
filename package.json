@@ -19,6 +19,7 @@
     "@emotion/styled": "^11",
     "@fontsource/roboto": "^4.5.8",
     "@tanstack/react-query": "^4.2.1",
+    "cypress": "^10.6.0",
     "firebase": "^9.9.2",
     "formik": "^2.2.9",
     "framer-motion": "^6",
