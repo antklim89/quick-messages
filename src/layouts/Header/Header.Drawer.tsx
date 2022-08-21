@@ -19,6 +19,7 @@ const HeaderDrawer: FC<{children: ReactNode}> = ({ children }) => {
         <>
             <Button
                 color="black"
+                data-cy="drawer-toggler"
                 ref={btnRef}
                 variant="link"
                 onClick={onToggle}
@@ -26,13 +27,14 @@ const HeaderDrawer: FC<{children: ReactNode}> = ({ children }) => {
                 <HamburgerIcon />
             </Button>
             <Drawer
+                aria-hidden={!isOpen}
                 finalFocusRef={btnRef}
                 isOpen={isOpen}
                 placement="right"
                 onClose={onClose}
             >
                 <DrawerOverlay onClick={onClose} />
-                <DrawerContent >
+                <DrawerContent>
                     <DrawerBody onClick={handleClick}>
                         {children}
                     </DrawerBody>

@@ -23,7 +23,7 @@ const HeaderLinks: FC<FlexboxProps> = (props) => {
                 {...props}
             >
                 {LINKS.map(({ to, title, isProtected }) => (
-                    <Protected disableProtection={!isProtected} key={to}>
+                    <Protected disableProtection={!isProtected} key={to} protectedComponent="">
                         <Box as="li">
                             <Button
                                 as={Link}
