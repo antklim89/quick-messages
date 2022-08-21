@@ -9,34 +9,28 @@ type CretateObject<T extends string> = Record<T, string>;
 
 type RouteToObject<T extends string> = CretateObject<StripConons<SelectItemsWithColon<SplitBySlash<T>>>>;
 
+type Routes = typeof routes;
 
-export function createRoutesGetter<
-    Routes extends Record<string, {path: string}>
->(providedRoutes: () => Routes) {
 
-    return function getRoute<
-        RouteName extends keyof Routes,
-        Params extends RouteToObject<Routes[RouteName]['path']>
-    >(routeName: RouteName, providedParams: Params) {
-        const route = providedRoutes()[routeName];
-        if (!route) throw new Error(`There is no route with name ${String(routeName)}`);
-        const { path } = route;
+export function getRoute<
+    RouteName extends keyof Routes,
+    Params extends RouteToObject<Routes[RouteName]['path']>
+>(routeName: RouteName, providedParams: Params) {
+    const route = routes[routeName];
+    if (!route) throw new Error(`There is no route with name ${String(routeName)}`);
+    const { path } = route;
 
-        const pathParams = path.match(/:\w+/g);
-        if (!pathParams) return path;
+    const pathParams = path.match(/:\w+/g);
+    if (!pathParams) return path;
 
-        let pathResult: string = path;
-        pathParams.forEach((pathParam) => {
-            const pathParamKey = pathParam.substring(1);
-            const paramsValue = (providedParams as Record<string, string>)[pathParamKey];
+    let pathResult: string = path;
+    pathParams.forEach((pathParam) => {
+        const pathParamKey = pathParam.substring(1);
+        const paramsValue = (providedParams as Record<string, string>)[pathParamKey];
 
-            if (!paramsValue) throw new Error(`${pathParamKey} param is required in path ${path}`);
+        if (!paramsValue) throw new Error(`${pathParamKey} param is required in path ${path}`);
 
-            pathResult = pathResult.replace(pathParam, paramsValue);
-        });
-        return pathResult;
-    };
+        pathResult = pathResult.replace(pathParam, paramsValue);
+    });
+    return pathResult;
 }
-
-
-export const getRoute = createRoutesGetter(() => routes);
