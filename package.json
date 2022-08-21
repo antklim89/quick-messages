@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development IS_EMULATOR=true run-p dev:**",
+    "dev": "VITE_IS_EMULATOR=true run-p dev:**",
     "dev:emulator": "firebase emulators:start --import=./.data --export-on-exit=./.data",
-    "dev:vite": "vite --host --port 3000",
+    "dev:vite": "VITE_IS_EMULATOR=false vite --host --port 3000",
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "build": "tsc && vite build",
     "preview": "vite preview",

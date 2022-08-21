@@ -16,8 +16,7 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-
-if (IS_EMULATOR) {
+if (typeof Cypress === 'object' || IS_EMULATOR) {
     connectFirestoreEmulator(db, 'localhost', 8080);
     connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
 }
