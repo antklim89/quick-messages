@@ -54,7 +54,14 @@ module.exports = {
                 'alphabetize': { order: 'asc', caseInsensitive: true },
             },
         ],
-        'import/no-extraneous-dependencies': ['error', { 'devDependencies': ['**/*.test.*', '**/*.spec.*', '**/*.config.*'] }],
+        'import/no-extraneous-dependencies': [
+            'error', { 'devDependencies': [
+                '**/*.test.*',
+                '**/*.spec.*',
+                '**/*.config.*',
+                '**/*.cy.*',
+            ] },
+        ],
 
         /**
         * Vue
@@ -99,6 +106,7 @@ module.exports = {
         /**
         * JavaScript
         */
+        'newline-per-chained-call': [1, { 'ignoreChainWithDepth': 3 }],
         'spaced-comment': [2, 'always', { 'markers': ['/'] }],
         'capitalized-comments': 0,
         'multiline-comment-style': 0,
