@@ -15,7 +15,7 @@ export function useEditMessage({ message, id }: EditMessageProps) {
         initialValues: {
             body: message?.body || '',
         },
-        async onSubmit(submitValue) {
+        async onSubmit(submitValue, { resetForm }) {
             if (!auth.currentUser) {
                 toast({ description: 'You are not authenticated.', status: 'error' });
                 return;
@@ -27,7 +27,7 @@ export function useEditMessage({ message, id }: EditMessageProps) {
                 } else {
                     await createMessageRequest(submitValue);
                 }
-
+                resetForm();
                 toast({ description: 'Message successfully posted.', status: 'success' });
             } catch (error) {
                 if (error instanceof Error) toast({ description: `Error sending the message: "${error.message}". Try gain later.`, status: 'error' });
