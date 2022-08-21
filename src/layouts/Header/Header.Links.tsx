@@ -7,7 +7,7 @@ import { getRoute } from '~/utils';
 
 const LINKS = [
     {
-        to: getRoute('createPost', {}),
+        to: getRoute('createMessage', {}),
         title: 'create message',
         isProtected: true,
     },

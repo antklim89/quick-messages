@@ -36,7 +36,7 @@ export const routes = {
         ),
         path: '/register',
     },
-    createPost: {
+    createMessage: {
         element: (
             <Suspense fallback={<RouteLoading />}>
                 <Protected>
@@ -44,6 +44,6 @@ export const routes = {
                 </Protected>
             </Suspense>
         ),
-        path: '/create-post',
+        path: '/create-message',
     },
 } as const;
