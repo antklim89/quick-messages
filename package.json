@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "VITE_IS_EMULATOR=true run-p dev:**",
-    "dev:emulator": "firebase emulators:start --import=./.data --export-on-exit=./.data",
-    "dev:vite": "VITE_IS_EMULATOR=false vite --host --port 3000",
+    "dev": "IS_EMULATOR=true run-p dev:**",
+    "dev:emulator": "firebase emulators:exec \"yarn vite\" --import=./.data --export-on-exit=./.data",
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "build": "tsc && vite build",
+    "vite": "vite --host --port 3000",
     "preview": "vite preview",
-    "test": "firebase emulators:exec \"vitest --ui\" --ui"
+    "test": "run-p test:**",
+    "test:cypress": "cypress open",
+    "test:emulator": "firebase emulators:exec \"yarn vite\""
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.6",
@@ -42,7 +44,6 @@
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@vitejs/plugin-react": "^2.0.0",
-    "@vitest/ui": "^0.21.1",
     "eslint": "^8.21.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
@@ -53,8 +54,7 @@
     "node-fetch": "^3.2.10",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.6.4",
-    "vite": "^3.0.0",
-    "vitest": "^0.21.1"
+    "vite": "^3.0.0"
   },
   "license": "0BSD"
 }
