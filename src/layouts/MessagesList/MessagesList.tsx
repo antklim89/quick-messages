@@ -4,7 +4,7 @@ import { FC } from 'react';
 import MessagesListItem from './MessagesList.Item';
 import { MessagesListProps } from './MessagesList.types';
 import RouteLoading from '~/components/RouteLoading';
-import { findMessagesRequest } from '~/firebase/messageRequests';
+import { findMessagesRequest } from '~/supabase/messageRequests';
 
 
 const MessagesList: FC<MessagesListProps> = () => {

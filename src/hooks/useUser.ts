@@ -1,6 +1,5 @@
-import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { auth } from '~/firebase/app';
+import supabase from '~/supabase/app';
 import { IUser } from '~/types';
 
 
@@ -10,14 +9,25 @@ export function useUser() {
     const [isAuth, setIsAuth] = useState(false);
 
     useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                const { email, displayName, uid, isAnonymous } = currentUser;
+        supabase.auth.getUser().then(({ data }) => {
+            if (!data.user) return;
+            const { email, id, user_metadata: { name } } = data.user;
+            setUser({
+                email: email || '',
+                name: name || 'Anonymous',
+                id,
+            });
+        });
+    }, []);
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (session?.user) {
+                const { email, id, user_metadata: { name } } = session.user;
                 setUser({
-                    email,
-                    name: displayName || 'Anonymous',
-                    uid,
-                    isAnonymous,
+                    email: email || '',
+                    name: name || 'Anonymous',
+                    id,
                 });
                 setIsAuth(true);
             } else {

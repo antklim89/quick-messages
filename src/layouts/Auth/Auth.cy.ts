@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '~/firebase/app';
+import { auth } from '~/supabase/app';
 
 
 describe('Auth', () => {

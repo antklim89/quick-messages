@@ -2,9 +2,8 @@ import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { ZodError } from 'zod';
 import { EditMessageProps } from './EditMessage.types';
-import { auth } from '~/firebase/app';
-import { createMessageRequest, updateMessageRequest } from '~/firebase/messageRequests';
 import { editMessageSchema } from '~/schemas';
+import { createMessageRequest, updateMessageRequest } from '~/supabase/messageRequests';
 import { IEditMessageInput } from '~/types';
 
 
@@ -16,10 +15,10 @@ export function useEditMessage({ message, id }: EditMessageProps) {
             body: message?.body || '',
         },
         async onSubmit(submitValue, { resetForm }) {
-            if (!auth.currentUser) {
-                toast({ description: 'You are not authenticated.', status: 'error' });
-                return;
-            }
+            // if (!auth.currentUser) {
+            //     toast({ description: 'You are not authenticated.', status: 'error' });
+            //     return;
+            // }
 
             try {
                 if (id) {

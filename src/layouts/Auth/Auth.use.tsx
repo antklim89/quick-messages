@@ -3,8 +3,8 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { ZodError } from 'zod';
 import { AuthProps, RegisterSchemaType } from './Auth.types';
-import { loginRequest, registerRequest } from '~/firebase/authRequests';
 import { registerSchema, loginSchema } from '~/schemas';
+import { loginRequest, registerRequest } from '~/supabase/authRequests';
 
 
 export function useAuth({ type = 'login' }: AuthProps) {
@@ -19,19 +19,17 @@ export function useAuth({ type = 'login' }: AuthProps) {
             name: IS_DEV ? 'John' : '',
         },
         async onSubmit(val) {
-            try {
-                if (type === 'login') {
-                    await loginRequest(val);
-                    toast({ title: 'You have successfully logged in!', status: 'success' });
-                } else {
-                    await registerRequest(val);
-                    toast({ title: 'You have successfully registred!', status: 'success' });
-                }
-                navigate('/');
-                navigate(0);
-            } catch (error) {
-                if (error instanceof Error) toast({ title: error.message, status: 'error' });
+            if (type === 'login') {
+                const { error } = await loginRequest(val);
+                if (error) toast({ title: error.message, status: 'error' });
+                else toast({ title: 'You have successfully logged in!', status: 'success' });
+            } else {
+                const { error } = await registerRequest(val);
+                if (error) toast({ title: error.message, status: 'error' });
+                else toast({ title: 'You have successfully registred!', status: 'success' });
             }
+            navigate('/');
+            navigate(0);
         },
         async validate(val) {
             try {

@@ -5,8 +5,7 @@ import { loginSchema, registerSchema } from '~/schemas';
 export interface IUser {
     email: string|null
     name: string
-    uid: string
-    isAnonymous: boolean
+    id: string
 }
 
 export type LoginInput = z.infer<typeof loginSchema>

@@ -21,7 +21,9 @@ export const routes = {
     login: {
         element: (
             <Suspense fallback={<RouteLoading />}>
-                <Protected protectIfAuth><LoginPage /></Protected>
+                <Protected protectIfAuth>
+                    <LoginPage />
+                </Protected>
             </Suspense>
         ),
         path: '/login',

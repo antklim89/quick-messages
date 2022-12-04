@@ -1,7 +1,7 @@
 import { Box, Button } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { logoutRequest } from '~/firebase/authRequests';
+import { logoutRequest } from '~/supabase/authRequests';
 import { useUser } from '~/hooks';
 import { getRoute } from '~/utils';
 
