@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { firebaseDateSchema } from './utilsSchemas';
+import { profileSchema } from './authShemas';
 
 
 export const editMessageSchema = z.object({
@@ -10,8 +10,8 @@ export const editMessageSchema = z.object({
 });
 
 export const messageSchema = z.object({
-    id: z.string(),
+    id: z.number(),
     body: z.string(),
-    author: z.any(),
-    createdAt: firebaseDateSchema,
+    author: profileSchema,
+    createdAt: z.string(),
 });

@@ -1,36 +1,43 @@
+import supabase from './app';
 import { messageSchema } from '~/schemas';
 import { IEditMessageInput, IMessage } from '~/types/message';
-import { trhowTransformedError } from '~/utils';
 
 
 export async function createMessageRequest(body: IEditMessageInput) {
-    try {
-        // if (!auth.currentUser) throw new Error('You are not authenticated.');
+    const { data } = await supabase.auth.getSession();
+    if (!data.session?.user.id) throw new Error('You are not authenticated');
 
-        // await addDoc(collection(db, Collection.MESSAGES), {
-        //     ...body,
-        //     createdAt: serverTimestamp(),
-        //     author: doc(db, `users/${auth.currentUser.uid}`),
-        // });
-    } catch (error) {
-        trhowTransformedError(error);
-    }
+    const { error } = await supabase
+        .from('messages')
+        .insert({
+            ...body,
+            author: data.session?.user.id,
+        });
+
+    if (error) throw error;
 }
 
-export async function updateMessageRequest(messageId: string, body: Partial<Pick<IMessage, 'body'>>) {
-    try {
-        // await setDoc(doc(db, Collection.MESSAGES, messageId), body);
-    } catch (error) {
-        trhowTransformedError(error);
-    }
+export async function updateMessageRequest(messageId: string, body: IEditMessageInput) {
+    const { data } = await supabase.auth.getSession();
+    if (!data.session?.user.id) throw new Error('You are not authenticated');
+
+    const { error } = await supabase
+        .from('messages')
+        .update(body)
+        .eq('id', messageId);
+
+    if (error) throw error;
 }
 
 export async function findMessagesRequest(): Promise<IMessage[]> {
-    try {
+    const { error, data } = await supabase
+        .from('messages')
+        .select('*, author(*)');
 
-        return [];
-    } catch (error) {
-        return trhowTransformedError(error);
-    }
+    if (error) throw error;
+
+    const messages = await messageSchema.array().parseAsync(data);
+
+    return messages;
 }
 

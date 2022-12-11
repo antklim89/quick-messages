@@ -17,3 +17,7 @@ export const registerSchema = z.object({
 });
 
 export const loginSchema = registerSchema.pick({ email: true, password: true });
+
+export const profileSchema = z.object({
+    name: z.string(),
+});
