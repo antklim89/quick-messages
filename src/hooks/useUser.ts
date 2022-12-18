@@ -32,10 +32,9 @@ function authenticate(
     setIsAuth: Dispatch<SetStateAction<boolean>>,
 ) {
     if (session && session?.user) {
-        const { email, id, user_metadata: { name } } = session.user;
+        const { email, id } = session.user;
         setUser({
             email: email || '',
-            name: name || 'Anonymous',
             id,
         });
         setIsAuth(true);

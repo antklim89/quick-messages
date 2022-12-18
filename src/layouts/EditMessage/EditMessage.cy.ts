@@ -11,19 +11,16 @@ describe('EditMessage', () => {
         cy.visit('/create-message');
     });
 
-
     it('should be 404 page if not login', () => {
-        cy.contains('404').should('exist');
+        cy.contains('404');
         cy.contains('create message').should('not.exist');
     });
 
-    it('should be "create message" input if login', () => {
-        getUser();
-        cy.contains('create message').click();
-        cy.getTestId('message-body-input').should('exist');
-    });
-
     it('should create new message', () => {
+        getUser();
+        cy.contains('create message').should('exist');
+        cy.getTestId('message-body-input').should('exist');
+
         cy.getTestId('message-body-input').type('%');
         cy.getTestId('submit-message-button').should('be.disabled');
 

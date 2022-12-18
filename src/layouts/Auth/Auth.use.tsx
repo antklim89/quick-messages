@@ -1,20 +1,18 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import { ZodError } from 'zod';
-import { AuthProps, RegisterSchemaType } from './Auth.types';
-import { registerSchema, loginSchema } from '~/schemas';
-import { loginRequest, registerRequest } from '~/supabase/authRequests';
+import { AuthProps, AuthSchemaType } from './Auth.types';
+import { loginRequest, registerRequest } from '~/requests/authRequests';
+import { authSchema } from '~/schemas';
 
 
 export function useAuth({ type = 'login' }: AuthProps) {
     const toast = useToast();
 
-    const formik = useFormik<RegisterSchemaType & { confirm: string }>({
+    const formik = useFormik<AuthSchemaType & { confirm: string }>({
         initialValues: {
             email: import.meta.env.DEV ? 't@t.com' : '',
             password: import.meta.env.DEV ? 'qwer1234' : '',
             confirm: import.meta.env.DEV ? 'qwer1234' : '',
-            name: import.meta.env.DEV ? 'anton' : '',
         },
         async onSubmit(val) {
             try {
@@ -32,17 +30,12 @@ export function useAuth({ type = 'login' }: AuthProps) {
             }
         },
         async validate(val) {
-            try {
-                if (type === 'login') {
-                    await loginSchema.parseAsync(val);
-                } else {
-                    await registerSchema.parseAsync(val);
-                    if (val.confirm !== val.password) return { confirm: 'Passwords do not match.' };
-                }
-            } catch (error) {
-                if (error instanceof ZodError) return error.formErrors.fieldErrors;
+            const result = await authSchema.safeParseAsync(val);
+            if (type === 'register') {
+                if (val.confirm !== val.password) return { confirm: 'Passwords do not match.' };
             }
-            return {};
+
+            return result.success ? {} : result.error.formErrors.fieldErrors;
         },
     });
 

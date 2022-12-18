@@ -1,13 +1,11 @@
 import { z } from 'zod';
-import { loginSchema, profileSchema, registerSchema } from '~/schemas';
+import { authSchema, profileSchema } from '~/schemas';
 
 
 export interface IUser {
     email: string|null
-    name: string
     id: string
 }
 
-export type LoginInput = z.infer<typeof loginSchema>
-export type RegisterInput = z.infer<typeof registerSchema>
+export type AuthInput = z.infer<typeof authSchema>
 export type IProfile = z.infer<typeof profileSchema>

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "run-p dev:**",
     "dev:vite": "vite --host --port 3000",
-    "!dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
+    "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "run-p test:**",

@@ -22,14 +22,6 @@ const Auth: FC<AuthProps> = ({ type = 'login' }) => {
             <Heading mb={4} textTransform="capitalize">{type}</Heading>
 
             <form onSubmit={formik.handleSubmit}>
-                {type === 'register' && (
-                    <InputField
-                        autoComplete="username"
-                        formik={formik}
-                        name="name"
-                        placeholder="Enter your username..."
-                    />
-                )}
                 <InputField
                     autoComplete="email"
                     formik={formik}

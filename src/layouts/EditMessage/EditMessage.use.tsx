@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import { ZodError } from 'zod';
 import { EditMessageProps } from './EditMessage.types';
+import { createMessageRequest, updateMessageRequest } from '~/requests/messageRequests';
 import { editMessageSchema } from '~/schemas';
-import { createMessageRequest, updateMessageRequest } from '~/supabase/messageRequests';
+import supabase from '~/supabase/app';
 import { IEditMessageInput } from '~/types';
 
 
@@ -15,10 +15,10 @@ export function useEditMessage({ message, id }: EditMessageProps) {
             body: message?.body || '',
         },
         async onSubmit(submitValue, { resetForm }) {
-            // if (!auth.currentUser) {
-            //     toast({ description: 'You are not authenticated.', status: 'error' });
-            //     return;
-            // }
+            if (!(await supabase.auth.getSession()).data.session?.user) {
+                toast({ description: 'You are not authenticated.', status: 'error' });
+                return;
+            }
 
             try {
                 if (id) {
@@ -33,12 +33,8 @@ export function useEditMessage({ message, id }: EditMessageProps) {
             }
         },
         async validate(val) {
-            try {
-                await editMessageSchema.parseAsync(val);
-            } catch (error) {
-                if (error instanceof ZodError) return error.formErrors.fieldErrors;
-            }
-            return {};
+            const result = await editMessageSchema.safeParseAsync(val);
+            return result.success ? {} : result.error.formErrors.fieldErrors;
         },
     });
 

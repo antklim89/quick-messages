@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { registerSchema } from '../../schemas/authShemas';
+import { authSchema } from '../../schemas/authShemas';
 
 
 export interface AuthProps {
@@ -7,4 +7,4 @@ export interface AuthProps {
 }
 
 
-export type RegisterSchemaType = z.infer<typeof registerSchema>
+export type AuthSchemaType = z.infer<typeof authSchema>

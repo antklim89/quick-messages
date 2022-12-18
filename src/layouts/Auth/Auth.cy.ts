@@ -16,7 +16,6 @@ describe('Auth', () => {
     it('should register', () => {
         cy.visit('/register');
         cy.contains(/register/i).should('exist');
-        cy.get('[name="name"]').clear().type(name);
         cy.get('[name="email"]').clear().type(invalidEmail);
         cy.get('[name="password"]').clear().type(password);
         cy.get('[name="confirm"]').clear().type(password);
@@ -27,11 +26,9 @@ describe('Auth', () => {
 
         cy.location('pathname').should('equal', '/');
         cy.contains(/logout/i).should('exist');
-    });
-
-    it('should logout', () => {
         cy.contains(/logout/i).click();
     });
+
 
     it('should not login with wrong password', () => {
         cy.visit('/login');
@@ -47,7 +44,6 @@ describe('Auth', () => {
     it('should login', () => {
         cy.visit('/login');
 
-        cy.get('[name="name"]').should('not.exist');
         cy.get('[name="email"]').clear().type(email);
         cy.get('[name="password"]').clear().type(password);
         cy.get('[name="confirm"]').should('not.exist');
@@ -62,6 +58,7 @@ describe('Auth', () => {
     it('new user should be in database', async () => {
         const authResponse = await supabase.auth.signInWithPassword({ email, password });
         expect(authResponse.data?.user?.email).to.be.equal(email.toLocaleLowerCase());
+        await supabase.from('profiles').delete().eq('id', authResponse.data?.user?.id || '');
         await supabase.auth.admin.deleteUser(authResponse.data?.user?.id || '');
     });
 });

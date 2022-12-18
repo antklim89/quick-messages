@@ -1,5 +1,5 @@
-import supabase from './app';
 import { messageSchema } from '~/schemas';
+import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types/message';
 
 
