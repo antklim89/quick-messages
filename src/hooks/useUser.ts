@@ -1,46 +1,18 @@
 import { Session } from '@supabase/supabase-js';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import supabase from '~/supabase/app';
+import { useMemo } from 'react';
 import { IUser } from '~/types';
 
 
 export function useUser() {
-    const [user, setUser] = useState<IUser|null>(null);
-    const [authInited, setAuthInited] = useState(false);
-    const [isAuth, setIsAuth] = useState(false);
+    const user: IUser| null = useMemo(() => {
+        const storageSession = localStorage.getItem('sb-localhost-auth-token');
+        if (!storageSession) return null;
+        const session: Session = JSON.parse(storageSession);
 
-    useEffect(() => {
-        supabase.auth.getSession().then((({ data: { session } }) => {
-            authenticate(session, setUser, setIsAuth);
-            setAuthInited(true);
-        }));
+        return { id: session.user.id, email: session.user.email };
     }, []);
 
-    useEffect(() => {
-        supabase.auth.onAuthStateChange((event, session) => {
-            authenticate(session, setUser, setIsAuth);
-        });
-    }, []);
+    const isAuth = Boolean(user);
 
-    return { user, authInited, isAuth };
+    return { user, isAuth };
 }
-
-
-function authenticate(
-    session: Session | null,
-    setUser: Dispatch<SetStateAction<IUser | null>>,
-    setIsAuth: Dispatch<SetStateAction<boolean>>,
-) {
-    if (session && session?.user) {
-        const { email, id } = session.user;
-        setUser({
-            email: email || '',
-            id,
-        });
-        setIsAuth(true);
-    } else {
-        setUser(null);
-        setIsAuth(false);
-    }
-}
-

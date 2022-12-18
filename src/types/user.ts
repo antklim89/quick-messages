@@ -3,7 +3,7 @@ import { authSchema, profileSchema } from '~/schemas';
 
 
 export interface IUser {
-    email: string|null
+    email?: string|null
     id: string
 }
 

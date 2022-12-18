@@ -6,18 +6,15 @@ import { getUser } from '~/testSetup';
 describe('EditMessage', () => {
     const MESSAGE_BODY = faker.lorem.sentence();
 
-    beforeEach(() => {
-        Cypress.supabase.auth.signOut();
-        cy.visit('/create-message');
-    });
-
     it('should be 404 page if not login', () => {
+        cy.visit('/create-message');
         cy.contains('404');
         cy.contains('create message').should('not.exist');
     });
 
     it('should create new message', () => {
         getUser();
+        cy.visit('/create-message');
         cy.contains('create message').should('exist');
         cy.getTestId('message-body-input').should('exist');
 

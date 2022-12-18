@@ -9,11 +9,10 @@ const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY || (() => {
     throw new Error('VITE_SUPABASE_KEY env is required');
 })();
 
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-
-if (typeof Cypress !== 'undefined') {
-    Cypress.supabase = supabase;
-}
+const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+        storageKey: 'sb-localhost-auth-token',
+    },
+});
 
 export default supabase;

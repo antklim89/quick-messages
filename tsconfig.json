@@ -28,7 +28,7 @@
   "include": [
     "src"
   ],
-  "files": ["./src/vite-env.d.ts", "./cypress/support/index.d.ts"],
+  "files": ["./src/vite-env.d.ts"],
   "references": [{
       "path": "./tsconfig.node.json"
   }]

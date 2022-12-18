@@ -16,6 +16,5 @@ const supabaseKey: string = import.meta.env.VITE_SUPABASE_SERVICE_ROLE || (() =>
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-Cypress.supabase = supabase;
 
 export default supabase;

@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import supabase from "./supabase/app";
 
 
 export const user = {
@@ -7,11 +7,11 @@ export const user = {
     name: 'anton'
 };
 
-export function getUser() {
-    (Cypress.supabase as SupabaseClient).auth.signInWithPassword(user)
+export async function getUser() {
+    await supabase.auth.signInWithPassword(user)
         .then(({error}) => {
             if (!error) return;
-            (Cypress.supabase as SupabaseClient).auth.signUp(user);
+            supabase.auth.signUp(user);
         })
     
 
