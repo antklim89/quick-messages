@@ -5,7 +5,7 @@ import { loginRequest, registerRequest } from '~/requests/authRequests';
 import { authInputSchema } from '~/schemas';
 
 
-export function useAuth({ type = 'login' }: AuthProps) {
+export function useAuthFormik({ type = 'login' }: AuthProps) {
     const toast = useToast();
 
     const formik = useFormik<AuthSchemaType & { confirm: string }>({
@@ -39,5 +39,5 @@ export function useAuth({ type = 'login' }: AuthProps) {
         },
     });
 
-    return { formik };
+    return formik;
 }

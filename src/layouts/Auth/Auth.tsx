@@ -3,14 +3,14 @@ import {
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthFormik } from './Auth.formik';
 import { AuthProps } from './Auth.types';
-import { useAuth } from './Auth.use';
 import InputField from '~/components/InputField';
 import { getRoute } from '~/utils';
 
 
 const Auth: FC<AuthProps> = ({ type = 'login' }) => {
-    const { formik } = useAuth({ type });
+    const formik = useAuthFormik({ type });
     const opositeType = type === 'login' ? 'register' : 'login';
 
     return (
