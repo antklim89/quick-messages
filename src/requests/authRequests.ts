@@ -1,9 +1,9 @@
 import type { User } from '@supabase/supabase-js';
 import supabase from '~/supabase/app';
-import { AuthInput } from '~/types';
+import { IAuthInput } from '~/types';
 
 
-export async function registerRequest({ email, password }: AuthInput): Promise<User> {
+export async function registerRequest({ email, password }: IAuthInput): Promise<User> {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -14,7 +14,7 @@ export async function registerRequest({ email, password }: AuthInput): Promise<U
     return data.user;
 }
 
-export async function loginRequest({ email, password }: AuthInput): Promise<void> {
+export async function loginRequest({ email, password }: IAuthInput): Promise<void> {
     const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

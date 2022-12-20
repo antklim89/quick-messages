@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-export const authSchema = z.object({
+export const authInputSchema = z.object({
     email: z.string()
         .email()
         .trim()

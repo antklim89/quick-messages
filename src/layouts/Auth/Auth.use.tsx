@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { AuthProps, AuthSchemaType } from './Auth.types';
 import { loginRequest, registerRequest } from '~/requests/authRequests';
-import { authSchema } from '~/schemas';
+import { authInputSchema } from '~/schemas';
 
 
 export function useAuth({ type = 'login' }: AuthProps) {
@@ -30,7 +30,7 @@ export function useAuth({ type = 'login' }: AuthProps) {
             }
         },
         async validate(val) {
-            const result = await authSchema.safeParseAsync(val);
+            const result = await authInputSchema.safeParseAsync(val);
             if (type === 'register') {
                 if (val.confirm !== val.password) return { confirm: 'Passwords do not match.' };
             }
