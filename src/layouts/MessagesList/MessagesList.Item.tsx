@@ -1,4 +1,4 @@
-import { Heading, Flex, Text, IconButton } from '@chakra-ui/react';
+import { Flex, Text, IconButton } from '@chakra-ui/react';
 import { FC } from 'react';
 import { FaBookmark, FaHeart, FaReply } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -13,20 +13,18 @@ const MessagesListItem: FC<MessagesListItemProps> = ({ body, author, createdAt }
             borderRadius="lg"
             boxShadow="md"
             flexDirection="column"
-            m={4}
+            my={4}
         >
-            <Heading
-                as="h5"
-                display="flex"
-                fontSize="md"
+            <Flex
+                flexDirection={['column', 'row']}
                 justifyContent="space-between"
                 p={4}
             >
                 <Link to={`/user/${author.id}`}>
-                    <Text fontSize="xl">{author.name}</Text>
+                    <Text fontSize={['xl', '2xl']}>{author.name}</Text>
                 </Link>
-                <Text>{new Date(createdAt).toLocaleString()}</Text>
-            </Heading>
+                <Text fontSize={['xs', 'sm']}>{new Date(createdAt).toLocaleString()}</Text>
+            </Flex>
             <Text my={4} p={4}>
                 {body}
             </Text>

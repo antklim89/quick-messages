@@ -12,7 +12,7 @@ const MessagesList: FC<MessagesListProps> = () => {
 
     if (isLoading || !data) return <RouteLoading />;
     return (
-        <Container my={8}>
+        <Container my={8} p={2}>
             {data.map((message) => (
                 <MessagesListItem key={message.id} {...message} />
             ))}
