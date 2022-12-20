@@ -9,48 +9,39 @@ describe('Auth', () => {
 
     const invalidEmail = 'INVALID';
 
-    before(() => {
+    beforeEach(() => {
         cy.visit('/');
     });
 
     it('should register', () => {
-        cy.visit('/register');
-        cy.contains(/register/i).should('exist');
+        cy.contains(/register/i).click();
+
         cy.get('[name="email"]').clear().type(invalidEmail);
         cy.get('[name="password"]').clear().type(password);
         cy.get('[name="confirm"]').clear().type(password);
-        cy.get('[type="submit"]').should('be.disabled');
+        cy.contains(/submit/i).should('be.disabled');
 
         cy.get('[name="email"]').clear().type(email);
-        cy.get('[type="submit"]').click();
+        cy.contains(/submit/i).click();
 
-        cy.location('pathname').should('equal', '/');
         cy.contains(/logout/i).should('exist');
         cy.contains(/logout/i).click();
     });
 
 
-    it('should not login with wrong password', () => {
-        cy.visit('/login');
+    it('should login', () => {
+        cy.contains(/login/i).click();
 
         cy.get('[name="email"]').clear().type(email);
         cy.get('[name="password"]').clear().type(`${password}INVALID`);
-
-        cy.get('[type="submit"]').click();
-
+        cy.contains(/submit/i).click();
         cy.contains(/Invalid login credentials/i);
-    });
-
-    it('should login', () => {
-        cy.visit('/login');
 
         cy.get('[name="email"]').clear().type(email);
         cy.get('[name="password"]').clear().type(password);
         cy.get('[name="confirm"]').should('not.exist');
 
-        cy.get('[type="submit"]').click();
-
-        cy.location('pathname').should('equal', '/');
+        cy.contains(/submit/i).click();
         cy.contains(/logout/i).should('exist');
     });
 

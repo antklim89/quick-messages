@@ -1,62 +1,69 @@
 import {
-    Heading, Container, Flex, Button, Text,
+    Button,
+    Modal,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useCallback, useRef, useState } from 'react';
+import AuthForm from './Auth.Form';
 import { useAuthFormik } from './Auth.formik';
-import { AuthProps } from './Auth.types';
-import InputField from '~/components/InputField';
-import { getRoute } from '~/utils';
+import { AuthProps, AuthType } from './Auth.types';
 
 
-const Auth: FC<AuthProps> = ({ type = 'login' }) => {
-    const formik = useAuthFormik({ type });
+const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
+    const [type, setType] = useState<AuthType>(defaultType);
+    const formik = useAuthFormik({ defaultType: type });
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const initialRef = useRef(null);
+
+    const hundleSubmit = formik.submitForm;
     const opositeType = type === 'login' ? 'register' : 'login';
 
+    const handleToggleType = useCallback(() => setType(opositeType), [opositeType]);
     return (
-        <Container
-            boxShadow="md" height="100%" maxWidth="container.md"
-            mt={24}
-            padding={8}
-        >
-            <Heading mb={4} textTransform="capitalize">{type}</Heading>
+        <>
+            <Button
+                textTransform="uppercase"
+                variant="ghost"
+                {...props}
+                onClick={onOpen}
+            >
+                {defaultType}
+            </Button>
 
-            <form onSubmit={formik.handleSubmit}>
-                <InputField
-                    autoComplete="email"
-                    formik={formik}
-                    name="email"
-                    placeholder="Enter your e-mail..."
-                />
-                <InputField
-                    autoComplete="new-password"
-                    formik={formik}
-                    name="password"
-                    placeholder="Enter your password..."
-                    type="password"
-                />
-                {type === 'register' && (
-                    <InputField
-                        autoComplete="new-password"
-                        formik={formik}
-                        name="confirm"
-                        placeholder="Confirm your password..."
-                        type="password"
-                    />
-                )}
-                <Text pb={4} textAlign="center">Or <Text as={Link} color="blue" to={getRoute(opositeType, {})}>{opositeType}</Text></Text>
-                <Flex justifyContent="end">
-                    <Button
-                        disabled={!formik.isValid}
-                        isLoading={formik.isSubmitting}
-                        textTransform="uppercase"
-                        type="submit"
-                    >
-                        {type}
-                    </Button>
-                </Flex>
-            </form>
-        </Container>
+            <Modal
+                initialFocusRef={initialRef}
+                isOpen={isOpen}
+                onClose={onClose}
+            >
+                <ModalOverlay />
+                <ModalContent p={4}>
+                    <ModalHeader>{type}</ModalHeader>
+                    <ModalCloseButton />
+                    <AuthForm formik={formik} type={type} />
+                    <Text pb={4} textAlign="center">Or <Button variant="link" onClick={handleToggleType}>{opositeType}</Button></Text>
+                    <ModalFooter>
+                        <Button
+                            disabled={!formik.isValid}
+                            isLoading={formik.isSubmitting}
+                            textTransform="uppercase"
+                            type="button"
+                            onClick={hundleSubmit}
+                        >
+                            Submit
+                        </Button>
+                        <Button ml={4} variant="outline" onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+
     );
 };
 

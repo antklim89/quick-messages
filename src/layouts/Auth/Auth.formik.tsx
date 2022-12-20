@@ -5,7 +5,7 @@ import { loginRequest, registerRequest } from '~/requests/authRequests';
 import { authInputSchema } from '~/schemas';
 
 
-export function useAuthFormik({ type = 'login' }: AuthProps) {
+export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
     const toast = useToast();
 
     const formik = useFormik<AuthSchemaType & { confirm: string }>({
@@ -18,13 +18,13 @@ export function useAuthFormik({ type = 'login' }: AuthProps) {
             try {
                 if (type === 'login') {
                     await loginRequest(val);
-                    toast({ title: 'You have successfully logged in!', status: 'success' }); // window.location.assign('/');
+                    toast({ title: 'You have successfully logged in!', status: 'success' });
 
                 } else {
                     await registerRequest(val);
                     toast({ title: 'You have successfully registred!', status: 'success' });
                 }
-                window.location.assign('/');
+                window.location.reload();
             } catch (error) {
                 if (error instanceof Error) toast({ title: error.message, status: 'error' });
             }

@@ -1,13 +1,17 @@
 import { Box, Button } from '@chakra-ui/react';
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useCallback } from 'react';
 import { useUser } from '~/hooks';
+import Auth from '~/layouts/Auth';
 import { logoutRequest } from '~/requests/authRequests';
-import { getRoute } from '~/utils';
 
 
 const HeaderAuth: FC = () => {
     const { isAuth } = useUser();
+
+    const handleLogout = useCallback(async () => {
+        await logoutRequest();
+        window.location.reload();
+    }, []);
 
     return (
         <nav>
@@ -17,45 +21,27 @@ const HeaderAuth: FC = () => {
                         <>
                             <Box as="li" >
                                 <Button
-                                    as="a"
-                                    color="primary.textLight"
                                     variant="ghost"
                                 >
-                                    Profile
+                                    PROFILE
                                 </Button>
                             </Box>
                             <Box as="li" >
                                 <Button
-                                    as="a"
-                                    color="primary.textLight"
                                     variant="ghost"
-                                    onClick={logoutRequest}
+                                    onClick={handleLogout}
                                 >
-                                    Logout
+                                    LOGOUT
                                 </Button>
                             </Box>
                         </>)
                     : (
                         <>
                             <Box as="li" >
-                                <Button
-                                    as={Link}
-                                    color="primary.textLight"
-                                    to={getRoute('login', {})}
-                                    variant="ghost"
-                                >
-                                    Log In
-                                </Button>
+                                <Auth />
                             </Box>
                             <Box as="li" >
-                                <Button
-                                    as={Link}
-                                    color="primary.textLight"
-                                    to={getRoute('register', {})}
-                                    variant="ghost"
-                                >
-                                    Register
-                                </Button>
+                                <Auth defaultType="register" />
                             </Box>
                         </>
                     )}
