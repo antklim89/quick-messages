@@ -7,7 +7,7 @@ import supabase from '~/supabase/app';
 import { IEditMessageInput } from '~/types';
 
 
-export function useEditMessage({ message, id }: EditMessageProps) {
+export function useEditMessageFormik({ message, id }: EditMessageProps) {
     const toast = useToast();
 
     const formik = useFormik<IEditMessageInput>({
@@ -38,5 +38,5 @@ export function useEditMessage({ message, id }: EditMessageProps) {
         },
     });
 
-    return { formik };
+    return formik;
 }

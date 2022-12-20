@@ -2,13 +2,13 @@ import {
     Heading, Container, Flex, Button,
 } from '@chakra-ui/react';
 import { FC } from 'react';
+import { useEditMessageFormik } from './EditMessage.formik';
 import { EditMessageProps } from './EditMessage.types';
-import { useEditMessage } from './EditMessage.use';
 import InputField from '~/components/InputField';
 
 
 const EditMessage: FC<EditMessageProps> = (props) => {
-    const { formik } = useEditMessage(props);
+    const formik = useEditMessageFormik(props);
 
     return (
         <Container
