@@ -1,11 +1,11 @@
-import { Flex, Text, IconButton } from '@chakra-ui/react';
+import { Flex, Text, IconButton, Button } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaBookmark, FaHeart, FaReply } from 'react-icons/fa';
+import { FaBookmark, FaHeart, FaComment } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { MessagesListItemProps } from './MessagesList.types';
+import { IMessage } from '~/types';
 
 
-const MessagesListItem: FC<MessagesListItemProps> = ({ body, author, createdAt }) => {
+const Message: FC<IMessage> = ({ body, author, createdAt }) => {
     return (
         <Flex
             border="1px"
@@ -29,18 +29,21 @@ const MessagesListItem: FC<MessagesListItemProps> = ({ body, author, createdAt }
                 {body}
             </Text>
             <Flex>
-                <IconButton aria-label="reply" flex="1 1 100%" variant="ghost">
-                    <FaReply />
+                <IconButton aria-label="bookmark" flex="1 1 100%" variant="ghost">
+                    <FaBookmark />
                 </IconButton>
                 <IconButton aria-label="like" flex="1 1 100%" variant="ghost">
                     <FaHeart />
                 </IconButton>
-                <IconButton aria-label="bookmark" flex="1 1 100%" variant="ghost">
-                    <FaBookmark />
+                <IconButton aria-label="reply" flex="1 1 100%" variant="ghost">
+                    <FaComment />
                 </IconButton>
             </Flex>
+            <Button variant="ghost" width="100%">
+                Show Answers
+            </Button>
         </Flex>
     );
 };
 
-export default MessagesListItem;
+export default Message;
