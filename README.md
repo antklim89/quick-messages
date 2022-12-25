@@ -2,6 +2,6 @@
 
 - Vite bundler
 - Vitest
-- Firebase
+- Supabase
 - React
 - Typescript
