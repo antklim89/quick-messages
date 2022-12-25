@@ -9,8 +9,8 @@
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "run-p test:**",
-    "test:cypress": "cypress open"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.13",
