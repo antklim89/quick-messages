@@ -2,16 +2,13 @@ import { Box, Button, FlexboxProps } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Protected from '~/components/Protected';
-import { getRoute } from '~/utils';
 
 
-const LINKS = [
-    {
-        to: getRoute('createMessage', {}),
-        title: 'create message',
-        isProtected: true,
-    },
-];
+const LINKS: Array<{
+    to: string;
+    title: string;
+    isProtected: boolean;
+}> = [];
 
 const HeaderLinks: FC<FlexboxProps> = (props) => {
     return (

@@ -1,7 +1,12 @@
-import { Flex, Text, IconButton, Button } from '@chakra-ui/react';
+import {
+    Flex, Text, Button, Accordion, AccordionItem, AccordionPanel,
+} from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaBookmark, FaHeart, FaComment } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import MessageAnswerButton from './MessageAnswerButton';
+import MessageFavoriteButton from './MessageFavoriteButton';
+import MessageLikeButton from './MessageLikeButton';
+import EditMessageForm from '~/components/EditMessageForm';
 import { IMessage } from '~/types';
 
 
@@ -21,24 +26,27 @@ const Message: FC<IMessage> = ({ body, author, createdAt }) => {
                 p={4}
             >
                 <Link to={`/user/${author.id}`}>
-                    <Text fontSize={['xl', '2xl']}>{author.name}</Text>
+                    <Text as="pre" fontSize={['xl', '2xl']} wordBreak="break-all">{author.name}</Text>
                 </Link>
                 <Text fontSize={['xs', 'sm']}>{new Date(createdAt).toLocaleString()}</Text>
             </Flex>
             <Text my={4} p={4}>
                 {body}
             </Text>
-            <Flex>
-                <IconButton aria-label="bookmark" flex="1 1 100%" variant="ghost">
-                    <FaBookmark />
-                </IconButton>
-                <IconButton aria-label="like" flex="1 1 100%" variant="ghost">
-                    <FaHeart />
-                </IconButton>
-                <IconButton aria-label="reply" flex="1 1 100%" variant="ghost">
-                    <FaComment />
-                </IconButton>
-            </Flex>
+
+            <Accordion allowToggle>
+                <AccordionItem border="none">
+                    <Flex>
+                        <MessageFavoriteButton />
+                        <MessageLikeButton />
+                        <MessageAnswerButton />
+                    </Flex>
+                    <AccordionPanel pb={4}>
+                        <EditMessageForm />
+                    </AccordionPanel>
+                </AccordionItem>
+            </Accordion>
+
             <Button variant="ghost" width="100%">
                 Show Answers
             </Button>

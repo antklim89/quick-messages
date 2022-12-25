@@ -1,7 +1,7 @@
 import { IEditMessageInput } from '~/types';
 
 
-export interface EditMessageProps {
+export interface EditMessageFormProps {
     message?: IEditMessageInput
     id?: string
 }

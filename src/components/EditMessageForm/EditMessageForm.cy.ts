@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import supabase from '~/supabase/app';
 
 
-describe('EditMessage', () => {
+describe('EditMessageForm', () => {
     const MESSAGE_BODY = faker.lorem.sentence();
 
     it('should be 404 page if not login', () => {

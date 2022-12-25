@@ -1,5 +1,5 @@
 
 
-export interface MessageProps {
-
+export interface MessageCreateAnswerProps {
+    messageId: number
 }

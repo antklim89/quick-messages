@@ -1,14 +1,16 @@
 import { useToast } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
-import { EditMessageProps } from './EditMessage.types';
+import { EditMessageFormProps } from './EditMessageForm.types';
 import { createMessageRequest, updateMessageRequest } from '~/requests/messageRequests';
 import { editMessageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
-import { IEditMessageInput } from '~/types';
+import { IEditMessageInput, IMessage } from '~/types';
 
 
-export function useEditMessageFormik({ message, id }: EditMessageProps) {
+export function useEditMessageFormFormik({ message, id }: EditMessageFormProps) {
     const toast = useToast();
+    const queryClient = useQueryClient();
 
     const formik = useFormik<IEditMessageInput>({
         initialValues: {
@@ -24,7 +26,9 @@ export function useEditMessageFormik({ message, id }: EditMessageProps) {
                 if (id) {
                     await updateMessageRequest(id, { ...submitValue });
                 } else {
-                    await createMessageRequest(submitValue);
+                    const data = await createMessageRequest(submitValue);
+                    const prevData = queryClient.getQueryData<IMessage[]>(['messages_list']);
+                    queryClient.setQueryData<IMessage[]>(['messages_list'], [data, ...(prevData || [])]);
                 }
                 resetForm();
                 toast({ description: 'Message successfully posted.', status: 'success' });
