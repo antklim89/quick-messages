@@ -1,8 +1,8 @@
 import { Container } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
-import MessagesListItem from './MessagesList.Item';
 import { MessagesListProps } from './MessagesList.types';
+import MessagesListItem from './MessagesListItem';
 import RouteLoading from '~/components/RouteLoading';
 import { findMessagesRequest } from '~/requests/messageRequests';
 

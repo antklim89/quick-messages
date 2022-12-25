@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import ProtectedNotFound from './Protected.NotFound';
 import { ProtectedProps } from './Protected.types';
+import ProtectedNotFound from './ProtectedNotFound';
 import { useUser } from '~/hooks';
 
 

@@ -3,9 +3,9 @@ import {
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import HeaderAuth from './Header.Auth';
-import HeaderDrawer from './Header.Drawer';
-import HeaderLinks from './Header.Links';
+import HeaderAuth from './HeaderAuth';
+import HeaderDrawer from './HeaderDrawer';
+import HeaderLinks from './HeaderLinks';
 import { CustomTheme } from '~/styles/theme';
 import { getRoute } from '~/utils';
 

@@ -10,9 +10,9 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import { FC, useCallback, useRef, useState } from 'react';
-import AuthForm from './Auth.Form';
 import { useAuthFormik } from './Auth.formik';
 import { AuthProps, AuthType } from './Auth.types';
+import AuthForm from './AuthForm';
 
 
 const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
