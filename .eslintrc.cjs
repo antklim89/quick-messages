@@ -60,6 +60,7 @@ module.exports = {
                 '**/*.spec.*',
                 '**/*.config.*',
                 '**/*.cy.*',
+                './cypress/**/*',
             ] },
         ],
 
