@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import supabase from '~/supabase/app';
-import { getUser } from '~/testSetup';
 
 
 describe('EditMessage', () => {
@@ -13,7 +12,7 @@ describe('EditMessage', () => {
     });
 
     it('should create new message', () => {
-        getUser();
+        cy.login();
         cy.visit('/create-message');
         cy.contains('create message').should('exist');
         cy.getTestId('message-body-input').should('exist');

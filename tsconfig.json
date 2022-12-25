@@ -26,9 +26,10 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "./cypress"
   ],
-  "files": ["./src/vite-env.d.ts"],
+  "files": ["./src/vite-env.d.ts", "cypress/support/index.d.ts"],
   "references": [{
       "path": "./tsconfig.node.json"
   }]
