@@ -1,12 +1,12 @@
-import { useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { AuthProps, AuthSchemaType } from './Auth.types';
-import { loginRequest, registerRequest } from '~/requests/authRequests';
+import { useLoginRequest } from '~/requests';
 import { authInputSchema } from '~/schemas';
 
 
 export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
-    const toast = useToast();
+    const { mutateAsync: login } = useLoginRequest();
+    const { mutateAsync: register } = useLoginRequest();
 
     const formik = useFormik<AuthSchemaType & { confirm: string }>({
         initialValues: {
@@ -15,19 +15,8 @@ export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
             confirm: import.meta.env.DEV ? 'qwer1234' : '',
         },
         async onSubmit(val) {
-            try {
-                if (type === 'login') {
-                    await loginRequest(val);
-                    toast({ title: 'You have successfully logged in!', status: 'success' });
-
-                } else {
-                    await registerRequest(val);
-                    toast({ title: 'You have successfully registred!', status: 'success' });
-                }
-                window.location.reload();
-            } catch (error) {
-                if (error instanceof Error) toast({ title: error.message, status: 'error' });
-            }
+            if (type === 'login') await login(val);
+            else await register(val);
         },
         async validate(val) {
             const result = await authInputSchema.safeParseAsync(val);

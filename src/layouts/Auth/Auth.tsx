@@ -9,7 +9,7 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useCallback, useRef, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useAuthFormik } from './Auth.formik';
 import { AuthProps, AuthType } from './Auth.types';
 import AuthForm from './AuthForm';
@@ -19,8 +19,6 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
     const [type, setType] = useState<AuthType>(defaultType);
     const formik = useAuthFormik({ defaultType: type });
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const initialRef = useRef(null);
 
     const hundleSubmit = formik.submitForm;
     const opositeType = type === 'login' ? 'register' : 'login';
@@ -37,11 +35,7 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
                 {defaultType}
             </Button>
 
-            <Modal
-                initialFocusRef={initialRef}
-                isOpen={isOpen}
-                onClose={onClose}
-            >
+            <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent p={4}>
                     <ModalHeader>{type}</ModalHeader>

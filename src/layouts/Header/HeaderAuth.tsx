@@ -1,17 +1,13 @@
 import { Box, Button } from '@chakra-ui/react';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import { useUser } from '~/hooks';
 import Auth from '~/layouts/Auth';
-import { logoutRequest } from '~/requests/authRequests';
+import { useLogoutRequest } from '~/requests';
 
 
 const HeaderAuth: FC = () => {
     const { isAuth } = useUser();
-
-    const handleLogout = useCallback(async () => {
-        await logoutRequest();
-        window.location.reload();
-    }, []);
+    const { mutate: handleLogout, isLoading } = useLogoutRequest();
 
     return (
         <nav>
@@ -20,14 +16,14 @@ const HeaderAuth: FC = () => {
                     ? (
                         <>
                             <Box as="li" >
-                                <Button
-                                    variant="ghost"
-                                >
+                                <Button variant="ghost">
                                     PROFILE
                                 </Button>
                             </Box>
                             <Box as="li" >
                                 <Button
+                                    isDisabled={isLoading}
+                                    isLoading={isLoading}
                                     variant="ghost"
                                     onClick={handleLogout}
                                 >

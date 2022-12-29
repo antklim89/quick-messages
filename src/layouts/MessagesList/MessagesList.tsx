@@ -1,14 +1,13 @@
 import { Container } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 import MessageListCreateNew from './MessageListCreateNew';
 import RouteLoading from '~/components/RouteLoading';
 import Message from '~/layouts/Message/Message';
-import { findMessagesRequest } from '~/requests/messageRequests';
+import { useFindMessagesRequest } from '~/requests';
 
 
 const MessagesList: FC = () => {
-    const { isLoading, data } = useQuery(['messages_list'], findMessagesRequest);
+    const { isLoading, data } = useFindMessagesRequest();
 
     if (isLoading || !data) return <RouteLoading />;
     return (
