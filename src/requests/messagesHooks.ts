@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { FIND_MESSAGES } from './queryKeys';
 import { useEndScreenTrigger } from '~/hooks';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -30,7 +31,7 @@ export function useCreateMessageRequest() {
             return data;
         },
         onSuccess(data) {
-            queryClient.setQueryData<IMessage[]>(['FIND_MESSAGES'], (oldMessages = []) => [data, ...oldMessages]);
+            queryClient.setQueryData<IMessage[]>([FIND_MESSAGES], (oldMessages = []) => [data, ...oldMessages]);
         },
     });
 }
@@ -73,7 +74,7 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
     }
 
     const query = useQuery<IMessage[]>({
-        queryKey: ['FIND_MESSAGES'],
+        queryKey: [FIND_MESSAGES],
         queryFn() {
             return supabaseRequest();
         },
@@ -86,7 +87,7 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
         const lastId = query.data?.slice().pop()?.id;
         const newMessages = await supabaseRequest({ lastId });
 
-        queryClient.setQueryData<IMessage[]>(['FIND_MESSAGES'], (oldMessages = []) => [...oldMessages, ...newMessages]);
+        queryClient.setQueryData<IMessage[]>([FIND_MESSAGES], (oldMessages = []) => [...oldMessages, ...newMessages]);
 
         if (newMessages.length >= MESSAGES_LIMIT) addEvent();
     }
