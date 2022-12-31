@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEndScreenTrigger } from '~/hooks';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types/message';
 
+
+const MESSAGES_LIMIT = 10;
 
 export function useCreateMessageRequest() {
     const queryClient = useQueryClient();
@@ -27,8 +30,7 @@ export function useCreateMessageRequest() {
             return data;
         },
         onSuccess(data) {
-            const prevData = queryClient.getQueryData<IMessage[]>(['FIND_MESSAGES']);
-            queryClient.setQueryData<IMessage[]>(['FIND_MESSAGES'], [data, ...(prevData || [])]);
+            queryClient.setQueryData<IMessage[]>(['FIND_MESSAGES'], (oldMessages = []) => [data, ...oldMessages]);
         },
     });
 }
@@ -50,20 +52,45 @@ export function useUpdateMessageRequest() {
     });
 }
 
-export function useFindMessagesRequest() {
-    return useQuery<IMessage[]>({
+export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {}) {
+    const { addEvent } = useEndScreenTrigger(fetchNextPage);
+    const queryClient = useQueryClient();
+
+    async function supabaseRequest({ lastId }: { lastId?: number; } = {}) {
+        const supabaseQuery = supabase
+            .from('messages')
+            .select('*, author(*)')
+            .limit(MESSAGES_LIMIT)
+            .order('createdAt', { ascending: false });
+
+        if (lastId) supabaseQuery.lt('id', lastId);
+        if (answerToId) supabaseQuery.eq('answerTo', answerToId);
+
+        const { data, error } = await supabaseQuery;
+
+        if (error) throw error;
+        return messageSchema.array().parseAsync(data);
+    }
+
+    const query = useQuery<IMessage[]>({
         queryKey: ['FIND_MESSAGES'],
-        async queryFn() {
-            const { error, data } = await supabase
-                .from('messages')
-                .select('*, author(*)')
-                .order('createdAt', { ascending: false });
-
-            if (error) throw error;
-
-            return messageSchema.array().parseAsync(data);
+        queryFn() {
+            return supabaseRequest();
         },
-
+        onSuccess() {
+            addEvent();
+        },
     });
+
+    async function fetchNextPage() {
+        const lastId = query.data?.slice().pop()?.id;
+        const newMessages = await supabaseRequest({ lastId });
+
+        queryClient.setQueryData<IMessage[]>(['FIND_MESSAGES'], (oldMessages = []) => [...oldMessages, ...newMessages]);
+
+        if (newMessages.length >= MESSAGES_LIMIT) addEvent();
+    }
+
+    return query;
 }
 
