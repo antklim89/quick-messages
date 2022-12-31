@@ -1,9 +1,38 @@
 import { useToast } from '@chakra-ui/react';
 import type { User } from '@supabase/supabase-js';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { USER_AUTH_ID } from './queryKeys';
 import supabase from '~/supabase/app';
 import { IAuthInput } from '~/types';
 
+
+export function useUser() {
+    const { data: userId } = useQuery<string|null, Error>({
+        queryKey: [USER_AUTH_ID],
+        async queryFn() {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) return null;
+            if (!data.session?.user) return null;
+
+            const { id } = data.session.user;
+
+            return id;
+        },
+        onSuccess(id) {
+            if (id) localStorage.setItem(USER_AUTH_ID, id);
+        },
+        placeholderData: () => localStorage.getItem(USER_AUTH_ID),
+    });
+
+    return {
+        id: userId,
+        isAuth: Boolean(userId),
+        getUserId() {
+            if (!userId) throw new Error('No user logged in.');
+            return userId;
+        },
+    };
+}
 
 export function useRegisterRequest() {
     const toast = useToast();

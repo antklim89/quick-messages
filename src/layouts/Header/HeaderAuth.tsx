@@ -1,13 +1,12 @@
 import { Box, Button } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useUser } from '~/hooks';
 import Auth from '~/layouts/Auth';
-import { useLogoutRequest } from '~/requests';
+import { useLogoutRequest, useUser } from '~/requests';
 
 
 const HeaderAuth: FC = () => {
-    const { isAuth } = useUser();
     const { mutate: handleLogout, isLoading } = useLogoutRequest();
+    const { isAuth } = useUser();
 
     return (
         <nav>

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ProtectedProps } from './Protected.types';
 import ProtectedNotFound from './ProtectedNotFound';
-import { useUser } from '~/hooks';
+import { useUser } from '~/requests';
 
 
 const Protected: FC<ProtectedProps> = ({
