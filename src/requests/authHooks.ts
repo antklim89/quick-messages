@@ -1,14 +1,14 @@
 import { useToast } from '@chakra-ui/react';
 import type { User } from '@supabase/supabase-js';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { USER_AUTH_ID } from './queryKeys';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 import { IAuthInput } from '~/types';
 
 
 export function useUser() {
     const { data: userId } = useQuery<string|null, Error>({
-        queryKey: [USER_AUTH_ID],
+        queryKey: [QueryName.GET_USER],
         async queryFn() {
             const { data, error } = await supabase.auth.getSession();
             if (error) return null;
@@ -19,9 +19,9 @@ export function useUser() {
             return id;
         },
         onSuccess(id) {
-            if (id) localStorage.setItem(USER_AUTH_ID, id);
+            if (id) localStorage.setItem(QueryName.GET_USER, id);
         },
-        placeholderData: () => localStorage.getItem(USER_AUTH_ID),
+        placeholderData: () => localStorage.getItem(QueryName.GET_USER),
     });
 
     return {
@@ -36,6 +36,7 @@ export function useUser() {
 
 export function useRegisterRequest() {
     const toast = useToast();
+    const queryClient = useQueryClient();
 
     return useMutation<User, Error, IAuthInput>({
         async mutationFn({ email, password }) {
@@ -50,7 +51,7 @@ export function useRegisterRequest() {
         },
         onSuccess() {
             toast({ title: 'You have successfully registred!', status: 'success' });
-            window.location.reload();
+            queryClient.invalidateQueries();
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });
@@ -60,6 +61,7 @@ export function useRegisterRequest() {
 
 export function useLoginRequest() {
     const toast = useToast();
+    const queryClient = useQueryClient();
 
     return useMutation<User, Error, IAuthInput>({
         async mutationFn({ email, password }) {
@@ -74,7 +76,7 @@ export function useLoginRequest() {
         },
         onSuccess() {
             toast({ title: 'You have successfully logged in!', status: 'success' });
-            window.location.reload();
+            queryClient.invalidateQueries();
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });
@@ -83,10 +85,12 @@ export function useLoginRequest() {
 }
 
 export function useLogoutRequest() {
+    const queryClient = useQueryClient();
+
     return useMutation<unknown, Error, unknown>({
         async mutationFn() {
             await supabase.auth.signOut();
-            window.location.reload();
+            queryClient.invalidateQueries();
         },
     });
 }
