@@ -11,7 +11,14 @@ import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/700-italic.css';
 
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            staleTime: 2 * 60 * 60 * 1000,
+        },
+    },
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
     .render((
