@@ -38,7 +38,7 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent p={4}>
-                    <ModalHeader>{type}</ModalHeader>
+                    <ModalHeader textTransform="uppercase">{type}</ModalHeader>
                     <ModalCloseButton />
                     <AuthForm formik={formik} type={type} />
                     <Text pb={4} textAlign="center">Or <Button variant="link" onClick={handleToggleType}>{opositeType}</Button></Text>
