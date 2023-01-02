@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { Database } from './types-generated';
 
 
 if (!Cypress) {
@@ -14,7 +15,7 @@ const supabaseKey: string = import.meta.env.VITE_SUPABASE_SERVICE_ROLE || (() =>
 })();
 
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 
 export default supabase;

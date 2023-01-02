@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { MESSAGES_LIMIT, Table } from './constants';
+import { MESSAGES_LIMIT, QueryName } from './constants';
 import { useEndScreenTrigger } from '~/hooks';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -15,7 +15,7 @@ export function useCreateMessageRequest() {
             if (!session?.user.id) throw new Error('You are not authenticated');
 
             const { error, data } = await supabase
-                .from(Table.MESSAGES)
+                .from('messages')
                 .insert({
                     ...body,
                     author: session?.user.id,
@@ -26,10 +26,13 @@ export function useCreateMessageRequest() {
 
             if (error) throw error;
 
-            return data;
+            return messageSchema.parseAsync(data);
         },
         onSuccess(data) {
-            queryClient.setQueryData<IMessage[]>([Table.MESSAGES], (oldMessages = []) => [data, ...oldMessages]);
+            queryClient.setQueryData<IMessage[]>(
+                [QueryName.FIND_MESSAGES],
+                (oldMessages = []) => [data, ...oldMessages],
+            );
         },
     });
 }
@@ -41,7 +44,7 @@ export function useUpdateMessageRequest() {
             if (!data.session?.user.id) throw new Error('You are not authenticated');
 
             const { error } = await supabase
-                .from(Table.MESSAGES)
+                .from('messages')
                 .update(body)
                 .eq('id', messageId)
                 .select('*, author(*)');
@@ -57,7 +60,7 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
 
     async function supabaseRequest({ lastId }: { lastId?: number; } = {}) {
         const supabaseQuery = supabase
-            .from(Table.MESSAGES)
+            .from('messages')
             .select('*, author(*)')
             .limit(MESSAGES_LIMIT)
             .order('createdAt', { ascending: false });
@@ -72,7 +75,7 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
     }
 
     const query = useQuery<IMessage[]>({
-        queryKey: [Table.MESSAGES],
+        queryKey: [QueryName.FIND_MESSAGES],
         queryFn() {
             return supabaseRequest();
         },
@@ -85,7 +88,10 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
         const lastId = query.data?.slice().pop()?.id;
         const newMessages = await supabaseRequest({ lastId });
 
-        queryClient.setQueryData<IMessage[]>([Table.MESSAGES], (oldMessages = []) => [...oldMessages, ...newMessages]);
+        queryClient.setQueryData<IMessage[]>(
+            [QueryName.FIND_MESSAGES],
+            (oldMessages = []) => [...oldMessages, ...newMessages],
+        );
 
         if (newMessages.length >= MESSAGES_LIMIT) addEvent();
     }
