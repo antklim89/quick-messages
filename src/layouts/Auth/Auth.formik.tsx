@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
 import { AuthProps, AuthSchemaType } from './Auth.types';
-import { useLoginRequest } from '~/requests';
+import { useLoginRequest, useRegisterRequest } from '~/requests';
 import { authInputSchema } from '~/schemas';
 
 
 export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
     const { mutateAsync: login } = useLoginRequest();
-    const { mutateAsync: register } = useLoginRequest();
+    const { mutateAsync: register } = useRegisterRequest();
 
     const formik = useFormik<AuthSchemaType & { confirm: string }>({
         initialValues: {
@@ -15,8 +15,8 @@ export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
             confirm: import.meta.env.DEV ? 'qwer1234' : '',
         },
         async onSubmit(val) {
-            if (type === 'login') await login(val);
-            else await register(val);
+            if (type === 'login') await login(val).catch(() => null);
+            else await register(val).catch(() => null);
         },
         async validate(val) {
             const result = await authInputSchema.safeParseAsync(val);
@@ -26,6 +26,7 @@ export function useAuthFormik({ defaultType: type = 'login' }: AuthProps) {
 
             return result.success ? {} : result.error.formErrors.fieldErrors;
         },
+
     });
 
     return formik;
