@@ -3,6 +3,7 @@ import RouteLoading from './components/RouteLoading';
 
 
 const HomePage = lazy(() => import('~/pages/HomePage'));
+const MessagePage = lazy(() => import('~/pages/MessagePage'));
 
 
 export const routes = {
@@ -13,5 +14,13 @@ export const routes = {
             </Suspense>
         ),
         path: '/',
+    },
+    message: {
+        element: (
+            <Suspense fallback={<RouteLoading />}>
+                <MessagePage />
+            </Suspense>
+        ),
+        path: '/message/:id',
     },
 } as const;
