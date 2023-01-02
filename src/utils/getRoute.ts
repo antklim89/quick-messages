@@ -5,7 +5,7 @@ import { routes } from '~/routes';
 type SplitBySlash<T extends string> = S.Split<T, '/'>;
 type SelectItemsWithColon<T extends string[]> = L.Select<T, `:${string}`>;
 type StripConons<T extends readonly string[]> = T extends Array<`:${infer U}`> ? U : never;
-type CretateObject<T extends string> = Record<T, string>;
+type CretateObject<T extends string> = Record<T, string|number>;
 
 type RouteToObject<T extends string> = CretateObject<StripConons<SelectItemsWithColon<SplitBySlash<T>>>>;
 
