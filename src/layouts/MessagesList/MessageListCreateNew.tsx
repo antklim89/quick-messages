@@ -1,9 +1,13 @@
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Button } from '@chakra-ui/react';
 import { FC } from 'react';
 import EditMessageForm from '~/components/EditMessageForm';
+import { useUser } from '~/requests';
 
 
 const MessageListCreateNew: FC = () => {
+    const { isAuth } = useUser();
+
+    if (!isAuth) return null;
     return (
         <Accordion
             allowToggle
@@ -13,7 +17,12 @@ const MessageListCreateNew: FC = () => {
             boxShadow="md"
         >
             <AccordionItem border="none">
-                <AccordionButton as={Button} justifyContent="center" variant="ghost">
+                <AccordionButton
+                    as={Button}
+                    data-cy="message-list-add-new-message"
+                    justifyContent="center"
+                    variant="ghost"
+                >
                     Add New Message
                 </AccordionButton>
                 <AccordionPanel pb={4}>
