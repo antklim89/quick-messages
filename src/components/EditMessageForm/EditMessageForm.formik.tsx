@@ -7,7 +7,7 @@ import supabase from '~/supabase/app';
 import { IEditMessageInput } from '~/types';
 
 
-export function useEditMessageFormFormik({ message, id }: EditMessageFormProps) {
+export function useEditMessageFormFormik({ message, id, answerToId }: EditMessageFormProps) {
     const toast = useToast();
     const { mutateAsync: createMessage } = useCreateMessageRequest();
     const { mutateAsync: updateMessage } = useUpdateMessageRequest();
@@ -26,7 +26,7 @@ export function useEditMessageFormFormik({ message, id }: EditMessageFormProps) 
                 if (id) {
                     await updateMessage({ body: submitValue, messageId: id });
                 } else {
-                    await createMessage({ body: submitValue, answerToId: id });
+                    await createMessage({ body: submitValue, answerToId });
                 }
                 resetForm();
                 toast({ description: 'Message successfully posted.', status: 'success' });

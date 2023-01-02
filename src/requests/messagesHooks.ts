@@ -19,7 +19,7 @@ export function useCreateMessageRequest() {
                 .insert({
                     ...body,
                     author: session?.user.id,
-                    answerToId,
+                    answerTo: answerToId,
                 })
                 .select('*, author(*)')
                 .single();
@@ -66,7 +66,9 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
             .order('createdAt', { ascending: false });
 
         if (lastId) supabaseQuery.lt('id', lastId);
+
         if (answerToId) supabaseQuery.eq('answerTo', answerToId);
+        else supabaseQuery.is('answerTo', null);
 
         const { data, error } = await supabaseQuery;
 

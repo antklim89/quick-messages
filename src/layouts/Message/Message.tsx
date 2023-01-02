@@ -10,7 +10,7 @@ import EditMessageForm from '~/components/EditMessageForm';
 import { IMessage } from '~/types';
 
 
-const Message: FC<IMessage> = ({ body, author, createdAt }) => {
+const Message: FC<IMessage> = ({ id, body, author, createdAt }) => {
     return (
         <Flex
             border="1px"
@@ -43,7 +43,7 @@ const Message: FC<IMessage> = ({ body, author, createdAt }) => {
                         <MessageAnswerButton />
                     </Flex>
                     <AccordionPanel pb={4}>
-                        <EditMessageForm />
+                        <EditMessageForm answerToId={id} />
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>
