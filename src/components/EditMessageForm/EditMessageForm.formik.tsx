@@ -38,6 +38,7 @@ export function useEditMessageFormFormik({ message, id }: EditMessageFormProps) 
             const result = await editMessageSchema.safeParseAsync(val);
             return result.success ? {} : result.error.formErrors.fieldErrors;
         },
+        validateOnMount: true,
     });
 
     return formik;
