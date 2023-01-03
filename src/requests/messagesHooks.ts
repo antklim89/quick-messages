@@ -6,11 +6,11 @@ import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types/message';
 
 
-export function useCreateMessageRequest() {
+export function useCreateMessageRequest({ answerToId }: {answerToId?: number}) {
     const queryClient = useQueryClient();
 
-    return useMutation<IMessage, Error, { body: IEditMessageInput, answerToId?: number }>({
-        async mutationFn({ body, answerToId }) {
+    return useMutation<IMessage, Error, { body: IEditMessageInput }>({
+        async mutationFn({ body }) {
             const { data: { session } } = await supabase.auth.getSession();
             if (!session?.user.id) throw new Error('You are not authenticated');
 
@@ -30,14 +30,14 @@ export function useCreateMessageRequest() {
         },
         onSuccess(data) {
             queryClient.setQueryData<IMessage[]>(
-                [QueryName.FIND_MESSAGES],
-                (oldMessages = []) => [data, ...oldMessages],
+                [QueryName.FIND_MESSAGES, answerToId],
+                (oldMessages = []) => (oldMessages.length === 0 ? [] : [data, ...oldMessages]),
             );
         },
     });
 }
 
-export function useUpdateMessageRequest() {
+export function useUpdateMessageRequest({ answerToId }: { answerToId?: number }) {
     return useMutation<void, Error, { messageId: number, body: IEditMessageInput }>({
         async mutationFn({ body, messageId }) {
             const { data } = await supabase.auth.getSession();
@@ -45,7 +45,7 @@ export function useUpdateMessageRequest() {
 
             const { error } = await supabase
                 .from('messages')
-                .update(body)
+                .update({ ...body, answerTo: answerToId })
                 .eq('id', messageId)
                 .select('*, author(*)');
 
@@ -77,7 +77,7 @@ export function useFindMessagesRequest({ answerToId }: {answerToId?: number} = {
     }
 
     const query = useQuery<IMessage[]>({
-        queryKey: [QueryName.FIND_MESSAGES],
+        queryKey: [QueryName.FIND_MESSAGES, answerToId],
         queryFn() {
             return supabaseRequest();
         },

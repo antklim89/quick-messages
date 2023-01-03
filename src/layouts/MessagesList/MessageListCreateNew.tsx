@@ -1,11 +1,15 @@
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Button } from '@chakra-ui/react';
 import { FC } from 'react';
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
 import EditMessageForm from '~/components/EditMessageForm';
 import { useUser } from '~/requests';
 
 
 const MessageListCreateNew: FC = () => {
     const { isAuth } = useUser();
+    const params = useParams();
+    const answerToId = z.coerce.number().optional().parse(params.messageId);
 
     if (!isAuth) return null;
     return (
@@ -26,7 +30,7 @@ const MessageListCreateNew: FC = () => {
                     Add New Message
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                    <EditMessageForm />
+                    <EditMessageForm answerToId={answerToId} />
                 </AccordionPanel>
             </AccordionItem>
         </Accordion>

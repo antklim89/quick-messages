@@ -21,6 +21,6 @@ export const routes = {
                 <MessagePage />
             </Suspense>
         ),
-        path: '/message/:id',
+        path: '/message/:messageId',
     },
 } as const;

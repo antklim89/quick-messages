@@ -9,8 +9,8 @@ import { IEditMessageInput } from '~/types';
 
 export function useEditMessageFormFormik({ message, id, answerToId }: EditMessageFormProps) {
     const toast = useToast();
-    const { mutateAsync: createMessage } = useCreateMessageRequest();
-    const { mutateAsync: updateMessage } = useUpdateMessageRequest();
+    const { mutateAsync: createMessage } = useCreateMessageRequest({ answerToId });
+    const { mutateAsync: updateMessage } = useUpdateMessageRequest({ answerToId });
 
     const formik = useFormik<IEditMessageInput>({
         initialValues: {
@@ -26,7 +26,7 @@ export function useEditMessageFormFormik({ message, id, answerToId }: EditMessag
                 if (id) {
                     await updateMessage({ body: submitValue, messageId: id });
                 } else {
-                    await createMessage({ body: submitValue, answerToId });
+                    await createMessage({ body: submitValue });
                 }
                 resetForm();
                 toast({ description: 'Message successfully posted.', status: 'success' });

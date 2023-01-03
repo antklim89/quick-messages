@@ -8,6 +8,7 @@ import MessageFavoriteButton from './MessageFavoriteButton';
 import MessageLikeButton from './MessageLikeButton';
 import EditMessageForm from '~/components/EditMessageForm';
 import { IMessage } from '~/types';
+import { getRoute } from '~/utils';
 
 
 const Message: FC<IMessage> = ({ id, body, author, createdAt }) => {
@@ -48,7 +49,12 @@ const Message: FC<IMessage> = ({ id, body, author, createdAt }) => {
                 </AccordionItem>
             </Accordion>
 
-            <Button variant="ghost" width="100%">
+            <Button
+                as={Link}
+                to={getRoute('message', { messageId: id })}
+                variant="ghost"
+                width="100%"
+            >
                 Show Answers
             </Button>
         </Flex>
