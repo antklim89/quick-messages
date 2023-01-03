@@ -10,6 +10,8 @@ export default defineConfig({
         setupNodeEvents(on) {
             on('file:preprocessor', vitePreprocessor());
         },
+        screenshotOnRunFailure: false,
+        video: false,
     },
 
     component: {
