@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 
 describe('MessagesList', () => {
-    it('should not be new mmessage button', () => {
+    it('should not be new message button', () => {
         cy.visit('/');
         cy.getTestId('message-list-add-new-message').should('not.exist');
     });
