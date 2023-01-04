@@ -1,17 +1,24 @@
 import {
-    Flex, Text, Button, Accordion, AccordionItem, AccordionPanel,
+    Flex, Text, Button, Accordion, AccordionItem, AccordionPanel, Spinner,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
 import MessageFavoriteButton from './MessageFavoriteButton';
 import MessageLikeButton from './MessageLikeButton';
 import EditMessageForm from '~/components/EditMessageForm';
-import { IMessage } from '~/types';
+import { useFindMessageRequest } from '~/requests';
 import { getRoute } from '~/utils';
 
 
-const Message: FC<IMessage> = ({ id, body, author, createdAt, messages }) => {
+const Message: FC<MessageProps> = ({ id, message }) => {
+    const { data, isLoading } = useFindMessageRequest(id, message);
+
+    if (!data || isLoading) return <Spinner />;
+
+    const { author, body, createdAt, messages } = data;
+
     return (
         <Flex
             border="1px"

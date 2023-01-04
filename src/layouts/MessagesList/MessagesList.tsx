@@ -16,11 +16,12 @@ const MessagesList: FC = () => {
     if (isLoading || !data) return <RouteLoading />;
     return (
         <Container my={8} p={2}>
+            {answerToId ? <Message id={answerToId} /> : null}
             <MessageListCreateNew />
             {data.pages.map((messagePages) => (
                 <Fragment key={messagePages[0]?.id || 0}>
                     {messagePages.map((message) => (
-                        <Message key={message.id} {...message} />
+                        <Message id={message.id} key={message.id} message={message} />
                     ))}
                 </Fragment>
             ))}
