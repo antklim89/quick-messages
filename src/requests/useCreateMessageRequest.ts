@@ -35,6 +35,14 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
                     pages: old?.pages ? [[newMessage], ...old.pages] : [[newMessage]],
                 }),
             );
+
+            const oldMessage = queryClient.getQueryData<IMessage>([QueryName.FIND_MESSAGE, answerToId]);
+            if (oldMessage && answerToId) {
+                queryClient.setQueryData<IMessage>(
+                    [QueryName.FIND_MESSAGE, answerToId],
+                    { ...oldMessage, messages: [{ id: answerToId }, ...oldMessage.messages] },
+                );
+            }
         },
     });
 }
