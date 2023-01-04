@@ -1,23 +1,19 @@
-import {
-    Flex, Text, Button, Accordion, AccordionItem, AccordionPanel, Spinner,
-} from '@chakra-ui/react';
+import { Flex, Text, Spinner } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
 import MessageFavoriteButton from './MessageFavoriteButton';
 import MessageLikeButton from './MessageLikeButton';
-import EditMessageForm from '~/components/EditMessageForm';
 import { useFindMessageRequest } from '~/requests';
-import { getRoute } from '~/utils';
 
 
-const Message: FC<MessageProps> = ({ id, message }) => {
-    const { data, isLoading } = useFindMessageRequest(id, message);
+const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
+    const { data: message, isLoading } = useFindMessageRequest(id, initialMessage);
 
-    if (!data || isLoading) return <Spinner />;
+    if (!message || isLoading) return <Spinner />;
 
-    const { author, body, createdAt, messages } = data;
+    const { author, body, createdAt } = message;
 
     return (
         <Flex
@@ -42,30 +38,11 @@ const Message: FC<MessageProps> = ({ id, message }) => {
             <Text my={4} p={4}>
                 {body}
             </Text>
-
-            <Accordion allowToggle>
-                <AccordionItem border="none">
-                    <Flex>
-                        <MessageFavoriteButton />
-                        <MessageLikeButton />
-                        <MessageAnswerButton />
-                    </Flex>
-                    <AccordionPanel pb={4}>
-                        <EditMessageForm answerToId={id} />
-                    </AccordionPanel>
-                </AccordionItem>
-            </Accordion>
-
-            {messages.length > 0 && (
-                <Button
-                    as={Link}
-                    to={getRoute('message', { messageId: id })}
-                    variant="ghost"
-                    width="100%"
-                >
-                    Show {messages.length} Answers
-                </Button>
-            )}
+            <Flex>
+                <MessageFavoriteButton />
+                <MessageLikeButton />
+                <MessageAnswerButton {...message} />
+            </Flex>
         </Flex>
     );
 };
