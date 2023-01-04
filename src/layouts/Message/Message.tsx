@@ -11,7 +11,7 @@ import { IMessage } from '~/types';
 import { getRoute } from '~/utils';
 
 
-const Message: FC<IMessage> = ({ id, body, author, createdAt }) => {
+const Message: FC<IMessage> = ({ id, body, author, createdAt, messages }) => {
     return (
         <Flex
             border="1px"
@@ -49,14 +49,16 @@ const Message: FC<IMessage> = ({ id, body, author, createdAt }) => {
                 </AccordionItem>
             </Accordion>
 
-            <Button
-                as={Link}
-                to={getRoute('message', { messageId: id })}
-                variant="ghost"
-                width="100%"
-            >
-                Show Answers
-            </Button>
+            {messages.length > 0 && (
+                <Button
+                    as={Link}
+                    to={getRoute('message', { messageId: id })}
+                    variant="ghost"
+                    width="100%"
+                >
+                    Show {messages.length} Answers
+                </Button>
+            )}
         </Flex>
     );
 };

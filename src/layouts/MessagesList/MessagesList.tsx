@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 import MessageListCreateNew from './MessageListCreateNew';
@@ -17,8 +17,12 @@ const MessagesList: FC = () => {
     return (
         <Container my={8} p={2}>
             <MessageListCreateNew />
-            {data.map((message) => (
-                <Message key={message.id} {...message} />
+            {data.pages.map((messagePages) => (
+                <Fragment key={messagePages[0]?.id || 0}>
+                    {messagePages.map((message) => (
+                        <Message key={message.id} {...message} />
+                    ))}
+                </Fragment>
             ))}
         </Container>
     );
