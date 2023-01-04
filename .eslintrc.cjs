@@ -107,6 +107,7 @@ module.exports = {
         /**
         * JavaScript
         */
+        'no-undefined': 0,
         'no-warning-comments': [1],
         'newline-per-chained-call': [1, { 'ignoreChainWithDepth': 3 }],
         'spaced-comment': [2, 'always', { 'markers': ['/'] }],
