@@ -107,6 +107,7 @@ module.exports = {
         /**
         * JavaScript
         */
+        'no-warning-comments': [1],
         'newline-per-chained-call': [1, { 'ignoreChainWithDepth': 3 }],
         'spaced-comment': [2, 'always', { 'markers': ['/'] }],
         'capitalized-comments': 0,
@@ -141,7 +142,7 @@ module.exports = {
         'max-lines-per-function': [2, 200],
         'max-statements': ['error', 20, { ignoreTopLevelFunctions: true }],
         'function-call-argument-newline': [2, 'consistent'],
-        'no-console': ['error', { allow: ['warn', 'error'] }],
+        'no-console': [1, { allow: ['error'] }],
         'object-curly-spacing': [2, 'always'],
         'no-use-before-define': [1, { functions: false, classes: true }],
         'semi': 2,
