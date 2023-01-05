@@ -1,4 +1,6 @@
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Button } from '@chakra-ui/react';
+import {
+    Accordion, AccordionItem, AccordionButton, AccordionPanel, Button, Skeleton,
+} from '@chakra-ui/react';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -6,7 +8,7 @@ import EditMessageForm from '~/components/EditMessageForm';
 import { useUser } from '~/requests';
 
 
-const MessageListCreateNew: FC = () => {
+const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) => {
     const { isAuth } = useUser();
     const params = useParams();
     const answerToId = z.coerce.number().optional().parse(params.messageId);
@@ -21,17 +23,19 @@ const MessageListCreateNew: FC = () => {
             boxShadow="md"
         >
             <AccordionItem border="none">
-                <AccordionButton
-                    as={Button}
-                    data-cy="message-list-add-new-message"
-                    justifyContent="center"
-                    variant="ghost"
-                >
-                    Add New Message
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                    <EditMessageForm answerToId={answerToId} />
-                </AccordionPanel>
+                <Skeleton isLoaded={!isLoading}>
+                    <AccordionButton
+                        as={Button}
+                        data-cy="message-list-add-new-message"
+                        justifyContent="center"
+                        variant="ghost"
+                    >
+                        Add New Message
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                        <EditMessageForm answerToId={answerToId} />
+                    </AccordionPanel>
+                </Skeleton>
             </AccordionItem>
         </Accordion>
     );

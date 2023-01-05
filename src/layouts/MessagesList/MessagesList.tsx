@@ -1,4 +1,4 @@
-import { Container, Skeleton } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { times } from 'lodash';
 import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
@@ -18,9 +18,7 @@ const MessagesList: FC = () => {
         <Container my={8} p={2}>
             {answerToId ? <Message id={answerToId} /> : null}
 
-            <Skeleton isLoaded={!isLoading}>
-                <MessageListCreateNew />
-            </Skeleton>
+            <MessageListCreateNew isLoading={isLoading} />
 
             {(isLoading || !data)
                 ? times(10, (i) => (
