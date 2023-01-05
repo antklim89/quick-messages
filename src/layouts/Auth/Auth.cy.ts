@@ -14,6 +14,7 @@ describe('Auth', () => {
     });
 
     it('should register', () => {
+        cy.getTestId('header-main-menu').click();
         cy.contains(/register/i).click();
 
         cy.get('[name="email"]').clear().type(invalidEmail);
@@ -24,12 +25,15 @@ describe('Auth', () => {
         cy.get('[name="email"]').clear().type(email);
         cy.contains(/submit/i).click();
 
+
+        cy.getTestId('header-main-menu').click();
         cy.contains(/logout/i).should('exist');
         cy.contains(/logout/i).click();
     });
 
 
     it('should login', () => {
+        cy.getTestId('header-main-menu').click();
         cy.contains(/login/i).click();
 
         cy.get('[name="email"]').clear().type(email);
@@ -42,6 +46,9 @@ describe('Auth', () => {
         cy.get('[name="confirm"]').should('not.exist');
 
         cy.contains(/submit/i).click();
+
+
+        cy.getTestId('header-main-menu').click();
         cy.contains(/logout/i).should('exist');
     });
 
