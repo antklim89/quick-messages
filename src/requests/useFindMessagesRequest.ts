@@ -1,14 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { MESSAGES_LIMIT, QueryName } from './constants';
-import { useEndScreenTrigger } from '~/hooks';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';
 
 
 export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } = {}) {
-    const reactQuery = useInfiniteQuery<IMessage[]>({
+    return useInfiniteQuery<IMessage[]>({
         queryKey: [QueryName.FIND_MESSAGES, answerToId],
         async queryFn({ pageParam: lastId }) {
             const supabaseQuery = supabase
@@ -29,12 +27,4 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
         },
         getNextPageParam: (lastPage) => lastPage.slice().pop()?.id,
     });
-
-    const { addEvent } = useEndScreenTrigger(reactQuery.fetchNextPage);
-
-    useEffect(() => {
-        if (!reactQuery.isFetching) addEvent();
-    }, [reactQuery.isFetching]);
-
-    return reactQuery;
 }
