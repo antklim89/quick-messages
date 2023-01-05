@@ -11,6 +11,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messages }) => {
         <IconButton
             aria-label={`show ${messages.length} message answers`}
             as={Link}
+            data-cy="message-answer-button"
             flex="1 1 100%"
             to={getRoute('message', { messageId: id })}
             variant="ghost"

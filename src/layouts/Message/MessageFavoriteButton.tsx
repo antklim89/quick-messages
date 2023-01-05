@@ -7,6 +7,7 @@ const MessageFavoriteButton: FC = () => {
     return (
         <IconButton
             aria-label="bookmark"
+            data-cy="message-favorite-button"
             flex="1 1 100%"
             variant="ghost"
         >

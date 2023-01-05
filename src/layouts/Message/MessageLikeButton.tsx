@@ -7,6 +7,7 @@ const MessageLikeButton: FC = () => {
     return (
         <IconButton
             aria-label="like"
+            data-cy="message-like-button"
             flex="1 1 100%"
             variant="ghost"
         >

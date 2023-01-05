@@ -22,21 +22,25 @@ describe('MessagesList', () => {
 
         cy.getTestId('message').first().contains(newMessageBody);
         cy.getTestId('message').should('have.length', 11);
+
+        cy.getTestId('message-answer-button').first().click();
+        cy.getTestId('message-list-add-new-message').click();
+        cy.getTestId('message-body-input').first().type(newMessageBody);
+        cy.getTestId('message').first().contains(newMessageBody);
     });
 
-    // TODO: fix message list tests
-    // it('should fetch more messages', () => {
-    //     cy.visit('/');
+    it('should fetch more messages', () => {
+        cy.visit('/');
 
-    //     cy.getTestId('message').should('have.length', 10);
-    //     cy.scrollTo('bottom', { easing: 'swing', duration: 100 });
-    //     cy.getTestId('message').should('have.length', 20);
+        cy.getTestId('message').should('have.length', 10);
+        cy.scrollTo('bottom', { easing: 'swing', duration: 100 });
+        cy.getTestId('message').should('have.length', 20);
 
-    //     cy.scrollTo('top', { easing: 'swing', duration: 100 });
-    //     cy.contains(/Show Answers/i).first().click();
-    //     cy.contains(/Quick Messages/i).click();
-    //     cy.scrollTo('bottom', { easing: 'swing', duration: 100 });
-    // });
+        cy.scrollTo('top', { easing: 'swing', duration: 100 });
+        cy.getTestId('message-answer-button').first().click();
+        cy.contains(/Quick Messages/i).click();
+        cy.scrollTo('bottom', { easing: 'swing', duration: 100 });
+    });
 });
 
 export {};
