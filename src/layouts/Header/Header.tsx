@@ -1,19 +1,14 @@
 import {
-    Box, Text, Container, Divider, DrawerCloseButton, useMediaQuery, useTheme,
+    Box, Text, Container, IconButton, Menu, MenuButton, MenuList,
 } from '@chakra-ui/react';
 import { FC } from 'react';
+import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
-import HeaderDrawer from './HeaderDrawer';
-import HeaderLinks from './HeaderLinks';
-import { CustomTheme } from '~/styles/theme';
 import { getRoute } from '~/utils';
 
 
 const Header: FC = () => {
-    const { breakpoints } = useTheme<CustomTheme>();
-    const [isLargerThen] = useMediaQuery(`(min-width: ${breakpoints.md})`);
-
     return (
         <Box as="header" shadow="md" >
             <Container alignItems="center" display="flex" maxWidth="container.xl">
@@ -27,21 +22,18 @@ const Header: FC = () => {
                 </Text>
                 <Box flexGrow={1} />
 
-                {isLargerThen
-                    ? (
-                        <>
-                            <HeaderLinks />
-                            <HeaderAuth />
-                        </>
-                    )
-                    : (
-                        <HeaderDrawer>
-                            <DrawerCloseButton />
-                            <HeaderLinks flexDirection="column" />
-                            <Divider bg="primary.text" my={4} />
-                            <HeaderAuth />
-                        </HeaderDrawer>
-                    )}
+                <Menu>
+                    <MenuButton
+                        aria-label="main-menu"
+                        as={IconButton}
+                        data-cy="header-main-menu"
+                        icon={<FaUser />}
+                        variant="ghost"
+                    />
+                    <MenuList>
+                        <HeaderAuth />
+                    </MenuList>
+                </Menu>
             </Container>
         </Box>
     );
