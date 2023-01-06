@@ -6,10 +6,10 @@ import { IMessage } from '~/types';
 import { getRoute } from '~/utils';
 
 
-const MessageAnswerButton: FC<IMessage> = ({ id, messages }) => {
+const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
     return (
         <IconButton
-            aria-label={`show ${messages.length} message answers`}
+            aria-label={`show ${messagesCount} message answers`}
             as={Link}
             data-cy="message-answer-button"
             flex="1 1 100%"
@@ -18,7 +18,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messages }) => {
         >
             <>
                 <FaComment />
-                <Text color="primary.600" fontSize="xl" mx={1}>{messages.length}</Text>
+                <Text color="primary.600" fontSize="xl" mx={1}>{messagesCount}</Text>
             </>
         </IconButton>
     );

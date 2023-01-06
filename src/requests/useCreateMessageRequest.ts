@@ -20,12 +20,15 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
                     author: session?.user.id,
                     answerTo: answerToId,
                 })
-                .select('*, author(*), messages(id)')
+                .select('*, author(*), messages(count), likes(count)')
                 .single();
-
             if (error) throw error;
 
-            return messageSchema.parseAsync(data);
+            return messageSchema.parseAsync({
+                ...data,
+                messagesCount: Array.isArray(data.messages) ? data.messages[0]?.count : data.messages?.count,
+                likesCount: Array.isArray(data.likes) ? data.likes[0]?.count : data.likes?.count,
+            });
         },
         onSuccess(newMessage) {
             queryClient.setQueryData<InfiniteData<IMessage[]>>(
@@ -40,7 +43,7 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
             if (oldMessage && answerToId) {
                 queryClient.setQueryData<IMessage>(
                     [QueryName.FIND_MESSAGE, answerToId],
-                    { ...oldMessage, messages: [{ id: answerToId }, ...oldMessage.messages] },
+                    { ...oldMessage, messagesCount: oldMessage.messagesCount + 1 },
                 );
             }
         },

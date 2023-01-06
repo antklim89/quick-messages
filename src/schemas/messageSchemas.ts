@@ -14,5 +14,6 @@ export const messageSchema = z.object({
     body: z.string(),
     author: profileSchema,
     createdAt: z.string(),
-    messages: z.array(z.object({ id: z.number() })),
+    messagesCount: z.number(),
+    likesCount: z.number(),
 });

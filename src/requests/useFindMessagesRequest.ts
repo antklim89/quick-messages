@@ -11,7 +11,7 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
         async queryFn({ pageParam: lastId }) {
             const supabaseQuery = supabase
                 .from('messages')
-                .select('*, author(*), messages(id)')
+                .select('*, author(*), messages(count), likes(count)')
                 .range(0, MESSAGES_LIMIT - 1)
                 .order('createdAt', { ascending: false });
 
@@ -23,7 +23,11 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
             const { data, error } = await supabaseQuery;
 
             if (error) throw error;
-            return messageSchema.array().parseAsync(data);
+            return messageSchema.array().parseAsync(data.map((i) => ({
+                ...i,
+                messagesCount: Array.isArray(i.messages) ? i.messages[0]?.count : i.messages?.count,
+                likesCount: Array.isArray(i.likes) ? i.likes[0]?.count : i.likes?.count,
+            })));
         },
         getNextPageParam: (lastPage) => lastPage.slice().pop()?.id,
     });

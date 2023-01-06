@@ -29,18 +29,18 @@ export interface Database {
       likes: {
         Row: {
           id: number
-          user: string | null
-          message: number | null
+          user: string
+          message: number
         }
         Insert: {
           id?: number
-          user?: string | null
-          message?: number | null
+          user: string
+          message: number
         }
         Update: {
           id?: number
-          user?: string | null
-          message?: number | null
+          user?: string
+          message?: number
         }
       }
       messages: {
