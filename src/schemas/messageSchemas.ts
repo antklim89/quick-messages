@@ -16,4 +16,5 @@ export const messageSchema = z.object({
     createdAt: z.string(),
     messagesCount: z.number(),
     likesCount: z.number(),
+    hasLiked: z.boolean(),
 });

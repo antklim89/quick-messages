@@ -1,12 +1,15 @@
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
+import { useUser } from './useUser';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types/message';
+import { transformMessage } from '~/utils';
 
 
 export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }) {
     const queryClient = useQueryClient();
+    const { id: userId } = useUser();
 
     return useMutation<IMessage, Error, { body: IEditMessageInput; }>({
         async mutationFn({ body }) {
@@ -20,15 +23,11 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
                     author: session?.user.id,
                     answerTo: answerToId,
                 })
-                .select('*, author(*), messages(count), likes(count)')
+                .select('*, author(*), messages(count), likes(user)')
                 .single();
             if (error) throw error;
 
-            return messageSchema.parseAsync({
-                ...data,
-                messagesCount: Array.isArray(data.messages) ? data.messages[0]?.count : data.messages?.count,
-                likesCount: Array.isArray(data.likes) ? data.likes[0]?.count : data.likes?.count,
-            });
+            return messageSchema.parseAsync(transformMessage(data, userId));
         },
         onSuccess(newMessage) {
             queryClient.setQueryData<InfiniteData<IMessage[]>>(
