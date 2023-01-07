@@ -38,7 +38,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
                 <Text fontSize={['xs', 'sm']} mx={4}>{new Date(createdAt).toLocaleString()}</Text>
                 <MessageMenu />
             </Flex>
-            <Text my={4} p={4}>
+            <Text my={4} p={4} whiteSpace="pre-line">
                 {body}
             </Text>
             <Flex>
