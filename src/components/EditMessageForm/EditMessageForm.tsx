@@ -1,5 +1,5 @@
 import { Flex, Button } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, KeyboardEventHandler, useCallback } from 'react';
 import { useEditMessageFormFormik } from './EditMessageForm.formik';
 import { EditMessageFormProps } from './EditMessageForm.types';
 import InputField from '~/components/InputField';
@@ -7,6 +7,13 @@ import InputField from '~/components/InputField';
 
 const EditMessageForm: FC<EditMessageFormProps> = (props) => {
     const formik = useEditMessageFormFormik(props);
+
+    const handleCtrlEnterPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            formik.handleSubmit();
+        }
+    }, []);
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -17,6 +24,7 @@ const EditMessageForm: FC<EditMessageFormProps> = (props) => {
                 name="body"
                 placeholder="Enter your message..."
                 resize="none"
+                onKeyDown={handleCtrlEnterPress}
             />
             <Flex justifyContent="end">
                 <Button
