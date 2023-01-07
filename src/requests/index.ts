@@ -6,3 +6,5 @@ export * from './useLogoutRequest';
 export * from './useRegisterRequest';
 export * from './useUpdateMessageRequest';
 export * from './useUser';
+export * from './useFavoriteRequest';
+export * from './useLikeRequest';
