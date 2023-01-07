@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      favorite: {
+      favorites: {
         Row: {
           id: number
           user: string
@@ -85,7 +85,36 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_liked:
+        | {
+            Args: { user_id: string }
+            Returns: number
+          }
+        | {
+            Args: { user_id: string }
+            Returns: number
+          }
+        | {
+            Args: { user_id: number }
+            Returns: number
+          }
+      has_liked2: {
+        Args: { user_id: number }
+        Returns: boolean
+      }
+      is_liked:
+        | {
+            Args: { user_id: number }
+            Returns: boolean
+          }
+        | {
+            Args: { user_id: string }
+            Returns: boolean
+          }
+      xxx: {
+        Args: { user_id: number }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

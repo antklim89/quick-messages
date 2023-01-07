@@ -42,7 +42,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
                 {body}
             </Text>
             <Flex>
-                <MessageFavoriteButton />
+                <MessageFavoriteButton {...message} />
                 <MessageLikeButton {...message} />
                 <MessageAnswerButton {...message} />
             </Flex>

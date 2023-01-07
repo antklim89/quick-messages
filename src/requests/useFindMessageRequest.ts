@@ -18,7 +18,7 @@ export function useFindMessageRequest(id: number, initialData?: IMessage) {
         async queryFn() {
             const { data, error } = await supabase
                 .from('messages')
-                .select('*, author(*), messages(count), likes(user)')
+                .select('*, author(*), messages(count), likes(user), favorites(user)')
                 .eq('id', id)
                 .single();
 

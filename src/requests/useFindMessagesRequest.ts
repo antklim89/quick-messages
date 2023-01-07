@@ -17,7 +17,7 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
         async queryFn({ pageParam: lastId }) {
             const supabaseQuery = supabase
                 .from('messages')
-                .select('*, author(*), messages(count), likes(user)')
+                .select('*, author(*), messages(count), likes(user), favorites(user)')
                 .range(0, MESSAGES_LIMIT - 1)
                 .order('createdAt', { ascending: false });
 
