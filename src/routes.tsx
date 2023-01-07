@@ -1,25 +1,16 @@
-import { lazy, Suspense } from 'react';
-import RouteLoading from './components/RouteLoading';
-
-
-const HomePage = lazy(() => import('~/pages/HomePage'));
-const MessagePage = lazy(() => import('~/pages/MessagePage'));
+import MessagesList from './layouts/MessagesList';
 
 
 export const routes = {
     home: {
         element: (
-            <Suspense fallback={<RouteLoading />}>
-                <HomePage />
-            </Suspense>
+            <MessagesList />
         ),
         path: '/',
     },
     message: {
         element: (
-            <Suspense fallback={<RouteLoading />}>
-                <MessagePage />
-            </Suspense>
+            <MessagesList />
         ),
         path: '/message/:messageId',
     },
