@@ -18,11 +18,12 @@ const MessagesList: FC = () => {
     const {
         isLoading,
         isFetching,
+        isFetchingNextPage,
         fetchNextPage,
         data: { pages } = { pages: [] },
     } = useFindMessagesRequest({ answerToId });
 
-    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT));
+    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 2000);
 
     return (
         <Container my={8} p={2}>
@@ -30,7 +31,7 @@ const MessagesList: FC = () => {
 
             <MessageListCreateNew isLoading={isLoading} />
 
-            {(isLoading)
+            {isLoading
                 ? times(10, (i) => (
                     <MessageSkeleton key={i} />
                 ))
@@ -41,6 +42,11 @@ const MessagesList: FC = () => {
                         ))}
                     </Fragment>
                 ))}
+            {isFetchingNextPage
+                ? times(10, (i) => (
+                    <MessageSkeleton key={i} />
+                ))
+                : null}
         </Container>
     );
 };
