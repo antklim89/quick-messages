@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MESSAGES_LIMIT, QueryName } from './constants';
 import { useUser } from './useUser';
@@ -9,6 +10,7 @@ import { transformMessage } from '~/utils';
 
 export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } = {}) {
     const { id: userId } = useUser();
+    const toast = useToast();
 
     return useInfiniteQuery<IMessage[]>({
         queryKey: [QueryName.FIND_MESSAGES, answerToId],
@@ -30,5 +32,8 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
             return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, userId)));
         },
         getNextPageParam: (lastPage) => lastPage.slice().pop()?.id,
+        onError() {
+            toast({ title: 'Failed to load messages. Try again later.', status: 'success' });
+        },
     });
 }

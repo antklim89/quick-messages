@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import { useUser } from './useUser';
@@ -9,6 +10,7 @@ import { transformMessage } from '~/utils';
 
 export function useFindMessageRequest(id: number, initialData?: IMessage) {
     const { id: userId } = useUser();
+    const toast = useToast();
 
     return useQuery<IMessage>({
         initialData,
@@ -25,5 +27,8 @@ export function useFindMessageRequest(id: number, initialData?: IMessage) {
             return messageSchema.parseAsync(transformMessage(data, userId));
         },
         staleTime: initialData ? Infinity : undefined,
+        onError() {
+            toast({ title: 'Failed to load message. Try again later.', status: 'error' });
+        },
     });
 }

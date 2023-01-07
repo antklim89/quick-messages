@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import { useUser } from './useUser';
@@ -9,42 +10,44 @@ import { transformMessage } from '~/utils';
 
 export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }) {
     const queryClient = useQueryClient();
-    const { id: userId } = useUser();
+    const { getUserId } = useUser();
+    const toast = useToast();
 
-    return useMutation<IMessage, Error, { body: IEditMessageInput; }>({
-        async mutationFn({ body }) {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session?.user.id) throw new Error('You are not authenticated');
+    return useMutation<IMessage, Error, { values: IEditMessageInput; }>({
+        async mutationFn({ values }) {
+            const userId = getUserId();
 
             const { error, data } = await supabase
                 .from('messages')
                 .insert({
-                    ...body,
-                    author: session?.user.id,
+                    ...values,
+                    author: userId,
                     answerTo: answerToId,
                 })
                 .select('*, author(*), messages(count), likes(user)')
                 .single();
-            if (error) throw error;
+            if (error) throw new Error('Failed to add new message. Try again later.');
 
             return messageSchema.parseAsync(transformMessage(data, userId));
         },
-        onSuccess(newMessage) {
-            queryClient.setQueryData<InfiniteData<IMessage[]>>(
+        async onSuccess(newMessage) {
+            await queryClient.setQueryData<InfiniteData<IMessage[]>>(
                 [QueryName.FIND_MESSAGES, answerToId],
-                (old) => ({
-                    pageParams: old?.pageParams ? [answerToId, ...old.pageParams] : [answerToId],
-                    pages: old?.pages ? [[newMessage], ...old.pages] : [[newMessage]],
+                (oldMessages) => ({
+                    pageParams: oldMessages ? [answerToId, ...oldMessages.pageParams] : [answerToId],
+                    pages: oldMessages ? [[newMessage], ...oldMessages.pages] : [[newMessage]],
                 }),
             );
 
-            const oldMessage = queryClient.getQueryData<IMessage>([QueryName.FIND_MESSAGE, answerToId]);
-            if (oldMessage && answerToId) {
-                queryClient.setQueryData<IMessage>(
-                    [QueryName.FIND_MESSAGE, answerToId],
-                    { ...oldMessage, messagesCount: oldMessage.messagesCount + 1 },
-                );
-            }
+            await queryClient.setQueryData<IMessage>(
+                [QueryName.FIND_MESSAGE, answerToId],
+                (oldMessage) => (oldMessage && ({ ...oldMessage, messagesCount: oldMessage.messagesCount + 1 })),
+            );
+
+            toast({ title: 'New message successfully added!', status: 'success' });
+        },
+        onError(error) {
+            toast({ title: error.message, status: 'error' });
         },
     });
 }

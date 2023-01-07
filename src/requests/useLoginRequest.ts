@@ -15,16 +15,13 @@ export function useLoginRequest() {
                 email,
                 password,
             });
-            if (error)
-                throw error;
-            if (!data.user)
-                throw new Error('Login error.');
+            if (error || !data.user) throw new Error('Failed to login. Try again later.');
 
             return data.user;
         },
-        onSuccess() {
+        async onSuccess() {
+            await queryClient.invalidateQueries();
             toast({ title: 'You have successfully logged in!', status: 'success' });
-            queryClient.invalidateQueries();
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

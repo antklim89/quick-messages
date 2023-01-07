@@ -3,24 +3,19 @@ import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 
 
-
 export function useUser() {
     const { data: userId } = useQuery<string | null, Error>({
         queryKey: [QueryName.GET_USER],
         async queryFn() {
             const { data, error } = await supabase.auth.getSession();
-            if (error)
-                return null;
-            if (!data.session?.user)
-                return null;
+            if (error || !data.session?.user) return null;
 
             const { id } = data.session.user;
 
             return id;
         },
         onSuccess(id) {
-            if (id)
-                localStorage.setItem(QueryName.GET_USER, id);
+            if (id) localStorage.setItem(QueryName.GET_USER, id);
         },
         placeholderData: () => localStorage.getItem(QueryName.GET_USER),
     });
@@ -29,8 +24,7 @@ export function useUser() {
         id: userId,
         isAuth: Boolean(userId),
         getUserId() {
-            if (!userId)
-                throw new Error('No user logged in.');
+            if (!userId) throw new Error('You are not authenticated.');
             return userId;
         },
     };

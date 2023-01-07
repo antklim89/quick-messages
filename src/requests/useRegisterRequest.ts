@@ -15,16 +15,13 @@ export function useRegisterRequest() {
                 email,
                 password,
             });
-            if (error)
-                throw error;
-            if (!data.user)
-                throw new Error('Register error.');
+            if (error || !data.user) throw new Error('Failed to register. Try again later.');
 
             return data.user;
         },
-        onSuccess() {
+        async onSuccess() {
+            await queryClient.invalidateQueries();
             toast({ title: 'You have successfully registred!', status: 'success' });
-            queryClient.invalidateQueries();
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

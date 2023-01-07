@@ -21,24 +21,22 @@ export function useLikeRequest({ message }: {message: number}) {
                     .delete()
                     .eq('message', message)
                     .eq('user', userId);
-                if (error) throw new Error('Like fail. Try again later.');
+                if (error) throw new Error('Failed to like message. Try again later.');
             } else {
                 const { error } = await supabase
                     .from('likes')
                     .insert({ message, user: userId });
-                if (error) throw new Error('Unlike fail. Try again later.');
+                if (error) throw new Error('Failed to unlike message. Try again later.');
             }
         },
-        onSuccess(_, { hasLiked }) {
-            queryClient.setQueryData<IMessage>(
+        async onSuccess() {
+            await queryClient.setQueryData<IMessage>(
                 [QueryName.FIND_MESSAGE, message],
-                (oldMessage) => (oldMessage
-                    ? ({
-                        ...oldMessage,
-                        hasLiked: !hasLiked,
-                        likesCount: hasLiked ? oldMessage.likesCount - 1 : oldMessage.likesCount + 1,
-                    })
-                    : undefined),
+                (oldMessage) => (oldMessage && ({
+                    ...oldMessage,
+                    hasLiked: !oldMessage.hasLiked,
+                    likesCount: oldMessage.hasLiked ? oldMessage.likesCount - 1 : oldMessage.likesCount + 1,
+                })),
             );
         },
         onError(error) {
