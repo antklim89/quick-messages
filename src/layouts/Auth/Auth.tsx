@@ -1,5 +1,6 @@
 import {
     Button,
+    MenuItem,
     Modal,
     ModalCloseButton,
     ModalContent,
@@ -26,14 +27,9 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
     const handleToggleType = useCallback(() => setType(opositeType), [opositeType]);
     return (
         <>
-            <Button
-                textTransform="uppercase"
-                variant="ghost"
-                {...props}
-                onClick={onOpen}
-            >
+            <MenuItem cursor="pointer" {...props} onClick={onOpen}>
                 {defaultType}
-            </Button>
+            </MenuItem>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

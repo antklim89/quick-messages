@@ -1,4 +1,4 @@
-import { Button, MenuItem } from '@chakra-ui/react';
+import { MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests';
@@ -10,26 +10,21 @@ const HeaderAuth: FC = () => {
 
     if (isAuth) return (
         <>
-            <Button
-                as={MenuItem}
-                variant="ghost"
-            >
+            <MenuItem >
                 PROFILE
-            </Button>
-            <Button
-                as={MenuItem}
+            </MenuItem>
+            <MenuItem
                 isDisabled={isLoading}
-                variant="ghost"
                 onClick={handleLogout}
             >
                 LOGOUT
-            </Button>
+            </MenuItem>
         </>
     );
     return (
         <>
-            <Auth as={MenuItem} />
-            <Auth as={MenuItem} defaultType="register" />
+            <Auth as="div" textTransform="uppercase" />
+            <Auth as="div" defaultType="register" textTransform="uppercase" />
         </>
     );
 };
