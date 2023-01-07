@@ -23,7 +23,7 @@ const MessagesList: FC = () => {
         data: { pages } = { pages: [] },
     } = useFindMessagesRequest({ answerToId });
 
-    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 2000);
+    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
         <Container my={8} p={2}>
