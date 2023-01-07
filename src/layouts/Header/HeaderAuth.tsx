@@ -1,7 +1,9 @@
 import { MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests';
+import { getRoute } from '~/utils';
 
 
 const HeaderAuth: FC = () => {
@@ -10,7 +12,10 @@ const HeaderAuth: FC = () => {
 
     if (isAuth) return (
         <>
-            <MenuItem >
+            <MenuItem
+                as={Link}
+                to={getRoute('profile', {})}
+            >
                 PROFILE
             </MenuItem>
             <MenuItem
