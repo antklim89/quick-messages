@@ -1,4 +1,5 @@
 import MessagesList from './layouts/MessagesList';
+import Profile from './layouts/Profile';
 
 
 export const routes = {
@@ -13,5 +14,11 @@ export const routes = {
             <MessagesList />
         ),
         path: '/message/:messageId',
+    },
+    profile: {
+        element: (
+            <Profile />
+        ),
+        path: '/profile',
     },
 } as const;
