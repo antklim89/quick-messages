@@ -6,36 +6,36 @@ import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
 
 
-export function useFavoriteRequest({ message }: {message: number}) {
+export function useFavoriteRequest({ messageId }: {messageId: number}) {
     const { id: userId } = useUser();
     const toast = useToast();
     const queryClient = useQueryClient();
 
     return useMutation<void, Error, {inFavorites: boolean}>({
         async mutationFn({ inFavorites }) {
-            if (!userId) throw new Error('Login to like messages');
+            if (!userId) throw new Error('Login to add favorite message');
 
             if (inFavorites) {
                 const { error } = await supabase
-                    .from('likes')
+                    .from('favorites')
                     .delete()
-                    .eq('message', message)
+                    .eq('message', messageId)
                     .eq('user', userId);
-                if (error) throw new Error('Failed to like message. Try again later.');
+                if (error) throw new Error('Failed to add favorite message. Try again later.');
             } else {
                 const { error } = await supabase
-                    .from('likes')
-                    .insert({ message, user: userId });
-                if (error) throw new Error('Failed to unlike message. Try again later.');
+                    .from('favorites')
+                    .insert({ message: messageId, user: userId });
+                if (error) throw new Error('Failed to remove favorite message. Try again later.');
             }
         },
         async onSuccess() {
             await queryClient.setQueryData<IMessage>(
-                [QueryName.FIND_MESSAGE, message],
-                (oldMessage) => (oldMessage && ({
-                    ...oldMessage,
-                    hasLiked: !oldMessage.hasLiked,
-                    likesCount: oldMessage.hasLiked ? oldMessage.likesCount - 1 : oldMessage.likesCount + 1,
+                [QueryName.FIND_MESSAGE, messageId],
+                (oldMsg) => (oldMsg && ({
+                    ...oldMsg,
+                    inFavorites: !oldMsg.inFavorites,
+                    favoritesCount: oldMsg.inFavorites ? oldMsg.favoritesCount - 1 : oldMsg.favoritesCount + 1,
                 })),
             );
         },

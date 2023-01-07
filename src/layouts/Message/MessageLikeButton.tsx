@@ -24,7 +24,7 @@ const MessageLikeButton: FC<IMessage> = ({ id: messageId, hasLiked, likesCount }
         >
             <>
                 <FaHeart />
-                <Text color="primary.600" fontSize="xl" mx={1}>{likesCount}</Text>
+                <Text fontSize="xl" mx={1}>{likesCount}</Text>
             </>
         </IconButton>
     );
