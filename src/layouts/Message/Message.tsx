@@ -1,22 +1,19 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
 import MessageFavoriteButton from './MessageFavoriteButton';
+import MessageHeader from './MessageHeader';
 import MessageLikeButton from './MessageLikeButton';
 import MessageMenu from './MessageMenu';
 import MessageSkeleton from '~/components/MessageSkeleton';
-import { useFindMessageRequest, useUser } from '~/requests';
+import { useFindMessageRequest } from '~/requests';
 
 
 const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
     const { data: message, isLoading } = useFindMessageRequest(id, initialMessage);
-    const { id: userId } = useUser();
 
     if (!message || isLoading) return <MessageSkeleton />;
-
-    const { author, body, createdAt } = message;
 
     return (
         <Flex
@@ -28,18 +25,12 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
             flexDirection="column"
             my={4}
         >
-            <Flex
-                alignItems="center"
-                flexDirection={['column', 'row']}
-                p={4}
-            >
-                <Text as={Link} fontSize={['xl', '2xl']} to={`/user/${author.id}`}>{author.id === userId ? 'me' : author.name}</Text>
-                <Flex grow={1} />
-                <Text fontSize={['xs', 'sm']} mx={4}>{new Date(createdAt).toLocaleString()}</Text>
+            <Flex alignItems="center" p={4} >
+                <MessageHeader {...message} />
                 <MessageMenu />
             </Flex>
             <Text my={4} p={4} whiteSpace="pre-line">
-                {body}
+                {message.body}
             </Text>
             <Flex>
                 <MessageFavoriteButton {...message} />
