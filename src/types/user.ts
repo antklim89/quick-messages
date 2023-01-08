@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { authInputSchema, profileSchema } from '~/schemas';
+import { authInputSchema, authorSchema, profileSchema } from '~/schemas';
 
 
 export interface IUser {
@@ -8,4 +8,5 @@ export interface IUser {
 }
 
 export type IAuthInput = z.infer<typeof authInputSchema>
+export type IAuthor = z.infer<typeof authorSchema>
 export type IProfile = z.infer<typeof profileSchema>

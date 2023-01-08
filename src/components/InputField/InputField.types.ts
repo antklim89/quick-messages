@@ -2,7 +2,7 @@ import { InputProps, SelectProps, TextareaProps, SwitchProps } from '@chakra-ui/
 import { ChangeEvent, ReactNode } from 'react';
 
 
-export type Values = Record<string, string|number|boolean>;
+export type Values = Record<string, string|number|boolean|null>;
 
 export interface FormikType<T extends Values> {
      values: T;

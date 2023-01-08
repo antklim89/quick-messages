@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { profileSchema } from './authShemas';
+import { authorSchema } from './authShemas';
 
 
 export const editMessageSchema = z.object({
@@ -12,7 +12,7 @@ export const editMessageSchema = z.object({
 export const messageSchema = z.object({
     id: z.number(),
     body: z.string(),
-    author: profileSchema,
+    author: authorSchema,
     createdAt: z.string(),
     messagesCount: z.number(),
     likesCount: z.number(),

@@ -69,15 +69,18 @@ export interface Database {
       profiles: {
         Row: {
           id: string
-          name: string | null
+          name: string
+          bio: string
         }
         Insert: {
           id: string
-          name?: string | null
+          name?: string
+          bio?: string
         }
         Update: {
           id?: string
-          name?: string | null
+          name?: string
+          bio?: string
         }
       }
     }

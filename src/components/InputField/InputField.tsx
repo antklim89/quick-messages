@@ -18,7 +18,7 @@ import { InputFieldBaseFC } from './InputField.types';
 
 const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => {
     const error = formik.errors[name];
-    const value = formik.values[name];
+    const value = String(formik.values[name] ?? '');
 
 
     const component = useMemo(() => {
@@ -28,7 +28,7 @@ const InputField: InputFieldBaseFC = ({ formik, label, name, as, ...props }) => 
                 <Select
                     {...props as SelectProps}
                     name={String(name)}
-                    value={String(value)}
+                    value={value}
                     onChange={formik.handleChange}
                 />
             );

@@ -13,7 +13,7 @@ export const authInputSchema = z.object({
         .min(5),
 });
 
-export const profileSchema = z.object({
+export const authorSchema = z.object({
     name: z.string(),
     id: z.string(),
 });
