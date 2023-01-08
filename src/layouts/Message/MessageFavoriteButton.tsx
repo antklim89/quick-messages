@@ -1,7 +1,7 @@
 import { IconButton, Text } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
 import { FaBookmark } from 'react-icons/fa';
-import { useFavoriteRequest } from '~/requests';
+import { useFavoriteRequest } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 

@@ -2,9 +2,9 @@ import { useToast } from '@chakra-ui/react';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import { useUser } from './useUser';
+import { createMessageRequest } from '~/requests';
 import { messageSchema } from '~/schemas';
-import supabase from '~/supabase/app';
-import { IEditMessageInput, IMessage } from '~/types/message';
+import { IEditMessageInput, IMessage } from '~/types';
 import { transformMessage } from '~/utils';
 
 
@@ -17,18 +17,9 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
         async mutationFn({ values }) {
             const userId = getUserId();
 
-            const { error, data } = await supabase
-                .from('messages')
-                .insert({
-                    ...values,
-                    author: userId,
-                    answerTo: answerToId,
-                })
-                .select('*, author(*), messages(count), likes(user), favorites(user)')
-                .single();
-            if (error) throw new Error('Failed to add new message. Try again later.');
+            const newMessage = await createMessageRequest(values, answerToId);
 
-            return messageSchema.parseAsync(transformMessage(data, userId));
+            return messageSchema.parseAsync(transformMessage(newMessage, userId));
         },
         async onSuccess(newMessage) {
             await queryClient.setQueryData<InfiniteData<IMessage[]>>(
@@ -51,3 +42,4 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
         },
     });
 }
+

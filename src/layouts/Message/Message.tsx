@@ -7,7 +7,7 @@ import MessageHeader from './MessageHeader';
 import MessageLikeButton from './MessageLikeButton';
 import MessageMenu from './MessageMenu';
 import MessageSkeleton from '~/components/MessageSkeleton';
-import { useFindMessageRequest } from '~/requests';
+import { useFindMessageRequest } from '~/requests-hooks';
 
 
 const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {

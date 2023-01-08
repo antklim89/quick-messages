@@ -1,7 +1,7 @@
 import { Input, Skeleton } from '@chakra-ui/react';
 import { FC } from 'react';
 import ProfileInfoForm from './ProfileInfoForm';
-import { useFindProfie } from '~/requests/useFindProfie';
+import { useFindProfie } from '~/requests-hooks';
 
 
 const ProfileInfo: FC = () => {

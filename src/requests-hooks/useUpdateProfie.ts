@@ -1,24 +1,17 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { useUser } from './useUser';
-import supabase from '~/supabase/app';
+import { updateProfile } from '~/requests';
 import { IProfile } from '~/types';
 
 
 export function useUpdateProfie() {
-    const { id: userId } = useUser();
     const toast = useToast();
     const queryClient = useQueryClient();
 
     return useMutation<void, Error, IProfile>({
         async mutationFn(values) {
-            const { error } = await supabase
-                .from('profiles')
-                .update(values)
-                .eq('id', userId);
-
-            if (error) throw error;
+            await updateProfile(values);
         },
         onError() {
             toast({ title: 'Failed to update profile. Try again later.', status: 'error' });

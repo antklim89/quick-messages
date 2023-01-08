@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useUser } from '~/requests';
+import { useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 

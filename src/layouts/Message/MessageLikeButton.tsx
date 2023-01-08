@@ -1,12 +1,12 @@
 import { IconButton, Text } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
 import { FaHeart } from 'react-icons/fa';
-import { useLikeRequest } from '~/requests';
+import { useLikeRequest } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MessageLikeButton: FC<IMessage> = ({ id: messageId, hasLiked, likesCount }) => {
-    const { isLoading, mutate } = useLikeRequest({ message: messageId });
+    const { isLoading, mutate } = useLikeRequest({ messageId: messageId });
 
     const handleLike = useCallback(() => {
         mutate({ hasLiked });

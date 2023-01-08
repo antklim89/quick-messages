@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { AuthProps, AuthSchemaType } from './Auth.types';
-import { useLoginRequest, useRegisterRequest } from '~/requests';
+import { useLoginRequest, useRegisterRequest } from '~/requests-hooks';
 import { authInputSchema } from '~/schemas';
 
 

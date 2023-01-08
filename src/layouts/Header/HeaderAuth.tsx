@@ -2,7 +2,7 @@ import { MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '~/layouts/Auth';
-import { useLogoutRequest, useUser } from '~/requests';
+import { useLogoutRequest, useUser } from '~/requests-hooks';
 import { getRoute } from '~/utils';
 
 
