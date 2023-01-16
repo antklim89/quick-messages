@@ -13,10 +13,10 @@ export function useFindMessagesRequest({ answerToId }: { answerToId?: number; } 
     return useInfiniteQuery<IMessage[], Error>({
         queryKey: [QueryName.FIND_MESSAGES, answerToId],
         async queryFn({ pageParam: lastId }) {
-            const { id: userId } = await getUser();
+            const user = await getUser({ required: false });
             const data = await findMessagesRequest({ answerToId, lastId });
 
-            return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, userId)));
+            return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
         },
         getNextPageParam(lastPage) {
             return lastPage.slice().pop()?.id;

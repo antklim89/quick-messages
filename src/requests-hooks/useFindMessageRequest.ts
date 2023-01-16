@@ -14,10 +14,10 @@ export function useFindMessageRequest(messageId: number, initialData?: IMessage)
         initialData,
         queryKey: [QueryName.FIND_MESSAGE, messageId],
         async queryFn() {
-            const { id: userId } = await getUser();
+            const user = await getUser({ required: false });
             const data = await findMessageRequest({ messageId });
 
-            return messageSchema.parseAsync(transformMessage(data, userId));
+            return messageSchema.parseAsync(transformMessage(data, user ? user.id : null));
         },
         staleTime: initialData ? Infinity : undefined,
         onError(error) {

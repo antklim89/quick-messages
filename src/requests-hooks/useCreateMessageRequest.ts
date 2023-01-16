@@ -1,21 +1,19 @@
 import { useToast } from '@chakra-ui/react';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { useUser } from './useUser';
 import { createMessageRequest } from '~/requests';
 import { messageSchema } from '~/schemas';
 import { IEditMessageInput, IMessage } from '~/types';
-import { transformMessage } from '~/utils';
+import { getUser, transformMessage } from '~/utils';
 
 
 export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }) {
     const queryClient = useQueryClient();
-    const { getUserId } = useUser();
     const toast = useToast();
 
     return useMutation<IMessage, Error, { values: IEditMessageInput; }>({
         async mutationFn({ values }) {
-            const userId = getUserId();
+            const { id: userId } = await getUser();
 
             const newMessage = await createMessageRequest(values, answerToId);
 
