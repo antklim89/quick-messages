@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests-hooks';
-import { getRoute } from '~/utils';
 
 
 const HeaderAuth: FC = () => {
@@ -14,7 +13,7 @@ const HeaderAuth: FC = () => {
         <>
             <MenuItem
                 as={Link}
-                to={getRoute('profile', {})}
+                to="/profile"
             >
                 PROFILE
             </MenuItem>

@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { FaComment } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { IMessage } from '~/types';
-import { getRoute } from '~/utils';
 
 
 const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
@@ -13,7 +12,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
             as={Link}
             data-cy="message-answer-button"
             flex="1 1 100%"
-            to={getRoute('message', { messageId: id })}
+            to={`message/${id}`}
             variant="ghost"
         >
             <>

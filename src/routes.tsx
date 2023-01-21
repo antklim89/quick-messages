@@ -1,24 +1,26 @@
-import MessagesList from './layouts/MessagesList';
-import Profile from './layouts/Profile';
+import { createBrowserRouter } from 'react-router-dom';
+import App from './App';
+import MessagesList from '~/layouts/MessagesList';
+import Profile from '~/layouts/Profile';
 
 
-export const routes = {
-    home: {
-        element: (
-            <MessagesList />
-        ),
+export const router = createBrowserRouter([
+    {
         path: '/',
+        element: <App />,
+        children: [
+            {
+                element: <MessagesList />,
+                index: true,
+            },
+            {
+                element: <MessagesList />,
+                path: 'message/:messageId',
+            },
+            {
+                element: <Profile />,
+                path: 'profile',
+            },
+        ],
     },
-    message: {
-        element: (
-            <MessagesList />
-        ),
-        path: '/message/:messageId',
-    },
-    profile: {
-        element: (
-            <Profile />
-        ),
-        path: '/profile',
-    },
-} as const;
+]);

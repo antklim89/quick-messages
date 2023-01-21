@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
-import { getRoute } from '~/utils';
 
 
 const Header: FC = () => {
@@ -16,7 +15,7 @@ const Header: FC = () => {
                     as={Link}
                     color="primary.800"
                     fontSize="2xl"
-                    to={getRoute('home', {})}
+                    to="/"
                 >
                     Quick Messages
                 </Text>
