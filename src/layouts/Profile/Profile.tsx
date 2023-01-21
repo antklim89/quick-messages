@@ -1,58 +1,30 @@
-import {
-    Card,
-    CardBody,
-    Container,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
-} from '@chakra-ui/react';
-import { FC, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import ProfileInfo from '~/layouts/ProfileInfo';
+import { Box, Button, Card, Container } from '@chakra-ui/react';
+import { FC } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 
 
 const Profile: FC = () => {
-    const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
-
-    const handleNavigate = useCallback((index: number): void => {
-        navigate(`?tab=${index}`);
-    }, []);
-
-
     return (
         <Container my={8}>
-            <Tabs
-                isLazy
-                defaultIndex={Number(searchParams.get('tab') || 0)}
+            <Box
                 display="flex"
                 flexDirection={['column', 'column', 'row']}
-                variant="solid-rounded"
-                onChange={handleNavigate}
+                gap={4}
             >
-                <TabList
+                <Box
                     display="flex"
                     flexDirection={['row', 'row', 'column']}
-                    mb={2}
+                    gap={4}
                     minWidth="200px"
-                    mr={2}
+                    sx={{ '& a.active': { bgColor: 'primary.800' } }}
                 >
-                    <Tab>Info</Tab>
-                    <Tab>Change Email</Tab>
-                </TabList>
-                <Card width="100%">
-                    <TabPanels as={CardBody}>
-                        <TabPanel>
-                            <ProfileInfo />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Change Email</p>
-                        </TabPanel>
-                    </TabPanels>
+                    <Button as={NavLink} to="info" >Info</Button>
+                    <Button as={NavLink} to="change-email" >Change Email</Button>
+                </Box>
+                <Card p={4} width="100%">
+                    <Outlet />
                 </Card>
-            </Tabs>
+            </Box>
         </Container>
     );
 };
