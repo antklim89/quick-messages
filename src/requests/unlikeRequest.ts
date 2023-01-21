@@ -7,11 +7,12 @@ export async function unlikeRequest({ messageId }: {messageId: number}) {
 
     const { error } = await supabase
         .from('likes')
-        .insert({ message: messageId, user: userId });
-
+        .delete()
+        .eq('message', messageId)
+        .eq('user', userId);
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to unlike message. Try again later.');
+        if (error) throw new Error('Failed to like message. Try again later.');
     }
 }

@@ -6,7 +6,7 @@ import { IMessage } from '~/types';
 
 
 const MessageLikeButton: FC<IMessage> = ({ id: messageId, hasLiked, likesCount }) => {
-    const { isLoading, mutate } = useLikeRequest({ messageId: messageId });
+    const { isLoading, mutate } = useLikeRequest({ messageId });
 
     const handleLike = useCallback(() => {
         mutate({ hasLiked });

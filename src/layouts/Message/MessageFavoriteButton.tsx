@@ -10,7 +10,7 @@ const MessageFavoriteButton: FC<IMessage> = ({ favoritesCount, inFavorites, id }
 
     const handleFavorites = useCallback(() => {
         mutate({ inFavorites });
-    }, []);
+    }, [inFavorites]);
 
     return (
         <IconButton
