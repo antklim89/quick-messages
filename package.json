@@ -9,9 +9,7 @@
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "typegen": "supabase gen types typescript --local > ./src/supabase/types-generated.ts",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.13",
@@ -44,8 +42,6 @@
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "@vitejs/plugin-react": "^3.0.0",
-    "cypress": "^12.0.2",
-    "cypress-vite": "^1.2.1",
     "eslint": "^8.29.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
