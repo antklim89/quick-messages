@@ -2,7 +2,13 @@ import { MESSAGES_LIMIT } from './constants';
 import supabase from '~/supabase/app';
 
 
-export async function findMessagesRequest({ answerToId, lastId }: {lastId?: number, answerToId?: number}) {
+interface FindMessagesArguments {
+    lastId?: number;
+    answerToId?: number;
+    authorId?: string;
+}
+
+export async function findMessagesRequest({ answerToId, lastId, authorId }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
         .select('*, author(*), messages(count), likes(user), favorites(user)')
@@ -10,6 +16,7 @@ export async function findMessagesRequest({ answerToId, lastId }: {lastId?: numb
         .order('createdAt', { ascending: false });
 
     if (lastId) supabaseQuery.lt('id', lastId);
+    if (authorId) supabaseQuery.eq('author', authorId);
 
     if (answerToId) supabaseQuery.eq('answerTo', answerToId);
     else supabaseQuery.is('answerTo', null);
