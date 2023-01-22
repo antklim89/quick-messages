@@ -13,9 +13,10 @@ const ResetPassword: FC = () => {
                 autoComplete="email"
                 formik={formik}
                 name="email"
+                placeholder="Enter the e-mail where to send the recovery letter"
             />
             <Flex justify="flex-end">
-                <Button type="submit">Confirm</Button>
+                <Button type="submit">Reset</Button>
             </Flex>
         </form>
     );
