@@ -11,3 +11,4 @@ export * from './removeFavoriteRequest';
 export * from './unlikeRequest';
 export * from './updateMessageRequest';
 export * from './updateProfile';
+export * from './resetPasswordRequest';

@@ -1,31 +1,27 @@
+import { User } from '@supabase/supabase-js';
 import { useQuery } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 
 
 export function useUser() {
-    const { data: userId } = useQuery<string | null, Error>({
+    const { data: { id, email } = {} } = useQuery<User | {id: null, email: null}>({
         queryKey: [QueryName.GET_USER],
         async queryFn() {
             const { data, error } = await supabase.auth.getSession();
-            if (error || !data.session?.user) return null;
+            if (error || !data.session?.user) return { id: null, email: null };
 
-            const { id } = data.session.user;
-
-            return id;
+            return data.session.user;
         },
-        onSuccess(id) {
-            if (id) localStorage.setItem(QueryName.GET_USER, id);
-        },
-        placeholderData: () => localStorage.getItem(QueryName.GET_USER),
     });
 
     return {
-        id: userId,
-        isAuth: Boolean(userId),
+        id,
+        email,
+        isAuth: Boolean(id),
         getUserId() {
-            if (!userId) throw new Error('You are not authenticated.');
-            return userId;
+            if (!id) throw new Error('You are not authenticated.');
+            return id;
         },
     };
 }

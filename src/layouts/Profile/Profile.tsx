@@ -19,7 +19,7 @@ const Profile: FC = () => {
                     sx={{ '& a.active': { bgColor: 'primary.800' } }}
                 >
                     <Button as={NavLink} to="info" >Info</Button>
-                    <Button as={NavLink} to="change-email" >Change Email</Button>
+                    <Button as={NavLink} to="reset-password" >Reset Password</Button>
                 </Box>
                 <Card p={4} width="100%">
                     <Outlet />
