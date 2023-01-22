@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { ProtectedProps } from './Protected.types';
-import ProtectedNotFound from './ProtectedNotFound';
+import NotFound from '~/components/NotFound';
 import { useUser } from '~/requests-hooks';
 
 
@@ -8,7 +8,7 @@ const Protected: FC<ProtectedProps> = ({
     children,
     protectIfAuth = false,
     disableProtection = false,
-    protectedComponent = <ProtectedNotFound />,
+    protectedComponent = <NotFound />,
 }) => {
     const { isAuth } = useUser();
 

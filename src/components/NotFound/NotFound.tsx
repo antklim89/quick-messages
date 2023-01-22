@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 
 
-const ProtectedNotFound: FC = () => {
+const NotFound: FC = () => {
     return (
         <Flex
             justifyContent="center"
@@ -17,4 +17,5 @@ const ProtectedNotFound: FC = () => {
     );
 };
 
-export default ProtectedNotFound;
+export default NotFound;
+

@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
+import NotFound from './components/NotFound';
 import Protected from './components/Protected';
 import ProfileInfo from './layouts/ProfileInfo';
 import ResetPassword from './layouts/ResetPassword';
@@ -11,6 +12,7 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
+        errorElement: <NotFound />,
         children: [
             {
                 element: <MessagesList />,
