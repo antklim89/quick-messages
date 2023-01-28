@@ -15,13 +15,15 @@ import { useFindMessagesRequest } from '~/requests-hooks';
 const MessagesList: FC = () => {
     const params = useParams();
     const answerToId = z.coerce.number().optional().parse(params.messageId);
+    const authorId = z.coerce.string().optional().parse(params.userId);
+
     const {
         isLoading,
         isFetching,
         isFetchingNextPage,
         fetchNextPage,
         data: { pages } = { pages: [] },
-    } = useFindMessagesRequest({ answerToId });
+    } = useFindMessagesRequest({ answerToId, authorId });
 
     useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
@@ -29,7 +31,7 @@ const MessagesList: FC = () => {
         <Container my={8} p={2}>
             {answerToId ? <Message id={answerToId} /> : null}
 
-            <MessageListCreateNew isLoading={isLoading} />
+            {authorId ? null : <MessageListCreateNew isLoading={isLoading} /> }
 
             {isLoading
                 ? times(10, (i) => (

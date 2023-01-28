@@ -12,7 +12,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
             as={Link}
             data-cy="message-answer-button"
             flex="1 1 100%"
-            to={`message/${id}`}
+            to={`/message/${id}`}
             variant="ghost"
         >
             <>
