@@ -20,6 +20,7 @@ const Profile: FC = () => {
                 >
                     <Button as={NavLink} to="info" >Info</Button>
                     <Button as={NavLink} to="reset-password" >Reset Password</Button>
+                    <Button as={NavLink} to="my-messages" >My Messages</Button>
                 </Box>
                 <Card p={4} width="100%">
                     <Outlet />

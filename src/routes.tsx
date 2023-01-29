@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import NotFound from './components/NotFound';
 import Protected from './components/Protected';
+import MyMessages from './layouts/MyMessages';
 import ProfileInfo from './layouts/ProfileInfo';
 import ResetPassword from './layouts/ResetPassword';
 import MessagesList from '~/layouts/MessagesList';
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
                     {
                         path: 'reset-password',
                         element: <ResetPassword />,
+                    },
+                    {
+                        path: 'my-messages',
+                        element: <MyMessages />,
                     },
                 ],
             },
