@@ -12,7 +12,6 @@ export async function createMessageRequest(values: { body: string; }, answerToId
             author: userId,
             answerTo: answerToId,
         })
-        .select('*, author(*), messages(count), likes(user), favorites(user)')
         .single();
 
     if (error) {

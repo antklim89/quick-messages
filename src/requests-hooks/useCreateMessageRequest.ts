@@ -1,32 +1,22 @@
 import { useToast } from '@chakra-ui/react';
-import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import { createMessageRequest } from '~/requests';
-import { messageSchema } from '~/schemas';
 import { IEditMessageInput, IMessage } from '~/types';
-import { getUser, transformMessage } from '~/utils';
 
 
 export function useCreateMessageRequest({ answerToId }: { answerToId?: number }) {
     const queryClient = useQueryClient();
     const toast = useToast();
 
-    return useMutation<IMessage, Error, { values: IEditMessageInput; }>({
+    return useMutation<void, Error, { values: IEditMessageInput; }>({
         async mutationFn({ values }) {
-            const { id: userId } = await getUser();
-
-            const newMessage = await createMessageRequest(values, answerToId);
-
-            return messageSchema.parseAsync(transformMessage(newMessage, userId));
+            await createMessageRequest(values, answerToId);
         },
-        async onSuccess(newMessage) {
-            await queryClient.setQueryData<InfiniteData<IMessage[]>>(
-                [QueryName.FIND_MESSAGES, answerToId, undefined],
-                (oldMessages) => ({
-                    pageParams: oldMessages ? [answerToId, ...oldMessages.pageParams] : [answerToId],
-                    pages: oldMessages ? [[newMessage], ...oldMessages.pages] : [[newMessage]],
-                }),
-            );
+        async onSuccess() {
+            await queryClient.invalidateQueries({
+                predicate: ({ queryKey }) => queryKey[0] === QueryName.FIND_MESSAGES,
+            });
 
             await queryClient.setQueryData<IMessage>(
                 [QueryName.FIND_MESSAGE, answerToId, undefined],
