@@ -7,7 +7,7 @@ import { IEditMessageInput, IMessage } from '~/types';
 import { getUser, transformMessage } from '~/utils';
 
 
-export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }) {
+export function useCreateMessageRequest({ answerToId }: { answerToId?: number }) {
     const queryClient = useQueryClient();
     const toast = useToast();
 
@@ -21,7 +21,7 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
         },
         async onSuccess(newMessage) {
             await queryClient.setQueryData<InfiniteData<IMessage[]>>(
-                [QueryName.FIND_MESSAGES, answerToId],
+                [QueryName.FIND_MESSAGES, answerToId, undefined],
                 (oldMessages) => ({
                     pageParams: oldMessages ? [answerToId, ...oldMessages.pageParams] : [answerToId],
                     pages: oldMessages ? [[newMessage], ...oldMessages.pages] : [[newMessage]],
@@ -29,7 +29,7 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number; }
             );
 
             await queryClient.setQueryData<IMessage>(
-                [QueryName.FIND_MESSAGE, answerToId],
+                [QueryName.FIND_MESSAGE, answerToId, undefined],
                 (oldMessage) => (oldMessage && ({ ...oldMessage, messagesCount: oldMessage.messagesCount + 1 })),
             );
 
