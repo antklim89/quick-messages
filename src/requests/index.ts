@@ -12,3 +12,4 @@ export * from './unlikeRequest';
 export * from './updateMessageRequest';
 export * from './updateProfile';
 export * from './resetPasswordRequest';
+export * from './deleteMessageRequest';

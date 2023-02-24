@@ -11,3 +11,4 @@ export * from './useLikeRequest';
 export * from './useFindProfie';
 export * from './useUpdateProfie';
 export * from './useResetPassword';
+export * from './useDeleteMessageRequest';
