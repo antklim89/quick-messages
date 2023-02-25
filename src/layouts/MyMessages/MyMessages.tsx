@@ -2,6 +2,7 @@ import { Container } from '@chakra-ui/react';
 import { last, times } from 'lodash';
 import { FC, Fragment } from 'react';
 import MyMessagesItem from './MyMessagesItem';
+import MyMessagesSkeleton from './MyMessagesSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import { MESSAGES_LIMIT } from '~/requests';
 import { useFindMessagesRequest, useUser } from '~/requests-hooks';
@@ -23,7 +24,7 @@ const MyMessages: FC = () => {
         <Container my={8} p={2}>
             {isLoading
                 ? times(10, (i) => (
-                    <div key={i}>message</div>
+                    <MyMessagesSkeleton key={i} />
                 ))
                 : pages.map((messagePages) => (
                     <Fragment key={messagePages[0]?.id || 0}>
@@ -34,7 +35,7 @@ const MyMessages: FC = () => {
                 ))}
             {isFetchingNextPage
                 ? times(10, (i) => (
-                    <div key={i}>Loading...</div>
+                    <MyMessagesSkeleton key={i} />
                 ))
                 : null}
         </Container>

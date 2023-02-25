@@ -10,9 +10,7 @@ import { IMessage } from '~/types';
 
 
 const MyMessagesItem: FC<IMessage> = (message) => {
-    const {
-        id, body, createdAt, author,
-    } = message;
+    const { id, body, createdAt, author } = message;
     const { id: userId } = useUser();
     const { mutate, isLoading } = useDeleteMessageRequest({ messageId: id });
 
