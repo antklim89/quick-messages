@@ -4,8 +4,8 @@ import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
 import MessageFavoriteButton from './MessageFavoriteButton';
 import MessageHeader from './MessageHeader';
-import MessageLikeButton from './MessageLikeButton';
 import MessageMenu from './MessageMenu';
+import MessageLikeButton from '~/components/MessageLikeButton';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useFindMessageRequest } from '~/requests-hooks';
 
