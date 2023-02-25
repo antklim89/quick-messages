@@ -3,5 +3,6 @@ export const QueryName = {
     FIND_MESSAGE: 'FIND_MESSAGE',
     GET_USER: 'GET_USER',
     PROFILE: 'PROFILE',
+    LIKES: 'LIKES',
 } as const;
 
