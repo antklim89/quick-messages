@@ -1,19 +1,18 @@
-import {
-    Box, IconButton, Divider, HStack, Text, VStack,
-} from '@chakra-ui/react';
+import { IconButton, Divider, HStack, Text, VStack } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
-import { FaBookmark, FaHeart, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '~/components/ConfirmDialog';
-import { useUser, useDeleteMessageRequest, useLikeRequest } from '~/requests-hooks';
+import MessageFavoriteButton from '~/components/MessageFavoriteButton';
+import MessageLikeButton from '~/components/MessageLikeButton';
+import { useUser, useDeleteMessageRequest } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MyMessagesItem: FC<IMessage> = (message) => {
     const {
-        id, body, favoritesCount, createdAt, author,
+        id, body, createdAt, author,
     } = message;
-    const { data: { likesCount } } = useLikeRequest(message);
     const { id: userId } = useUser();
     const { mutate, isLoading } = useDeleteMessageRequest({ messageId: id });
 
@@ -56,20 +55,8 @@ const MyMessagesItem: FC<IMessage> = (message) => {
                     </ConfirmDialog>
 
                     <VStack>
-                        <Box
-                            alignItems="center"
-                            color="red"
-                            display="flex"
-                        >
-                            <FaHeart />&nbsp;{likesCount}
-                        </Box>
-                        <Box
-                            alignItems="center"
-                            color="orange"
-                            display="flex"
-                        >
-                            <FaBookmark />&nbsp;{favoritesCount}
-                        </Box>
+                        <MessageLikeButton {...message} />
+                        <MessageFavoriteButton {...message} />
                     </VStack>
                 </HStack>
             </HStack>

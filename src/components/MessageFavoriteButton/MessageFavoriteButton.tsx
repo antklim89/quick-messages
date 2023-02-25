@@ -5,12 +5,12 @@ import { useFavoriteRequest } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
-const MessageFavoriteButton: FC<IMessage> = ({ favoritesCount, inFavorites, id }) => {
-    const { mutate, isLoading } = useFavoriteRequest({ messageId: id });
+const MessageFavoriteButton: FC<IMessage> = (message) => {
+    const { mutate, isLoading, data: { favoritesCount, inFavorites } } = useFavoriteRequest(message);
 
     const handleFavorites = useCallback(() => {
-        mutate({ inFavorites });
-    }, [inFavorites]);
+        mutate();
+    }, []);
 
     return (
         <IconButton

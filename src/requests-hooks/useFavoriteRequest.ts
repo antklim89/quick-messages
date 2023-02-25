@@ -1,26 +1,36 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import { addFavoriteRequest, removeFavoriteRequest } from '~/requests';
 import { IMessage } from '~/types';
 
 
-export function useFavoriteRequest({ messageId }: {messageId: number}) {
+type Favorites = Pick<IMessage, 'favoritesCount' | 'inFavorites'>
+
+export function useFavoriteRequest({
+    id: messageId,
+    inFavorites: initialInFavorites,
+    favoritesCount: initialFavoritesCount,
+}: Pick<IMessage, 'id' | 'favoritesCount' | 'inFavorites'>) {
     const toast = useToast();
     const queryClient = useQueryClient();
 
-    return useMutation<void, Error, {inFavorites: boolean}>({
-        async mutationFn({ inFavorites }) {
-            if (inFavorites) await removeFavoriteRequest({ messageId });
+    const { data = { inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount } } = useQuery<Favorites>({
+        queryFn: () => ({ inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount }),
+        queryKey: [QueryName.FAVORITES, messageId],
+    });
+
+    const mutation = useMutation<void, Error, void>({
+        async mutationFn() {
+            if (data.inFavorites) await removeFavoriteRequest({ messageId });
             else await addFavoriteRequest({ messageId });
         },
         async onSuccess() {
-            await queryClient.setQueryData<IMessage>(
-                [QueryName.FIND_MESSAGE, messageId],
-                (oldMsg) => (oldMsg && ({
-                    ...oldMsg,
-                    inFavorites: !oldMsg.inFavorites,
-                    favoritesCount: oldMsg.inFavorites ? oldMsg.favoritesCount - 1 : oldMsg.favoritesCount + 1,
+            await queryClient.setQueryData<Favorites>(
+                [QueryName.FAVORITES, messageId],
+                (oldFavs) => (oldFavs && ({
+                    inFavorites: !oldFavs.inFavorites,
+                    favoritesCount: oldFavs.inFavorites ? oldFavs.favoritesCount - 1 : oldFavs.favoritesCount + 1,
                 })),
             );
         },
@@ -28,4 +38,5 @@ export function useFavoriteRequest({ messageId }: {messageId: number}) {
             toast({ title: error.message, status: 'error' });
         },
     });
+    return { ...mutation, data };
 }
