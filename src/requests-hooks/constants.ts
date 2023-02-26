@@ -5,5 +5,6 @@ export const QueryName = {
     PROFILE: 'PROFILE',
     LIKES: 'LIKES',
     FAVORITES: 'FAVORITES',
+    MY_FAVORITES: 'MY_FAVORITES',
 } as const;
 
