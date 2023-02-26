@@ -2,10 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import { Database } from './types-generated';
 
 
-if (!Cypress) {
-    throw new Error('Only for test.');
-}
-
 const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL || (() => {
     throw new Error('VITE_SUPABASE_URL env is required');
 })();
