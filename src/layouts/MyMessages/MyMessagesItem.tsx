@@ -53,8 +53,8 @@ const MyMessagesItem: FC<IMessage> = (message) => {
                     </ConfirmDialog>
 
                     <VStack>
-                        <MessageLikeButton {...message} />
-                        <MessageFavoriteButton {...message} />
+                        <MessageLikeButton message={message} />
+                        <MessageFavoriteButton message={message} />
                     </VStack>
                 </HStack>
             </HStack>

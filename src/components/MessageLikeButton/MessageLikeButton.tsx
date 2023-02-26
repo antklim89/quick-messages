@@ -1,11 +1,11 @@
 import { IconButton, Text } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import { MessageLikeButtonProps } from './MessageLikeButtonProps';
 import { useLikeRequest } from '~/requests-hooks';
-import { IMessage } from '~/types';
 
 
-const MessageLikeButton: FC<IMessage> = (message) => {
+const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) => {
     const { isLoading, mutate, data: { hasLiked, likesCount } } = useLikeRequest(message);
 
     const handleLike = useCallback(() => {
@@ -14,6 +14,7 @@ const MessageLikeButton: FC<IMessage> = (message) => {
 
     return (
         <IconButton
+            {...props}
             aria-label="like"
             color={hasLiked ? 'red.600' : 'primary.600'}
             data-cy="message-like-button"

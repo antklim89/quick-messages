@@ -26,8 +26,8 @@ const MyFavoritesItem: FC<IMessage> = (message) => {
                 </VStack>
                 <HStack gap={6} p={4}>
                     <VStack>
-                        <MessageLikeButton {...message} />
-                        <MessageFavoriteButton {...message} />
+                        <MessageLikeButton message={message} />
+                        <MessageFavoriteButton message={message} />
                     </VStack>
                 </HStack>
             </HStack>
