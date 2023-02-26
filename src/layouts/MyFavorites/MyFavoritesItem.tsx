@@ -1,12 +1,15 @@
 import { Divider, HStack, Link, Text, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
+import DateComponent from '~/components/DateComponent';
 import MessageFavoriteButton from '~/components/MessageFavoriteButton';
 import MessageLikeButton from '~/components/MessageLikeButton';
+import { useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MyFavoritesItem: FC<IMessage> = (message) => {
-    const { id, body, createdAt } = message;
+    const { id, body, createdAt, author } = message;
+    const { id: userId } = useUser();
 
     return (
         <>
@@ -17,10 +20,9 @@ const MyFavoritesItem: FC<IMessage> = (message) => {
                     to={`/message/${id}`}
                     width="100%"
                 >
-                    <Text fontSize="sm">
-                        {new Date(createdAt).toLocaleString()}
-                    </Text>
-                    <Text mr="auto">
+                    <DateComponent date={createdAt} fontSize="sm" />
+                    <Text fontSize="sm">{author.id === userId ? null : `by ${author.name}`}</Text>
+                    <Text fontSize="xl" mr="auto">
                         {body}
                     </Text>
                 </VStack>

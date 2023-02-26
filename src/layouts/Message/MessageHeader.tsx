@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import DateComponent from '~/components/DateComponent';
 import { useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
@@ -22,12 +23,11 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
             >
                 {author.id === userId ? 'me' : author.name}
             </Text>
-            <Text
+            <DateComponent
+                date={createdAt}
                 fontSize={['xs', 'sm']}
                 mr={4}
-            >
-                {new Date(createdAt).toLocaleString()}
-            </Text>
+            />
         </Flex>
     );
 };

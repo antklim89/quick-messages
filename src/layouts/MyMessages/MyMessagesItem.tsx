@@ -3,15 +3,15 @@ import { FC, useCallback } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '~/components/ConfirmDialog';
+import DateComponent from '~/components/DateComponent';
 import MessageFavoriteButton from '~/components/MessageFavoriteButton';
 import MessageLikeButton from '~/components/MessageLikeButton';
-import { useUser, useDeleteMessageRequest } from '~/requests-hooks';
+import { useDeleteMessageRequest } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MyMessagesItem: FC<IMessage> = (message) => {
-    const { id, body, createdAt, author } = message;
-    const { id: userId } = useUser();
+    const { id, body, createdAt } = message;
     const { mutate, isLoading } = useDeleteMessageRequest({ messageId: id });
 
     const handleDeleteMessage = useCallback(() => mutate(), []);
@@ -25,11 +25,8 @@ const MyMessagesItem: FC<IMessage> = (message) => {
                     to={`/message/${id}`}
                     width="100%"
                 >
-                    <Text fontSize="sm">
-                        {new Date(createdAt).toLocaleString()}
-                        {author.id === userId ? null : `by ${author.name}`}
-                    </Text>
-                    <Text mr="auto">
+                    <DateComponent date={createdAt} fontSize="sm" />
+                    <Text fontSize="xl" mr="auto">
                         {body}
                     </Text>
                 </VStack>
