@@ -21,6 +21,7 @@ const Profile: FC = () => {
                     <Button as={NavLink} to="info" >Info</Button>
                     <Button as={NavLink} to="reset-password" >Reset Password</Button>
                     <Button as={NavLink} to="my-messages" >My Messages</Button>
+                    <Button as={NavLink} to="my-favorites" >My Favorites</Button>
                 </Box>
                 <Card p={4} width="100%">
                     <Outlet />

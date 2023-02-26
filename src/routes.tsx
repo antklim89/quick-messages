@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import NotFound from './components/NotFound';
 import Protected from './components/Protected';
+import MyFavorites from './layouts/MyFavorites';
 import MyMessages from './layouts/MyMessages';
 import ProfileInfo from './layouts/ProfileInfo';
 import ResetPassword from './layouts/ResetPassword';
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
                     {
                         path: 'my-messages',
                         element: <MyMessages />,
+                    },
+                    {
+                        path: 'my-favorites',
+                        element: <MyFavorites />,
                     },
                 ],
             },
