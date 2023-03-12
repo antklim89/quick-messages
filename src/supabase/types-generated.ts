@@ -9,78 +9,113 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      favorites: {
+      _prisma_migrations: {
         Row: {
-          id: number
-          user: string
-          message: number | null
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
         }
         Insert: {
-          id?: number
-          user: string
-          message?: number | null
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
         }
         Update: {
-          id?: number
-          user?: string
-          message?: number | null
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+      }
+      favorites: {
+        Row: {
+          id: string
+          messageId: number
+          userId: string
+        }
+        Insert: {
+          id: string
+          messageId: number
+          userId: string
+        }
+        Update: {
+          id?: string
+          messageId?: number
+          userId?: string
         }
       }
       likes: {
         Row: {
-          id: number
-          user: string
-          message: number
+          id: string
+          messageId: number
+          userId: string
         }
         Insert: {
-          id?: number
-          user: string
-          message: number
+          id: string
+          messageId: number
+          userId: string
         }
         Update: {
-          id?: number
-          user?: string
-          message?: number
+          id?: string
+          messageId?: number
+          userId?: string
         }
       }
       messages: {
         Row: {
+          answerToId: number | null
+          authorId: string
+          body: string
+          createdAt: string
           id: number
-          createdAt: string | null
-          body: string | null
-          author: string
-          answerTo: number | null
+          updatedAt: string
         }
         Insert: {
+          answerToId?: number | null
+          authorId: string
+          body: string
+          createdAt?: string
           id?: number
-          createdAt?: string | null
-          body?: string | null
-          author: string
-          answerTo?: number | null
+          updatedAt: string
         }
         Update: {
+          answerToId?: number | null
+          authorId?: string
+          body?: string
+          createdAt?: string
           id?: number
-          createdAt?: string | null
-          body?: string | null
-          author?: string
-          answerTo?: number | null
+          updatedAt?: string
         }
       }
       profiles: {
         Row: {
+          bio: string
           id: string
           name: string
-          bio: string
         }
         Insert: {
+          bio: string
           id: string
-          name?: string
-          bio?: string
+          name: string
         }
         Update: {
+          bio?: string
           id?: string
           name?: string
-          bio?: string
         }
       }
     }
@@ -88,40 +123,16 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      has_liked:
-        | {
-            Args: { user_id: string }
-            Returns: number
-          }
-        | {
-            Args: { user_id: string }
-            Returns: number
-          }
-        | {
-            Args: { user_id: number }
-            Returns: number
-          }
-      has_liked2: {
-        Args: { user_id: number }
-        Returns: boolean
-      }
-      is_liked:
-        | {
-            Args: { user_id: number }
-            Returns: boolean
-          }
-        | {
-            Args: { user_id: string }
-            Returns: boolean
-          }
-      xxx: {
-        Args: { user_id: number }
+      install_available_extensions_and_test: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
       }
     }
     Enums: {
       [_ in never]: never
     }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
 }
-

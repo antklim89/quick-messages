@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String     @id @default(uuid())
+  name      String
+  bio       String
+  messages  Message[]
+  likes     Like[]
+  favorites Favorite[]
+
+  @@map("profiles")
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  body      String
+
+  author   Profile @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  answerTo   Message?  @relation(name: "messages", fields: [answerToId], references: [id], onDelete: SetNull)
+  answerToId Int?
+  answers    Message[] @relation(name: "messages")
+
+  likes     Like[]
+  favorites Favorite[]
+
+  @@map("messages")
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  user   Profile @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId String
+
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId Int
+
+  @@unique([messageId, userId])
+  @@index([messageId, userId])
+  @@map("likes")
+}
+
+model Favorite {
+  id String @id @default(uuid())
+
+  user   Profile @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId String
+
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId Int
+
+  @@unique([messageId, userId])
+  @@index([messageId, userId])
+  @@map("favorites")
+}
