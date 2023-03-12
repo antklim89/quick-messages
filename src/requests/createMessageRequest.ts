@@ -9,8 +9,8 @@ export async function createMessageRequest(values: { body: string; }, answerToId
         .from('messages')
         .insert({
             ...values,
-            author: userId,
-            answerTo: answerToId,
+            authorId: userId,
+            answerToId,
         })
         .single();
 

@@ -7,17 +7,18 @@ type DatabaseMessage = ({
     }[] | null;
 } & {
     likes: {
-        user: string;
+        userId: string;
     } | {
-        user: string;
+        userId: string;
     }[] | null;
 } & {
     favorites: {
-        user: string;
+        userId: string;
     } | {
-        user: string;
+        userId: string;
     }[] | null;
 }) | null
+
 
 export function transformMessage(message: DatabaseMessage, userId?: string | null) {
     if (!message) return null;
@@ -27,8 +28,8 @@ export function transformMessage(message: DatabaseMessage, userId?: string | nul
         ...rest,
         messagesCount: Array.isArray(messages) ? messages[0]?.count : messages?.count,
         likesCount: Array.isArray(likes) ? likes.length : 0,
-        hasLiked: Array.isArray(likes) ? (likes.findIndex((i) => i.user === userId) >= 0) : false,
+        hasLiked: Array.isArray(likes) ? (likes.findIndex((i) => i.userId === userId) >= 0) : false,
         favoritesCount: Array.isArray(favorites) ? favorites.length : 0,
-        inFavorites: Array.isArray(favorites) ? (favorites.findIndex((i) => i.user === userId) >= 0) : false,
+        inFavorites: Array.isArray(favorites) ? (favorites.findIndex((i) => i.userId === userId) >= 0) : false,
     };
 }

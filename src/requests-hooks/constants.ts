@@ -8,3 +8,4 @@ export const QueryName = {
     MY_FAVORITES: 'MY_FAVORITES',
 } as const;
 
+export const MESSAGES_LIMIT = 10;
