@@ -1,8 +1,20 @@
 import { useToast } from '@chakra-ui/react';
 import { User } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { register } from '~/requests';
-import { IAuthInput } from '~/types';
+import supabase from '~/supabase/app';
+import type { IAuthInput } from '~/types';
+
+
+export async function register(values: IAuthInput) {
+    const { data, error } = await supabase.auth.signUp(values);
+
+    if (error || !data.user) {
+        console.error(error);
+        throw new Error('Failed to register. Try again later.');
+    }
+
+    return data.user;
+}
 
 
 export function useRegisterRequest() {

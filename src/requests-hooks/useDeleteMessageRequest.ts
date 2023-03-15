@@ -1,8 +1,28 @@
 import { useToast } from '@chakra-ui/react';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { deleteMessageRequest } from '~/requests/deleteMessageRequest';
+import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
+import { getUser } from '~/utils';
+
+
+export async function deleteMessageRequest(messageId: number) {
+    const { id: userId } = await getUser();
+
+    const { error, data } = await supabase
+        .from('messages')
+        .delete()
+        .eq('id', messageId)
+        .eq('authorId', userId)
+        .single();
+
+    if (error) {
+        console.error(error.message);
+        throw new Error('Failed to delete message. Try again later.');
+    }
+
+    return data;
+}
 
 
 export function useDeleteMessageRequest({ messageId }: { messageId: number }) {

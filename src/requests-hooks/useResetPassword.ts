@@ -1,6 +1,19 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { resetPasswordRequest } from '~/requests';
+import supabase from '~/supabase/app';
+
+
+export async function resetPasswordRequest({ email }: {email: string}) {
+
+    const { error } = await supabase
+        .auth
+        .resetPasswordForEmail(email);
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to add favorite message. Try again later.');
+    }
+}
 
 
 export function useResetPassword() {

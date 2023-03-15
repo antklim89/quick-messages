@@ -8,8 +8,7 @@ import MessageListCreateNew from './MessageListCreateNew';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
-import { MESSAGES_LIMIT } from '~/requests';
-import { useFindMessagesRequest } from '~/requests-hooks';
+import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests-hooks';
 
 
 const MessagesList: FC = () => {

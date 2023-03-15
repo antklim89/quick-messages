@@ -53,7 +53,7 @@ export function useFindMessagesRequest({ answerToId, authorId }: { answerToId?: 
             return lastPage.slice().pop()?.id;
         },
         onError(error) {
-            toast({ title: error.message, status: 'success' });
+            toast({ title: error.message, status: 'error' });
         },
     });
 }

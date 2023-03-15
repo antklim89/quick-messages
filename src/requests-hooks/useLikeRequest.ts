@@ -1,8 +1,39 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { likeRequest, unlikeRequest } from '~/requests';
+import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
+import { getUser } from '~/utils';
+
+
+export async function likeRequest({ messageId }: {messageId: number}) {
+    const { id: userId } = await getUser({ errorMessage: 'Login to like message' });
+
+    const { error } = await supabase
+        .from('likes')
+        .insert({ messageId, userId });
+
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to unlike message. Try again later.');
+    }
+}
+
+export async function unlikeRequest({ messageId }: {messageId: number}) {
+    const { id: userId } = await getUser({ errorMessage: 'Login to like message' });
+
+    const { error } = await supabase
+        .from('likes')
+        .delete()
+        .eq('message', messageId)
+        .eq('user', userId);
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to like message. Try again later.');
+    }
+}
 
 
 interface Likes {

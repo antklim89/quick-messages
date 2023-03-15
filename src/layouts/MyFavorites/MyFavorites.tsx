@@ -5,8 +5,7 @@ import { FC, Fragment } from 'react';
 import MyFavoritesItem from './MyFavoritesItem';
 import MyFavoritesSkeleton from './MyFavoritesSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
-import { MESSAGES_LIMIT } from '~/requests';
-import { useFindMyFavoritesRequest } from '~/requests-hooks';
+import { MESSAGES_LIMIT, useFindMyFavoritesRequest } from '~/requests-hooks';
 
 
 const MyFavorites: FC = () => {

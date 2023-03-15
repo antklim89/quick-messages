@@ -1,10 +1,27 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { findMessageRequest } from '~/requests';
 import { messageSchema } from '~/schemas';
+import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
+
+
+export async function findMessageRequest({ messageId }: {messageId: number}) {
+    const { data, error } = await supabase
+        .from('messages')
+        .select('*, authorId(*), messages(count), likes(userId), favorites(userId)')
+        .eq('id', messageId)
+        .single();
+
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to load message. Try again later.');
+    }
+
+    return data;
+}
 
 
 export function useFindMessageRequest(messageId: number, initialData?: IMessage) {

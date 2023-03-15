@@ -1,8 +1,31 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { createMessageRequest } from '~/requests';
+import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types';
+import { getUser } from '~/utils';
+
+
+export async function createMessageRequest(values: { body: string; }, answerToId: number | undefined) {
+    const { id: userId } = await getUser();
+
+    const { error, data } = await supabase
+        .from('messages')
+        .insert({
+            ...values,
+            authorId: userId,
+            answerToId,
+            updatedAt: new Date().toISOString(),
+        })
+        .single();
+
+    if (error) {
+        console.error(error.message);
+        throw new Error('Failed to add new message. Try again later.');
+    }
+
+    return data;
+}
 
 
 export function useCreateMessageRequest({ answerToId }: { answerToId?: number }) {

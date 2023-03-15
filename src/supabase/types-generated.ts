@@ -43,34 +43,28 @@ export interface Database {
       }
       favorites: {
         Row: {
-          id: string
           messageId: number
           userId: string
         }
         Insert: {
-          id: string
           messageId: number
           userId: string
         }
         Update: {
-          id?: string
           messageId?: number
           userId?: string
         }
       }
       likes: {
         Row: {
-          id: string
           messageId: number
           userId: string
         }
         Insert: {
-          id: string
           messageId: number
           userId: string
         }
         Update: {
-          id?: string
           messageId?: number
           userId?: string
         }
@@ -108,9 +102,9 @@ export interface Database {
           name: string
         }
         Insert: {
-          bio: string
+          bio?: string
           id: string
-          name: string
+          name?: string
         }
         Update: {
           bio?: string

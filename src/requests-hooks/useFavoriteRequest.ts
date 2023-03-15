@@ -1,11 +1,43 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { addFavoriteRequest, removeFavoriteRequest } from '~/requests';
+import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
+import { getUser } from '~/utils';
 
 
 type Favorites = Pick<IMessage, 'favoritesCount' | 'inFavorites'>
+
+
+export async function addFavoriteRequest({ messageId }: {messageId: number}) {
+    const { id: userId } = await getUser({ errorMessage: 'Login to add favorite message' });
+
+    const { error } = await supabase
+        .from('favorites')
+        .insert({ messageId, userId });
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to add favorite message. Try again later.');
+    }
+}
+
+
+export async function removeFavoriteRequest({ messageId }: {messageId: number}) {
+    const { id: userId } = await getUser();
+
+    const { error } = await supabase
+        .from('favorites')
+        .delete()
+        .eq('messageId', messageId)
+        .eq('userId', userId);
+
+    if (error) {
+        console.error(error.message);
+        if (error) throw new Error('Failed to remove favorite message. Try again later.');
+    }
+}
+
 
 export function useFavoriteRequest({
     id: messageId,
