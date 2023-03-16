@@ -19,7 +19,7 @@ export async function findMessagesRequest({ answerToId, lastId, authorId }: Find
         .from('messages')
         .select('*, author:authorId(*), messages(count), likes(userId), favorites(userId)')
         .range(0, MESSAGES_LIMIT - 1)
-        .order('createdAt', { ascending: false });
+        .order('id', { ascending: false });
 
     if (lastId) supabaseQuery.lt('id', lastId);
     if (authorId) supabaseQuery.eq('authorId', authorId);
