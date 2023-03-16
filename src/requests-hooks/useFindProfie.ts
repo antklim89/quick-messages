@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import { ZodError } from 'zod';
 import { QueryName } from './constants';
 import { profileSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -38,7 +39,8 @@ export function useFindProfie() {
             return profileSchema.parse(data);
         },
         onError(error) {
-            toast({ title: error.message, status: 'error' });
+            if (error instanceof ZodError) toast({ title: 'Unexpected server error. Try again later.', status: 'error' });
+            else toast({ title: error.message, status: 'error' });
         },
     });
 }
