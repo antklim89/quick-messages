@@ -22,11 +22,10 @@ type DatabaseMessage = ({
 
 export function transformMessage(message: DatabaseMessage, userId?: string | null) {
     if (!message) return null;
-    const { likes, favorites, messages, authorId, ...rest } = message;
+    const { likes, favorites, messages, ...rest } = message;
 
     return {
         ...rest,
-        author: authorId,
         messagesCount: Array.isArray(messages) ? messages[0]?.count : messages?.count,
         likesCount: Array.isArray(likes) ? likes.length : 0,
         hasLiked: Array.isArray(likes) ? (likes.findIndex((i) => i.userId === userId) >= 0) : false,

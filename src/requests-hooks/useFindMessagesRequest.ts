@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ZodError } from 'zod';
 import { QueryName, MESSAGES_LIMIT } from './constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -16,7 +17,7 @@ interface FindMessagesArguments {
 export async function findMessagesRequest({ answerToId, lastId, authorId }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, authorId(*), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(*), messages(count), likes(userId), favorites(userId)')
         .range(0, MESSAGES_LIMIT - 1)
         .order('createdAt', { ascending: false });
 
@@ -27,7 +28,6 @@ export async function findMessagesRequest({ answerToId, lastId, authorId }: Find
     else supabaseQuery.is('answerToId', null);
 
     const { data, error } = await supabaseQuery;
-
 
     if (error) {
         console.error(error.message);
@@ -53,7 +53,8 @@ export function useFindMessagesRequest({ answerToId, authorId }: { answerToId?: 
             return lastPage.slice().pop()?.id;
         },
         onError(error) {
-            toast({ title: error.message, status: 'error' });
+            if (error instanceof ZodError) toast({ title: 'Unexpected server error. Try again later.', status: 'error' });
+            else toast({ title: error.message, status: 'error' });
         },
     });
 }
