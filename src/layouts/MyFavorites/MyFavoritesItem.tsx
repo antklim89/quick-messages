@@ -13,7 +13,7 @@ const MyFavoritesItem: FC<IMessage> = (message) => {
 
     return (
         <>
-            <HStack>
+            <VStack mt={4}>
                 <VStack
                     alignItems="flex-start"
                     as={Link}
@@ -26,13 +26,11 @@ const MyFavoritesItem: FC<IMessage> = (message) => {
                         {body}
                     </Text>
                 </VStack>
-                <HStack gap={6} p={4}>
-                    <VStack>
-                        <MessageLikeButton message={message} />
-                        <MessageFavoriteButton message={message} />
-                    </VStack>
+                <HStack gap={2} justifyContent="space-around" width="100%">
+                    <MessageLikeButton message={message} />
+                    <MessageFavoriteButton message={message} />
                 </HStack>
-            </HStack>
+            </VStack>
             <Divider />
         </>
     );

@@ -19,7 +19,6 @@ const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...pro
             color={inFavorites ? 'orange.700' : 'primary.600'}
             data-cy="message-favorite-button"
             disabled={isLoading}
-            flex="1 1 100%"
             variant="ghost"
             onClick={handleFavorites}
         >

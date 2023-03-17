@@ -3,7 +3,7 @@ import last from 'lodash/last';
 import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import MyFavoritesItem from './MyFavoritesItem';
-import MyFavoritesSkeleton from './MyFavoritesSkeleton';
+import MyMessageSkeleton from '~/components/MyMessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import { MESSAGES_LIMIT, useFindMyFavoritesRequest } from '~/requests-hooks';
 
@@ -23,7 +23,7 @@ const MyFavorites: FC = () => {
         <Box my={8} p={2}>
             {isLoading
                 ? times(10, (i) => (
-                    <MyFavoritesSkeleton key={i} />
+                    <MyMessageSkeleton key={i} />
                 ))
                 : pages.map((messagePages) => (
                     <Fragment key={messagePages[0]?.id || 0}>
@@ -34,7 +34,7 @@ const MyFavorites: FC = () => {
                 ))}
             {isFetchingNextPage
                 ? times(10, (i) => (
-                    <MyFavoritesSkeleton key={i} />
+                    <MyMessageSkeleton key={i} />
                 ))
                 : null}
         </Box>

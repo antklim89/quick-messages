@@ -18,7 +18,7 @@ const MyMessagesItem: FC<IMessage> = (message) => {
 
     return (
         <>
-            <HStack>
+            <VStack mt={4}>
                 <VStack
                     alignItems="flex-start"
                     as={Link}
@@ -30,7 +30,8 @@ const MyMessagesItem: FC<IMessage> = (message) => {
                         {body}
                     </Text>
                 </VStack>
-                <HStack gap={6} p={4}>
+
+                <HStack gap={2} justifyContent="space-between" width="100%">
                     <ConfirmDialog
                         isLoading={isLoading}
                         message="Are you sure you want to delete message!"
@@ -48,13 +49,10 @@ const MyMessagesItem: FC<IMessage> = (message) => {
                             </IconButton>
                         )}
                     </ConfirmDialog>
-
-                    <VStack>
-                        <MessageLikeButton message={message} />
-                        <MessageFavoriteButton message={message} />
-                    </VStack>
+                    <MessageFavoriteButton message={message} />
+                    <MessageLikeButton message={message} />
                 </HStack>
-            </HStack>
+            </VStack>
             <Divider />
         </>
     );
