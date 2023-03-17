@@ -11,7 +11,6 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
             aria-label={`show ${messagesCount} message answers`}
             as={Link}
             data-cy="message-answer-button"
-            flex="1 1 100%"
             to={`/message/${id}`}
             variant="ghost"
         >

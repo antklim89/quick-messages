@@ -32,7 +32,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
             <Text my={4} p={4} whiteSpace="pre-line">
                 {message.body}
             </Text>
-            <Flex>
+            <Flex justifyContent="space-around" sx={{ '&>*': { flex: '1 1 0' } }}>
                 <MessageFavoriteButton message={message} />
                 <MessageLikeButton message={message} />
                 <MessageAnswerButton {...message} />
