@@ -10,18 +10,20 @@ const Profile: FC = () => {
         <Container my={8}>
             <Box
                 display="flex"
-                flexDirection={['column', 'column', 'row']}
+                flexDirection={{ base: 'column', md: 'row' }}
                 gap={2}
             >
                 <SimpleGrid
-                    gap={{ base: 2, md: 0 }}
+                    alignSelf="flex-start"
+                    gap={2}
                     sx={{ '& a.active': { bgColor: 'primary.800' } }}
                     templateColumns={{ base: 'repeat(2, 1fr)', md: '1fr' }}
+                    width={{ base: '100%', md: 'auto' }}
                 >
-                    <Button as={NavLink} to="info" >Info</Button>
-                    <Button as={NavLink} to="reset-password">Reset Password</Button>
-                    <Button as={NavLink} to="my-messages">Messages</Button>
-                    <Button as={NavLink} to="my-favorites">Favorites</Button>
+                    <Button as={NavLink} px={12} to="info" >Info</Button>
+                    <Button as={NavLink} px={12} to="reset-password">Reset Password</Button>
+                    <Button as={NavLink} px={12} to="my-messages">Messages</Button>
+                    <Button as={NavLink} px={12} to="my-favorites">Favorites</Button>
                 </SimpleGrid>
                 <Card p={4} width="100%">
                     <Outlet />
