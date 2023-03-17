@@ -65,6 +65,7 @@ export function useFavoriteRequest({
                     favoritesCount: oldFavs.inFavorites ? oldFavs.favoritesCount - 1 : oldFavs.favoritesCount + 1,
                 })),
             );
+            await queryClient.invalidateQueries([QueryName.MY_FAVORITES]);
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });
