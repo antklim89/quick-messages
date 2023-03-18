@@ -21,6 +21,7 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
             borderColor="primary.600"
             borderRadius="lg"
             boxShadow="md"
+            mb={4}
         >
             <AccordionItem border="none">
                 <Skeleton isLoaded={!isLoading}>

@@ -1,5 +1,5 @@
 import {
-    Box, Button, Card, Container, SimpleGrid,
+    Box, Button, Container, SimpleGrid,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
@@ -25,9 +25,9 @@ const Profile: FC = () => {
                     <Button as={NavLink} px={12} to="my-messages">Messages</Button>
                     <Button as={NavLink} px={12} to="my-favorites">Favorites</Button>
                 </SimpleGrid>
-                <Card p={4} width="100%">
+                <Box width="100%">
                     <Outlet />
-                </Card>
+                </Box>
             </Box>
         </Container>
     );

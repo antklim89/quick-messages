@@ -23,7 +23,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
             boxShadow="md"
             data-cy="message"
             flexDirection="column"
-            my={4}
+            mb={4}
         >
             <Flex alignItems="center" p={4} >
                 <MessageHeader {...message} />
