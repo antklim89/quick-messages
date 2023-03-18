@@ -1,11 +1,10 @@
-import { Flex, Button } from '@chakra-ui/react';
-import { FC, KeyboardEventHandler, useCallback } from 'react';
+import { Flex, Button, Textarea } from '@chakra-ui/react';
+import { forwardRef, ForwardRefRenderFunction, KeyboardEventHandler, useCallback } from 'react';
 import { useEditMessageFormFormik } from './EditMessageForm.formik';
 import { EditMessageFormProps } from './EditMessageForm.types';
-import InputField from '~/components/InputField';
 
 
-const EditMessageForm: FC<EditMessageFormProps> = (props) => {
+const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessageFormProps> = (props, ref) => {
     const formik = useEditMessageFormFormik(props);
 
     const handleCtrlEnterPress: KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e) => {
@@ -17,13 +16,15 @@ const EditMessageForm: FC<EditMessageFormProps> = (props) => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <InputField
+            <Textarea
                 as="textarea"
-                data-cy="message-body-input"
-                formik={formik}
+                mb={4}
                 name="body"
                 placeholder="Enter your message..."
+                ref={ref}
                 resize="none"
+                value={formik.values.body}
+                onChange={formik.handleChange}
                 onKeyDown={handleCtrlEnterPress}
             />
             <Flex justifyContent="end">
@@ -40,6 +41,6 @@ const EditMessageForm: FC<EditMessageFormProps> = (props) => {
     );
 };
 
-export default EditMessageForm;
+export default forwardRef(EditMessageForm);
 
 
