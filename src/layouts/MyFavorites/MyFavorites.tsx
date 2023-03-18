@@ -2,9 +2,9 @@ import { Box } from '@chakra-ui/react';
 import last from 'lodash/last';
 import times from 'lodash/times';
 import { FC, Fragment } from 'react';
-import MyFavoritesItem from './MyFavoritesItem';
-import MyMessageSkeleton from '~/components/MyMessageSkeleton';
+import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
+import Message from '~/layouts/Message';
 import { MESSAGES_LIMIT, useFindMyFavoritesRequest } from '~/requests-hooks';
 
 
@@ -20,21 +20,21 @@ const MyFavorites: FC = () => {
     useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
-        <Box my={8} p={2}>
+        <Box>
             {isLoading
                 ? times(10, (i) => (
-                    <MyMessageSkeleton key={i} />
+                    <MessageSkeleton key={i} />
                 ))
                 : pages.map((messagePages) => (
                     <Fragment key={messagePages[0]?.id || 0}>
                         {messagePages.map((message) => (
-                            <MyFavoritesItem key={message.id} {...message} />
+                            <Message id={message.id} key={message.id} message={message} />
                         ))}
                     </Fragment>
                 ))}
             {isFetchingNextPage
                 ? times(10, (i) => (
-                    <MyMessageSkeleton key={i} />
+                    <MessageSkeleton key={i} />
                 ))
                 : null}
         </Box>
