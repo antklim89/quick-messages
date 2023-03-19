@@ -8,8 +8,8 @@ datasource db {
 }
 
 model Profile {
-  id        String     @id @default(uuid())
-  name      String     @default("anon")
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String     @default("anon") @db.VarChar(255)
   bio       String     @default("")
   messages  Message[]
   likes     Like[]
@@ -25,7 +25,7 @@ model Message {
   body      String
 
   author   Profile @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId String
+  authorId String  @db.Uuid
 
   answerTo   Message?  @relation(name: "messages", fields: [answerToId], references: [id], onDelete: SetNull)
   answerToId Int?
@@ -39,7 +39,7 @@ model Message {
 
 model Like {
   user   Profile @relation(fields: [userId], references: [id], onDelete: NoAction)
-  userId String
+  userId String  @db.Uuid
 
   message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   messageId Int
@@ -51,7 +51,7 @@ model Like {
 
 model Favorite {
   user   Profile @relation(fields: [userId], references: [id], onDelete: NoAction)
-  userId String
+  userId String  @db.Uuid
 
   message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   messageId Int

@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "profiles" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "bio" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "name" VARCHAR(255) NOT NULL DEFAULT 'anon',
+    "bio" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "profiles_pkey" PRIMARY KEY ("id")
 );
@@ -13,7 +13,7 @@ CREATE TABLE "messages" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "body" TEXT NOT NULL,
-    "authorId" TEXT NOT NULL,
+    "authorId" UUID NOT NULL,
     "answerToId" INTEGER,
 
     CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
@@ -21,24 +21,24 @@ CREATE TABLE "messages" (
 
 -- CreateTable
 CREATE TABLE "likes" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "messageId" INTEGER NOT NULL,
-
-    CONSTRAINT "likes_pkey" PRIMARY KEY ("id")
+    "userId" UUID NOT NULL,
+    "messageId" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "favorites" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "messageId" INTEGER NOT NULL,
-
-    CONSTRAINT "favorites_pkey" PRIMARY KEY ("id")
+    "userId" UUID NOT NULL,
+    "messageId" INTEGER NOT NULL
 );
 
 -- CreateIndex
+CREATE INDEX "likes_messageId_userId_idx" ON "likes"("messageId", "userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "likes_messageId_userId_key" ON "likes"("messageId", "userId");
+
+-- CreateIndex
+CREATE INDEX "favorites_messageId_userId_idx" ON "favorites"("messageId", "userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "favorites_messageId_userId_key" ON "favorites"("messageId", "userId");
@@ -50,13 +50,13 @@ ALTER TABLE "messages" ADD CONSTRAINT "messages_authorId_fkey" FOREIGN KEY ("aut
 ALTER TABLE "messages" ADD CONSTRAINT "messages_answerToId_fkey" FOREIGN KEY ("answerToId") REFERENCES "messages"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "likes" ADD CONSTRAINT "likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "profiles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "likes" ADD CONSTRAINT "likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "likes" ADD CONSTRAINT "likes_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "messages"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "favorites" ADD CONSTRAINT "favorites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "profiles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "favorites" ADD CONSTRAINT "favorites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "profiles"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "favorites" ADD CONSTRAINT "favorites_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "messages"("id") ON DELETE CASCADE ON UPDATE CASCADE;
