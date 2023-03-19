@@ -1,9 +1,9 @@
-import { Menu, MenuButton, IconButton, MenuList, MenuItem } from '@chakra-ui/react';
-import { FC } from 'react';
+import { Menu, MenuButton, IconButton, MenuList } from '@chakra-ui/react';
+import { FC, ReactNode } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 
 
-const MessageMenu: FC = () => {
+const MessageMenu: FC<{children: ReactNode}> = ({ children }) => {
     return (
         <Menu>
             <MenuButton
@@ -13,9 +13,7 @@ const MessageMenu: FC = () => {
                 variant="ghost"
             />
             <MenuList>
-                <MenuItem>
-                    Report
-                </MenuItem>
+                {children}
             </MenuList>
         </Menu>
     );

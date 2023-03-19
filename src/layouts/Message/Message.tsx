@@ -1,5 +1,6 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, MenuItem, Text } from '@chakra-ui/react';
 import { FC } from 'react';
+import DeleteMessageMenuItem from './DeleteMessageMenuItem';
 import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
 import MessageHeader from './MessageHeader';
@@ -27,7 +28,12 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
         >
             <Flex alignItems="center" p={4} >
                 <MessageHeader {...message} />
-                <MessageMenu />
+                <MessageMenu>
+                    <MenuItem>
+                        Report
+                    </MenuItem>
+                    <DeleteMessageMenuItem authorId={message.author.id} messageId={message.id} />
+                </MessageMenu>
             </Flex>
             <Text my={4} p={4} whiteSpace="pre-line">
                 {message.body}
