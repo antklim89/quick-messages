@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { User } from '@supabase/supabase-js';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import supabase from '~/supabase/app';
 import type { IAuthInput } from '~/types';
 
@@ -19,15 +19,14 @@ export async function register(values: IAuthInput) {
 
 export function useRegisterRequest() {
     const toast = useToast();
-    const queryClient = useQueryClient();
 
     return useMutation<User, Error, IAuthInput>({
         async mutationFn(values) {
             return register(values);
         },
         async onSuccess() {
-            await queryClient.invalidateQueries();
             toast({ title: 'You have successfully registred!', status: 'success' });
+            window.location.reload();
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

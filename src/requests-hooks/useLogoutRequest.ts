@@ -1,10 +1,9 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import supabase from '~/supabase/app';
 
 
 export function useLogoutRequest() {
-    const queryClient = useQueryClient();
     const toast = useToast();
 
     return useMutation<unknown, Error, unknown>({
@@ -12,7 +11,8 @@ export function useLogoutRequest() {
             await supabase.auth.signOut();
         },
         async onSuccess() {
-            await queryClient.invalidateQueries();
+            toast({ title: 'You have successfully log out!', status: 'success' });
+            window.location.reload();
         },
         onError() {
             toast({ title: 'Failed to logout. Try again later.', status: 'error' });
