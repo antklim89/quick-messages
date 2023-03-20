@@ -42,7 +42,7 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number })
             });
 
             await queryClient.setQueryData<IMessage>(
-                [QueryName.FIND_MESSAGE, answerToId, undefined],
+                [QueryName.FIND_MESSAGE, answerToId],
                 (oldMessage) => (oldMessage && ({ ...oldMessage, messagesCount: oldMessage.messagesCount + 1 })),
             );
 
