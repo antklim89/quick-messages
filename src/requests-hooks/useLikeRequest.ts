@@ -1,6 +1,5 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
@@ -51,14 +50,10 @@ export function useLikeRequest({
 
     const queryClient = useQueryClient();
 
-    const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount }, refetch } = useQuery<Likes>({
+    const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount } } = useQuery<Likes>({
         queryFn: () => ({ hasLiked: initialHasLiked, likesCount: initialLikesCount }),
         queryKey: [QueryName.LIKES, messageId],
     });
-
-    useEffect(() => {
-        if ((initialHasLiked !== data.hasLiked) || (initialLikesCount !== data.likesCount)) refetch();
-    }, [initialHasLiked, initialLikesCount]);
 
     const mutation = useMutation<void, Error, void>({
         async mutationFn() {

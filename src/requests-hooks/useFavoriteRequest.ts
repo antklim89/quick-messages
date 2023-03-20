@@ -1,6 +1,5 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
@@ -48,17 +47,11 @@ export function useFavoriteRequest({
     const toast = useToast();
     const queryClient = useQueryClient();
 
-    const {
-        data = { inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount },
-        refetch,
-    } = useQuery<Favorites>({
+    const { data = { inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount } } = useQuery<Favorites>({
         queryFn: () => ({ inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount }),
         queryKey: [QueryName.FAVORITES, messageId],
     });
 
-    useEffect(() => {
-        if ((initialInFavorites !== data.inFavorites) || (initialFavoritesCount !== data.favoritesCount)) refetch();
-    }, [initialInFavorites, initialFavoritesCount]);
 
     const mutation = useMutation<void, Error, void>({
         async mutationFn() {
