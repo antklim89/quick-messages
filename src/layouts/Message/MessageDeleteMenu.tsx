@@ -4,7 +4,7 @@ import ConfirmDialog from '~/components/ConfirmDialog';
 import { useDeleteMessageRequest, useUser } from '~/requests-hooks';
 
 
-const DeleteMessageMenuItem: FC<{authorId: string, messageId: number}> = ({ authorId, messageId }) => {
+const MessageDeleteMenu: FC<{authorId: string, messageId: number}> = ({ authorId, messageId }) => {
     const { id } = useUser();
     const { mutate, isLoading } = useDeleteMessageRequest({ messageId });
     const handleDeleteMessage = useCallback(() => mutate(), []);
@@ -26,4 +26,4 @@ const DeleteMessageMenuItem: FC<{authorId: string, messageId: number}> = ({ auth
     );
 };
 
-export default DeleteMessageMenuItem;
+export default MessageDeleteMenu;
