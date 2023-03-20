@@ -5,39 +5,39 @@ import _ from 'lodash';
 
 
 const prisma = new PrismaClient();
-const MESSAGES = 2;
+const MESSAGES = 5;
 
 async function generateMessages(users) {
-    const data = [];
+    const messages = [];
     for (let index = 0; index < MESSAGES; index += 1) {
         const author = _.sample(users);
         if (!author) break;
-        data.push({
+        messages.push({
             body: faker.lorem.sentences(_.random(3, 5)),
             authorId: author.id,
         });
     }
-    await prisma.message.createMany({ data });
-    return prisma.message.findMany();
+    return prisma.$transaction(messages.map((data) => prisma.message.create({ data })));
 }
 
 async function generateAnswers(users, answers) {
-    const data = [];
+    const messages = [];
     for (const answer of answers) {
-        const author = _.sample(users);
-        if (!author) break;
-        console.log(answer);
-        data.push({
-            body: faker.lorem.sentences(_.random(3, 5)),
-            authorId: author.id,
-            answerToId: answer.id,
-        });
+        for (let index = 0; index < MESSAGES; index += 1) {
+            const author = _.sample(users);
+            if (!author) break;
+            messages.push({
+                body: faker.lorem.sentences(_.random(3, 5)),
+                authorId: author.id,
+                answerToId: answer.id,
+            });
+        }
     }
-    await prisma.message.createMany({ data });
-    return prisma.message.findMany();
+    return prisma.$transaction(messages.map((data) => prisma.message.create({ data })));
 }
 
-async function generateLikesAndFavorites(users, messages) {
+async function generateLikesAndFavorites(users) {
+    const messages = await prisma.message.findMany();
     const likes = [];
     const favorites = [];
     for (const message of messages) {
@@ -66,10 +66,10 @@ async function generateLikesAndFavorites(users, messages) {
     await prisma.message.deleteMany({});
 
     const users = await prisma.profile.findMany();
-    const messages = await generateMessages(users);
-    console.log('===\n ~ messages:', messages);
-    // const answers = await generateAnswers(users, messages);
-    // console.log('===\n ~ answers:', answers);
 
-    // await generateLikesAndFavorites(users, messages);
+    const messages = await generateMessages(users);
+    const answers1 = await generateAnswers(users, messages);
+    await generateAnswers(users, answers1);
+
+    await generateLikesAndFavorites(users);
 })();
