@@ -5,6 +5,7 @@ import MessageAnswerButton from './MessageAnswerButton';
 import MessageDeleteMenu from './MessageDeleteMenu';
 import MessageHeader from './MessageHeader';
 import MessageMenu from './MessageMenu';
+import MessageUpdateMenu from './MessageUpdateMenu';
 import MessageFavoriteButton from '~/components/MessageFavoriteButton';
 import MessageLikeButton from '~/components/MessageLikeButton';
 import MessageSkeleton from '~/components/MessageSkeleton';
@@ -33,6 +34,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
                         Report
                     </MenuItem>
                     <MessageDeleteMenu authorId={message.author.id} messageId={message.id} />
+                    <MessageUpdateMenu {...message} />
                 </MessageMenu>
             </Flex>
             <Text my={4} p={4} whiteSpace="pre-line">
