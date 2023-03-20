@@ -29,12 +29,11 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
             />
             <Flex justifyContent="end">
                 <Button
-                    data-cy="submit-message-button"
                     disabled={!formik.isValid}
                     isLoading={formik.isSubmitting}
                     type="submit"
                 >
-                    Send
+                    Confirm
                 </Button>
             </Flex>
         </form>
