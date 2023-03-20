@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
@@ -7,7 +8,7 @@ import { getUser } from '~/utils';
 
 
 export async function likeRequest({ messageId }: {messageId: number}) {
-    const { id: userId } = await getUser({ errorMessage: 'Login to like message' });
+    const { id: userId } = await getUser({ errorMessage: 'Log in to like message' });
 
     const { error } = await supabase
         .from('likes')
@@ -21,13 +22,13 @@ export async function likeRequest({ messageId }: {messageId: number}) {
 }
 
 export async function unlikeRequest({ messageId }: {messageId: number}) {
-    const { id: userId } = await getUser({ errorMessage: 'Login to like message' });
+    const { id: userId } = await getUser({ errorMessage: 'Log in to unlike message' });
 
     const { error } = await supabase
         .from('likes')
         .delete()
-        .eq('message', messageId)
-        .eq('user', userId);
+        .eq('messageId', messageId)
+        .eq('userId', userId);
 
     if (error) {
         console.error(error.message);
@@ -50,18 +51,22 @@ export function useLikeRequest({
 
     const queryClient = useQueryClient();
 
-    const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount } } = useQuery<Likes>({
+    const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount }, refetch } = useQuery<Likes>({
         queryFn: () => ({ hasLiked: initialHasLiked, likesCount: initialLikesCount }),
         queryKey: [QueryName.LIKES, messageId],
     });
 
+    useEffect(() => {
+        if ((initialHasLiked !== data.hasLiked) || (initialLikesCount !== data.likesCount)) refetch();
+    }, [initialHasLiked, initialLikesCount]);
+
     const mutation = useMutation<void, Error, void>({
         async mutationFn() {
-            if (data.hasLiked) unlikeRequest({ messageId });
-            else likeRequest({ messageId });
+            if (data.hasLiked) await unlikeRequest({ messageId });
+            else await likeRequest({ messageId });
         },
         async onSuccess() {
-            queryClient.setQueryData<Likes>(
+            await queryClient.setQueryData<Likes>(
                 [QueryName.LIKES, messageId],
                 (oldLikes) => oldLikes && ({
                     hasLiked: !oldLikes.hasLiked,
