@@ -6,12 +6,12 @@ import { editMessageSchema } from '~/schemas';
 import { IEditMessageInput } from '~/types';
 
 
-export function useEditMessageFormFormik({ message, id, answerToId }: EditMessageFormProps) {
+export function useEditMessageFormFormik({ messageBody, id, answerToId, onSuccess }: EditMessageFormProps) {
     const { mutateAsync: createMessage } = useCreateMessageRequest({ answerToId });
     const { mutateAsync: updateMessage } = useUpdateMessageRequest({ answerToId });
 
     const initialValues = useMemo(() => ({
-        body: message?.body || '',
+        body: messageBody || '',
     }), []);
 
     const formik = useFormik<IEditMessageInput>({
@@ -23,6 +23,7 @@ export function useEditMessageFormFormik({ message, id, answerToId }: EditMessag
                 await createMessage({ values });
                 resetForm();
             }
+            onSuccess?.();
         },
         async validate(values) {
             const result = await editMessageSchema.safeParseAsync(values);

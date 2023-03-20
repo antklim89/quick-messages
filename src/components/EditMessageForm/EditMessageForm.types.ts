@@ -1,10 +1,9 @@
-import { IEditMessageInput } from '~/types';
-
 
 export interface EditMessageFormProps {
-    message?: IEditMessageInput
+    messageBody?: string
     id?: number
     answerToId?: number
+    onSuccess?: () => void
 }
 
 
