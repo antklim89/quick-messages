@@ -12,20 +12,20 @@ const MessageAuthor: FC<MessageAuthorProps> = ({ authorId }) => {
 
     if (!data) return null;
     return (
-        <Card>
-            <CardHeader alignItems="center" display="flex">
+        <Card mb={4}>
+            <CardHeader>
                 <Avatar
-                    h="128px"
+                    h="96px"
                     mr={8}
                     name={data.name}
                     src={avatarSrc || undefined}
-                    w="128px"
+                    w="96px"
                 />
-                <Heading size="md">{data.name}</Heading>
+                <Heading>{data.name}</Heading>
             </CardHeader>
 
             <CardBody>
-                <Text>
+                <Text whiteSpace="pre-line">
                     {data.bio}
                 </Text>
             </CardBody>

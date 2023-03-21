@@ -1,4 +1,5 @@
-import { extendTheme, Theme, ThemeOverride } from '@chakra-ui/react';
+import { cardAnatomy } from '@chakra-ui/anatomy';
+import { extendTheme, Theme, ThemeOverride, createMultiStyleConfigHelpers } from '@chakra-ui/react';
 
 
 const customTheme: ThemeOverride<Theme> = {
@@ -31,6 +32,21 @@ const customTheme: ThemeOverride<Theme> = {
                 colorScheme: 'primary',
             },
         },
+        Card: createMultiStyleConfigHelpers(cardAnatomy.keys)
+            .defineMultiStyleConfig({
+                baseStyle: {
+                    container: {
+                        borderColor: 'primary.600',
+                        borderRadius: 'lg',
+                        borderWidth: 'thin',
+                        boxShadow: 'md',
+                    },
+                    header: {
+                        alignItems: 'center',
+                        display: 'flex',
+                    },
+                },
+            }),
     },
 };
 
