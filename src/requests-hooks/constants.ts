@@ -6,6 +6,7 @@ export const QueryName = {
     LIKES: 'LIKES',
     FAVORITES: 'FAVORITES',
     MY_FAVORITES: 'MY_FAVORITES',
+    AVATAR_DOWNLOAD: 'AVATAR_DOWNLOAD',
 } as const;
 
 export const MESSAGES_LIMIT = 10;
