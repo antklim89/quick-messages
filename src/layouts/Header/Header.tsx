@@ -1,13 +1,16 @@
 import {
-    Box, Text, Container, IconButton, Menu, MenuButton, MenuList,
+    Box, Text, Container, IconButton, Menu, MenuButton, MenuList, Avatar,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
+import { useUser, useAvatarDownload } from '~/requests-hooks';
 
 
 const Header: FC = () => {
+    const { id } = useUser();
+    const { data: avatarSrc } = useAvatarDownload({ authorId: id });
+
     return (
         <Box as="header" shadow="md" >
             <Container alignItems="center" display="flex" maxWidth="container.xl">
@@ -26,7 +29,7 @@ const Header: FC = () => {
                         aria-label="main-menu"
                         as={IconButton}
                         data-cy="header-main-menu"
-                        icon={<FaUser />}
+                        icon={<Avatar h="100%" src={avatarSrc || undefined} w="100%" />}
                         variant="ghost"
                     />
                     <MenuList>
