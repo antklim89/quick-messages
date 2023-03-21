@@ -1,14 +1,15 @@
-import { Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
+import { Avatar, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { FC } from 'react';
 import { FaUserCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DateComponent from '~/components/DateComponent';
-import { useUser } from '~/requests-hooks';
+import { useAvatarDownload, useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
     const { id: userId } = useUser();
+    const { data: src } = useAvatarDownload({ authorId: author.id });
 
     return (
         <Flex
@@ -17,20 +18,27 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
             justify="space-between"
             width="100%"
         >
-            <Text
-                as={Link}
-                fontSize={['xl', '2xl']}
-                to={`/user/${author.id}`}
-            >
-                {author.id === userId
-                    ? (
-                        <Tooltip title="This is your message" >
-                            <Icon as={FaUserCheck} color="green" fontSize="xs" />
-                        </Tooltip>
-                    )
-                    : null}
-                {author.name}
-            </Text>
+            <Flex alignItems="center" mb={2}>
+                <Avatar
+                    mr={4}
+                    name={author.name}
+                    src={src ? src : undefined}
+                />
+                <Text
+                    as={Link}
+                    fontSize={['xl', '2xl']}
+                    to={`/user/${author.id}`}
+                >
+                    {author.id === userId
+                        ? (
+                            <Tooltip title="This is your message" >
+                                <Icon as={FaUserCheck} color="green" fontSize="xs" />
+                            </Tooltip>
+                        )
+                        : null}
+                    {author.name}
+                </Text>
+            </Flex>
             <DateComponent
                 date={createdAt}
                 fontSize={['xs', 'sm']}

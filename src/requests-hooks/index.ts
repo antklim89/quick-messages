@@ -13,4 +13,6 @@ export * from './useUpdateProfie';
 export * from './useResetPassword';
 export * from './useDeleteMessageRequest';
 export * from './useFindMyFavoritesRequest';
+export * from './useAvatarUpload';
+export * from './useAvatarDownload';
 export * from './constants';
