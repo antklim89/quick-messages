@@ -34,7 +34,6 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
                 <Skeleton isLoaded={!isLoading}>
                     <AccordionButton
                         as={Button}
-                        data-cy="message-list-add-new-message"
                         justifyContent="center"
                         variant="ghost"
                     >

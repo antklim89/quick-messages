@@ -28,7 +28,6 @@ const Header: FC = () => {
                     <MenuButton
                         aria-label="main-menu"
                         as={IconButton}
-                        data-cy="header-main-menu"
                         icon={<Avatar h="38px" src={avatarSrc || undefined} w="38px" />}
                         m={1}
                         variant="ghost"

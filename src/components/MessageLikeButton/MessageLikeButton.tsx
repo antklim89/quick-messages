@@ -17,7 +17,6 @@ const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) =>
             {...props}
             aria-label="like"
             color={hasLiked ? 'red.600' : 'primary.600'}
-            data-cy="message-like-button"
             isDisabled={isLoading}
             variant="ghost"
             onClick={handleLike}

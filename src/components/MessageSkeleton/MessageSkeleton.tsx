@@ -9,7 +9,6 @@ const MessageSkeleton: FC = () => {
             borderColor="primary.600"
             borderRadius="lg"
             boxShadow="md"
-            data-cy="message"
             flexDirection="column"
             my={4}
         >

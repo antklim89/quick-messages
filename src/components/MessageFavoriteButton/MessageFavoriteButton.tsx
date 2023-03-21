@@ -17,7 +17,6 @@ const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...pro
             {...props}
             aria-label="favorites"
             color={inFavorites ? 'orange.700' : 'primary.600'}
-            data-cy="message-favorite-button"
             disabled={isLoading}
             variant="ghost"
             onClick={handleFavorites}

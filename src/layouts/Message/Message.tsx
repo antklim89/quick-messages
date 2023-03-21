@@ -24,7 +24,6 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
             borderRadius="lg"
             borderWidth={isMain ? 'medium' : 'thin'}
             boxShadow={isMain ? 'lg' : 'md'}
-            data-cy="message"
             flexDirection="column"
             mb={4}
         >
