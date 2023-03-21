@@ -1,5 +1,6 @@
-import { MenuItem } from '@chakra-ui/react';
+import { Divider, Icon, MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests-hooks';
@@ -11,17 +12,21 @@ const HeaderAuth: FC = () => {
 
     if (isAuth) return (
         <>
-            <MenuItem
-                as={Link}
-                to="/profile"
-            >
+            <MenuItem as={Link} to="/profile/info">
                 PROFILE
             </MenuItem>
-            <MenuItem
-                isDisabled={isLoading}
-                onClick={handleLogout}
-            >
-                LOGOUT
+            <MenuItem as={Link} to="/profile/reset-password">
+                RESET PASSWORD
+            </MenuItem>
+            <MenuItem as={Link} to="/profile/my-messages">
+                MY MESSAGES
+            </MenuItem>
+            <MenuItem as={Link} to="/profile/my-favorites">
+                FAVORITES
+            </MenuItem>
+            <Divider />
+            <MenuItem isDisabled={isLoading} onClick={handleLogout}>
+                <Icon as={FaSignOutAlt} mr={2} /> LOG OUT
             </MenuItem>
         </>
     );
