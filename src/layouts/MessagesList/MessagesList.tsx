@@ -8,6 +8,7 @@ import MessageListCreateNew from './MessageListCreateNew';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
+import MessageAuthor from '~/layouts/MessageAuthor';
 import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests-hooks';
 
 
@@ -29,13 +30,10 @@ const MessagesList: FC = () => {
     return (
         <Container my={8} p={2}>
             {answerToId ? <Message isMain id={answerToId} /> : null}
-
-            {authorId ? null : <MessageListCreateNew isLoading={isLoading} /> }
+            {authorId ? <MessageAuthor authorId={authorId} /> : <MessageListCreateNew isLoading={isLoading} /> }
 
             {isLoading
-                ? times(10, (i) => (
-                    <MessageSkeleton key={i} />
-                ))
+                ? times(10, (i) => <MessageSkeleton key={i} />)
                 : pages.map((messagePages) => (
                     <Fragment key={messagePages[0]?.id || 0}>
                         {messagePages.map((message) => (
@@ -43,11 +41,8 @@ const MessagesList: FC = () => {
                         ))}
                     </Fragment>
                 ))}
-            {isFetchingNextPage
-                ? times(10, (i) => (
-                    <MessageSkeleton key={i} />
-                ))
-                : null}
+
+            {isFetchingNextPage ? times(10, (i) => <MessageSkeleton key={i} />) : null}
         </Container>
     );
 };

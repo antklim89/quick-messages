@@ -8,13 +8,13 @@ import { IProfile } from '~/types';
 import { getUser } from '~/utils';
 
 
-export async function findProfile() {
-    const { id: userId } = await getUser();
+export async function findProfile({ profileId }: {profileId?: string}) {
+    const id = profileId || (await getUser()).id;
 
     const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', userId)
+        .eq('id', id)
         .single();
 
 
@@ -27,13 +27,13 @@ export async function findProfile() {
 }
 
 
-export function useFindProfie() {
+export function useFindProfie({ profileId }: {profileId?: string} = {}) {
     const toast = useToast();
 
     return useQuery<IProfile, Error>({
-        queryKey: [QueryName.PROFILE],
+        queryKey: [QueryName.PROFILE, profileId],
         async queryFn() {
-            return findProfile();
+            return findProfile({ profileId });
         },
         select(data) {
             return profileSchema.parse(data);
