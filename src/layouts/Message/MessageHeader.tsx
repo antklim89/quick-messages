@@ -29,14 +29,14 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
                     fontSize={['xl', '2xl']}
                     to={`/user/${author.id}`}
                 >
+                    {author.name}
                     {author.id === userId
                         ? (
-                            <Tooltip title="This is your message" >
-                                <Icon as={FaUserCheck} color="green" fontSize="xs" />
+                            <Tooltip label="This is your message" >
+                                <Text as="span" mx={2}><Icon as={FaUserCheck} color="green" fontSize="md" /></Text>
                             </Tooltip>
                         )
                         : null}
-                    {author.name}
                 </Text>
             </Flex>
             <DateComponent

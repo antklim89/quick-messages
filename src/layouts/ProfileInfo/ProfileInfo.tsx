@@ -10,6 +10,7 @@ const ProfileInfo: FC = () => {
 
     return (
         <Card p={4}>
+            <ProfileUploadAvatar />
             {(!profile || isLoading)
                 ? (
                     <>
@@ -17,12 +18,7 @@ const ProfileInfo: FC = () => {
                         <Skeleton mb={4}><Input /></Skeleton>
                     </>
                 )
-                : (
-                    <>
-                        <ProfileUploadAvatar />
-                        <ProfileInfoForm {...profile} />
-                    </>
-                )}
+                : <ProfileInfoForm {...profile} />}
         </Card>
     );
 };

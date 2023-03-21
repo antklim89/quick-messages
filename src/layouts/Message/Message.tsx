@@ -22,7 +22,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
             border="1px"
             borderColor="primary.600"
             borderRadius="lg"
-            borderWidth={isMain ? 'medium' : 'initial'}
+            borderWidth={isMain ? 'medium' : 'thin'}
             boxShadow={isMain ? 'lg' : 'md'}
             data-cy="message"
             flexDirection="column"
