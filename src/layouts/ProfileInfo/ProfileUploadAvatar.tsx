@@ -1,39 +1,31 @@
-import { Button, Flex, Image, Input } from '@chakra-ui/react';
+import { Avatar, Button, Flex, Input } from '@chakra-ui/react';
 import { ChangeEventHandler, FC, useState } from 'react';
-import imageNotfoundPlaceholder from '~/assets/image-notfound-placeholder.svg';
-import { VITE_SUPABASE_BUCKET_URL, VITE_SUPABASE_URL } from '~/constants';
-import { useUser } from '~/requests-hooks';
-import { useUploadAvatar } from '~/requests-hooks/useUploadAvatar';
+import { useAvatarDownload, useUser } from '~/requests-hooks';
+import { useAvatarUpload } from '~/requests-hooks/useAvatarUpload';
 
 
 const ProfileUploadAvatar: FC = () => {
-    const { id } = useUser();
-    const { mutate: uploadAvatar } = useUploadAvatar();
-    const [src, setSrc] = useState<string>(`${VITE_SUPABASE_URL}${VITE_SUPABASE_BUCKET_URL}/avatar/${id}/avatar.jpg`);
+    const { getUserId } = useUser();
+    const { mutate: uploadAvatar, isLoading } = useAvatarUpload();
+    const { data: avatarSrc } = useAvatarDownload({ authorId: getUserId() });
+    const [uploadedAvatarSrc, setUploadedAvatarSrc] = useState<string | null>(null);
 
-    const handleUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
-        if (e.target.files?.[0]) setSrc(URL.createObjectURL(e.target.files[0]));
-        await uploadAvatar(e.target.files);
+    const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
+        if (e.target.files?.[0]) setUploadedAvatarSrc(URL.createObjectURL(e.target.files[0]));
+        uploadAvatar(e.target.files);
     };
 
     return (
         <Flex alignItems="center" mb={4}>
-            <Image
-                alt="user avatar"
-                height={50}
+            <Avatar
                 mr={8}
-                src={src}
-                width={50}
-                onError={(e) => {
-                    e.preventDefault();
-                    if (e.currentTarget.src === imageNotfoundPlaceholder) return;
-                    e.currentTarget.src = imageNotfoundPlaceholder;
-                }}
+                src={uploadedAvatarSrc || avatarSrc || undefined}
             />
             <Button
                 as="label"
                 cursor="pointer"
                 htmlFor="upload avatar"
+                isLoading={isLoading}
             >
                 Upload Avatar
             </Button>
