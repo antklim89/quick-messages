@@ -12,7 +12,7 @@ import MessageSkeleton from '~/components/MessageSkeleton';
 import { useFindMessageRequest } from '~/requests-hooks';
 
 
-const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
+const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false }) => {
     const { data: message, isLoading } = useFindMessageRequest(id, initialMessage);
 
     if (!message || isLoading) return <MessageSkeleton />;
@@ -22,7 +22,8 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage }) => {
             border="1px"
             borderColor="primary.600"
             borderRadius="lg"
-            boxShadow="md"
+            borderWidth={isMain ? 'medium' : 'initial'}
+            boxShadow={isMain ? 'lg' : 'md'}
             data-cy="message"
             flexDirection="column"
             mb={4}

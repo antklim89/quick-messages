@@ -28,7 +28,7 @@ const MessagesList: FC = () => {
 
     return (
         <Container my={8} p={2}>
-            {answerToId ? <Message id={answerToId} /> : null}
+            {answerToId ? <Message isMain id={answerToId} /> : null}
 
             {authorId ? null : <MessageListCreateNew isLoading={isLoading} /> }
 
