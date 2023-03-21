@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { faker } from '@faker-js/faker';
 import { PrismaClient } from '@prisma/client';
 import _ from 'lodash';
