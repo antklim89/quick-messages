@@ -1,6 +1,7 @@
 import { Card, Input, Skeleton } from '@chakra-ui/react';
 import { FC } from 'react';
 import ProfileInfoForm from './ProfileInfoForm';
+import ProfileUploadAvatar from './ProfileUploadAvatar';
 import { useFindProfie } from '~/requests-hooks';
 
 
@@ -17,7 +18,10 @@ const ProfileInfo: FC = () => {
                     </>
                 )
                 : (
-                    <ProfileInfoForm {...profile} />
+                    <>
+                        <ProfileUploadAvatar />
+                        <ProfileInfoForm {...profile} />
+                    </>
                 )}
         </Card>
     );
