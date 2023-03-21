@@ -18,10 +18,12 @@ const ProfileInfoForm: FC<IProfile> = (profile) => {
                 placeholder="Enter your name..."
             />
             <InputField
+                as="textarea"
                 formik={formik}
                 isRequired={false}
                 name="bio"
                 placeholder="Enter your bio..."
+                resize="none"
             />
             <Flex justify="flex-end">
                 <Button isLoading={formik.isSubmitting} type="submit">

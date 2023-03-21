@@ -15,7 +15,7 @@ const ProfileInfo: FC = () => {
                 ? (
                     <>
                         <Skeleton mb={4}><Input /></Skeleton>
-                        <Skeleton mb={4}><Input /></Skeleton>
+                        <Skeleton height={20} mb={4}><Input /></Skeleton>
                     </>
                 )
                 : <ProfileInfoForm {...profile} />}
