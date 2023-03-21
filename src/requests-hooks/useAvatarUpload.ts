@@ -4,7 +4,7 @@ import supabase from '~/supabase/app';
 import { getUser } from '~/utils';
 
 
-export async function uploadAvatarRequest(file: File) {
+export async function avatarUpload(file: File) {
     const { id: userId } = await getUser();
 
     const { error, data } = await supabase
@@ -21,7 +21,7 @@ export async function uploadAvatarRequest(file: File) {
 }
 
 
-export function useUploadAvatar() {
+export function useAvatarUpload() {
     const toast = useToast();
 
     return useMutation<void, Error, FileList | null | undefined>({
@@ -29,7 +29,7 @@ export function useUploadAvatar() {
             if (!files) return;
             const [file] = [...files];
             if (!file) return;
-            await uploadAvatarRequest(file);
+            await avatarUpload(file);
         },
         async onSuccess() {
             toast({ title: 'Avatar succesfully uploaded.', status: 'success' });
