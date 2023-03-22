@@ -1,4 +1,6 @@
-import { Flex, MenuItem, Text } from '@chakra-ui/react';
+import {
+    Card, CardBody, CardFooter, CardHeader, MenuItem, Text,
+} from '@chakra-ui/react';
 import { FC } from 'react';
 import { MessageProps } from './Message.types';
 import MessageAnswerButton from './MessageAnswerButton';
@@ -16,36 +18,35 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
     const { data: message, isLoading } = useFindMessageRequest(id, initialMessage);
 
     if (!message || isLoading) return <MessageSkeleton />;
-
     return (
-        <Flex
-            border="1px"
-            borderColor="primary.600"
-            borderRadius="lg"
+        <Card
             borderWidth={isMain ? 'medium' : 'thin'}
             boxShadow={isMain ? 'lg' : 'md'}
-            flexDirection="column"
             mb={4}
         >
-            <Flex alignItems="center" p={4} >
+            <CardHeader alignItems="center" p={4} >
                 <MessageHeader {...message} />
                 <MessageMenu>
-                    <MenuItem>
-                        Report
-                    </MenuItem>
+                    <MenuItem>Report</MenuItem>
                     <MessageDeleteMenu authorId={message.author.id} messageId={message.id} />
                     <MessageUpdateMenu {...message} />
                 </MessageMenu>
-            </Flex>
-            <Text my={4} p={4} whiteSpace="pre-line">
-                {message.body}
-            </Text>
-            <Flex justifyContent="space-around" sx={{ '&>*': { flex: '1 1 0' } }}>
+            </CardHeader>
+            <CardBody>
+                <Text whiteSpace="pre-line">
+                    {message.body}
+                </Text>
+            </CardBody>
+            <CardFooter
+                display="flex"
+                justifyContent="space-around"
+                sx={{ '&>*': { flex: '1 1 0' } }}
+            >
                 <MessageFavoriteButton message={message} />
                 <MessageLikeButton message={message} />
                 <MessageAnswerButton {...message} />
-            </Flex>
-        </Flex>
+            </CardFooter>
+        </Card>
     );
 };
 
