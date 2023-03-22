@@ -24,6 +24,7 @@ const customTheme: ThemeOverride<Theme> = {
         Container: {
             baseStyle: {
                 maxWidth: 'container.xl',
+                p: 2,
             },
         },
         Button: {

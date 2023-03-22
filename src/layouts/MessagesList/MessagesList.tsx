@@ -28,7 +28,7 @@ const MessagesList: FC = () => {
     useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
-        <Container my={8} p={2}>
+        <Container my={[4, 6]} p={[0, 2]}>
             {answerToId ? <Message isMain id={answerToId} /> : null}
             {authorId ? <MessageAuthor authorId={authorId} /> : <MessageListCreateNew isLoading={isLoading} /> }
 
