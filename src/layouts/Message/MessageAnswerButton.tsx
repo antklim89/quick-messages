@@ -1,6 +1,6 @@
-import { Text, IconButton } from '@chakra-ui/react';
+import { Text, IconButton, Icon } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaComment } from 'react-icons/fa';
+import { BsChatLeftFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { IMessage } from '~/types';
 
@@ -14,7 +14,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
             variant="ghost"
         >
             <>
-                <FaComment />
+                <Icon as={BsChatLeftFill} />
                 <Text color="primary.600" fontSize="xl" mx={1}>{messagesCount}</Text>
             </>
         </IconButton>

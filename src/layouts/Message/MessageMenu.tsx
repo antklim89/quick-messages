@@ -1,6 +1,6 @@
 import { Menu, MenuButton, IconButton, MenuList } from '@chakra-ui/react';
 import { FC, ReactNode } from 'react';
-import { FaEllipsisV } from 'react-icons/fa';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 
 const MessageMenu: FC<{children: ReactNode}> = ({ children }) => {
@@ -9,7 +9,7 @@ const MessageMenu: FC<{children: ReactNode}> = ({ children }) => {
             <MenuButton
                 aria-label="message-options"
                 as={IconButton}
-                icon={<FaEllipsisV />}
+                icon={<BsThreeDotsVertical />}
                 variant="ghost"
             />
             <MenuList>

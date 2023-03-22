@@ -1,6 +1,6 @@
 import { Divider, Icon, MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { BsBoxArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests-hooks';
@@ -26,7 +26,7 @@ const HeaderAuth: FC = () => {
             </MenuItem>
             <Divider />
             <MenuItem isDisabled={isLoading} onClick={handleLogout}>
-                <Icon as={FaSignOutAlt} mr={2} /> LOG OUT
+                <Icon as={BsBoxArrowRight} mr={2} /> LOG OUT
             </MenuItem>
         </>
     );

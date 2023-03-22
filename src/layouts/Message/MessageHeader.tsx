@@ -1,6 +1,6 @@
 import { Avatar, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FaUserCheck } from 'react-icons/fa';
+import { BsPersonCheckFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import DateComponent from '~/components/DateComponent';
 import { useAvatarDownload, useUser } from '~/requests-hooks';
@@ -33,7 +33,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
                     {author.id === userId
                         ? (
                             <Tooltip label="This is your message" >
-                                <Text as="span" mx={2}><Icon as={FaUserCheck} color="green" fontSize="md" /></Text>
+                                <Text as="span" mx={2}><Icon as={BsPersonCheckFill} color="green" fontSize="md" /></Text>
                             </Tooltip>
                         )
                         : null}
