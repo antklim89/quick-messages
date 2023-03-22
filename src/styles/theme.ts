@@ -37,13 +37,19 @@ const customTheme: ThemeOverride<Theme> = {
                 baseStyle: {
                     container: {
                         borderColor: 'primary.600',
-                        borderRadius: 'lg',
                         borderWidth: 'thin',
                         boxShadow: 'md',
                     },
                     header: {
                         alignItems: 'center',
                         display: 'flex',
+                        padding: 2,
+                    },
+                    body: {
+                        padding: 2,
+                    },
+                    footer: {
+                        padding: 2,
                     },
                 },
             }),
