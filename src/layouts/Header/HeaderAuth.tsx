@@ -2,6 +2,7 @@ import { Divider, Icon, MenuItem } from '@chakra-ui/react';
 import { FC } from 'react';
 import { BsBoxArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import ConfirmDialog from '~/components/ConfirmDialog';
 import Auth from '~/layouts/Auth';
 import { useLogoutRequest, useUser } from '~/requests-hooks';
 
@@ -25,9 +26,17 @@ const HeaderAuth: FC = () => {
                 FAVORITES
             </MenuItem>
             <Divider />
-            <MenuItem isDisabled={isLoading} onClick={handleLogout}>
-                <Icon as={BsBoxArrowRight} mr={2} /> LOG OUT
-            </MenuItem>
+            <ConfirmDialog
+                confirmText="Log out"
+                message="Are you sure you want to log out?"
+                onConfirm={handleLogout}
+            >
+                {(toggle) => (
+                    <MenuItem isDisabled={isLoading} onClick={toggle}>
+                        <Icon as={BsBoxArrowRight} mr={2} /> LOG OUT
+                    </MenuItem>
+                )}
+            </ConfirmDialog>
         </>
     );
     return (
