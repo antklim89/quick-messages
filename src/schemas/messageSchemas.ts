@@ -7,6 +7,7 @@ export const editMessageSchema = z.object({
         .trim()
         .max(400)
         .min(5),
+    subjectId: z.number().min(0),
 });
 
 export const messageSchema = z.object({

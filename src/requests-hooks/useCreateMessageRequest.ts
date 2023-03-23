@@ -6,15 +6,16 @@ import { IEditMessageInput, IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
-export async function createMessageRequest(values: { body: string; }, answerToId: number | undefined) {
+export async function createMessageRequest(body: string, answerToId: number | undefined, subjectId: number) {
     const { id: userId } = await getUser();
 
     const { error, data } = await supabase
         .from('messages')
         .insert({
-            ...values,
+            body,
             authorId: userId,
             answerToId,
+            subjectId,
             updatedAt: new Date().toISOString(),
         })
         .single();
@@ -32,9 +33,9 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number })
     const queryClient = useQueryClient();
     const toast = useToast();
 
-    return useMutation<void, Error, { values: IEditMessageInput; }>({
-        async mutationFn({ values }) {
-            await createMessageRequest(values, answerToId);
+    return useMutation<void, Error, IEditMessageInput & {subjectId: number}>({
+        async mutationFn({ body, subjectId }) {
+            await createMessageRequest(body, answerToId, subjectId);
         },
         async onSuccess() {
             await queryClient.invalidateQueries({

@@ -10,8 +10,9 @@ export function useEditMessageFormFormik({ messageBody, id, answerToId, onSucces
     const { mutateAsync: createMessage } = useCreateMessageRequest({ answerToId });
     const { mutateAsync: updateMessage } = useUpdateMessageRequest({ answerToId });
 
-    const initialValues = useMemo(() => ({
+    const initialValues = useMemo<IEditMessageInput>(() => ({
         body: messageBody || '',
+        subjectId: -1,
     }), []);
 
     const formik = useFormik<IEditMessageInput>({
@@ -20,7 +21,7 @@ export function useEditMessageFormFormik({ messageBody, id, answerToId, onSucces
             if (id) {
                 await updateMessage({ values, messageId: id });
             } else {
-                await createMessage({ values });
+                await createMessage(values);
                 resetForm();
             }
             onSuccess?.();
