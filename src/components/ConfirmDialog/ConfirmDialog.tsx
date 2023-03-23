@@ -1,11 +1,12 @@
 import {
     Button,
     Modal,
-    ModalBody,
     ModalCloseButton,
     ModalContent,
     ModalFooter,
+    ModalHeader,
     ModalOverlay,
+    Text,
     useDisclosure,
 } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
@@ -37,14 +38,17 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
-
-                    <ModalBody pb={4} pt={12}>
-                        {message}
-                    </ModalBody>
+                    <br />
+                    <ModalHeader>
+                        <Text textAlign="center">
+                            {message}
+                        </Text>
+                    </ModalHeader>
 
                     <ModalFooter>
                         <Button
                             isLoading={isLoading}
+                            mr={4}
                             size="sm"
                             textTransform="uppercase"
                             variant="ghost"
