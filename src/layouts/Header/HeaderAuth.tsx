@@ -1,6 +1,6 @@
-import { Divider, Icon, MenuItem } from '@chakra-ui/react';
+import { MenuDivider, Icon, MenuItem, useColorMode } from '@chakra-ui/react';
 import { FC } from 'react';
-import { BsBoxArrowRight } from 'react-icons/bs';
+import { BsBoxArrowRight, BsMoon, BsSun } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '~/components/ConfirmDialog';
 import Auth from '~/layouts/Auth';
@@ -10,9 +10,19 @@ import { useLogoutRequest, useUser } from '~/requests-hooks';
 const HeaderAuth: FC = () => {
     const { mutate: handleLogout, isLoading } = useLogoutRequest();
     const { isAuth } = useUser();
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    const colorModeMenu = (
+        <MenuItem closeOnSelect={false} value={colorMode} onClick={toggleColorMode}>
+            <Icon as={colorMode === 'light' ? BsSun : BsMoon} mr={4} />
+            {colorMode === 'light' ? 'TO DARK MODE' : 'TO LIGHT MODE'}
+        </MenuItem>
+    );
 
     if (isAuth) return (
         <>
+            {colorModeMenu}
+            <MenuDivider />
             <MenuItem as={Link} to="/profile/info">
                 PROFILE
             </MenuItem>
@@ -25,7 +35,7 @@ const HeaderAuth: FC = () => {
             <MenuItem as={Link} to="/profile/my-favorites">
                 FAVORITES
             </MenuItem>
-            <Divider />
+            <MenuDivider />
             <ConfirmDialog
                 confirmText="Log out"
                 message="Are you sure you want to log out?"
@@ -41,6 +51,8 @@ const HeaderAuth: FC = () => {
     );
     return (
         <>
+            {colorModeMenu}
+            <MenuDivider />
             <Auth as="div" textTransform="uppercase" />
             <Auth as="div" defaultType="register" textTransform="uppercase" />
         </>

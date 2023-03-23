@@ -15,7 +15,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
         >
             <>
                 <Icon as={BsChatLeftFill} />
-                <Text color="primary.600" fontSize="xl" mx={1}>{messagesCount}</Text>
+                <Text fontSize="xl" mx={1}>{messagesCount}</Text>
             </>
         </IconButton>
     );

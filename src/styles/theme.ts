@@ -3,24 +3,33 @@ import { extendTheme, Theme, ThemeOverride, createMultiStyleConfigHelpers, defin
 
 
 const customTheme: ThemeOverride<Theme> = {
+    config: {
+        initialColorMode: 'system',
+        useSystemColorMode: true,
+    },
     colors: {
         primary: {
-            50: 'hsl(203, 77%, 92%)',
-            100: 'hsl(203, 77%, 80%)',
-            200: 'hsl(203, 77%, 72%)',
-            300: 'hsl(203, 77%, 64%)',
-            400: 'hsl(203, 77%, 58%)',
-            500: 'hsl(203, 77%, 50%)',
-            600: 'hsl(203, 77%, 42%)',
-            700: 'hsl(203, 77%, 36%)',
-            800: 'hsl(203, 77%, 28%)',
-            900: 'hsl(203, 77%, 20%)',
+            '50': '#E8F4FC',
+            '100': '#C0E1F7',
+            '200': '#97CEF1',
+            '300': '#6FBBEC',
+            '400': '#46A8E7',
+            '500': '#1E95E1',
+            '600': '#1878B4',
+            '700': '#125A87',
+            '800': '#0C3C5A',
+            '900': '#061E2D',
         },
     },
     fonts: {
         body: 'Roboto, -apple-system, Segoe UI, Ubuntu, Droid Sans, sans-serif',
     },
     components: {
+        Text: {
+            defaultProps: {
+                colorScheme: 'red',
+            },
+        },
         Container: {
             baseStyle: {
                 maxWidth: 'container.xl',

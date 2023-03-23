@@ -1,5 +1,5 @@
 import {
-    Box, Text, Container, IconButton, Menu, MenuButton, MenuList, Avatar,
+    Box, Text, Container, IconButton, Menu, MenuButton, MenuList, Avatar, useColorModeValue,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,13 +10,15 @@ import { useUser, useAvatarDownload } from '~/requests-hooks';
 const Header: FC = () => {
     const { id } = useUser();
     const { data: avatarSrc } = useAvatarDownload({ authorId: id });
+    const logoColor = useColorModeValue('primary.800', 'primary.200');
 
     return (
         <Box as="header" shadow="md" >
             <Container alignItems="center" display="flex" maxWidth="container.xl">
                 <Text
                     as={Link}
-                    color="primary.800"
+                    color={logoColor}
+                    colorScheme="primary"
                     fontSize="2xl"
                     to="/"
                 >

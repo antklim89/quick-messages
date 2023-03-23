@@ -16,7 +16,7 @@ const Profile: FC = () => {
                 <SimpleGrid
                     alignSelf="flex-start"
                     gap={2}
-                    sx={{ '& a.active': { bgColor: 'primary.800' } }}
+                    sx={{ '& a.active': { bgColor: 'green.400' } }}
                     templateColumns={{ base: 'repeat(2, 1fr)', md: '1fr' }}
                     width={{ base: '100%', md: 'auto' }}
                 >
