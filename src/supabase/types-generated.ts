@@ -76,6 +76,7 @@ export interface Database {
           body: string
           createdAt: string
           id: number
+          subjectId: number
           updatedAt: string
         }
         Insert: {
@@ -84,6 +85,7 @@ export interface Database {
           body: string
           createdAt?: string
           id?: number
+          subjectId: number
           updatedAt: string
         }
         Update: {
@@ -92,24 +94,65 @@ export interface Database {
           body?: string
           createdAt?: string
           id?: number
+          subjectId?: number
           updatedAt?: string
         }
       }
       profiles: {
         Row: {
           bio: string
+          createdAt: string
           id: string
           name: string
         }
         Insert: {
           bio?: string
+          createdAt?: string
           id: string
           name?: string
         }
         Update: {
           bio?: string
+          createdAt?: string
           id?: string
           name?: string
+        }
+      }
+      reports: {
+        Row: {
+          body: string
+          createdAt: string
+          id: number
+          messageId: number
+        }
+        Insert: {
+          body: string
+          createdAt?: string
+          id?: number
+          messageId: number
+        }
+        Update: {
+          body?: string
+          createdAt?: string
+          id?: number
+          messageId?: number
+        }
+      }
+      subjects: {
+        Row: {
+          body: string
+          createdAt: string
+          id: number
+        }
+        Insert: {
+          body: string
+          createdAt?: string
+          id?: number
+        }
+        Update: {
+          body?: string
+          createdAt?: string
+          id?: number
         }
       }
     }
@@ -117,10 +160,7 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      install_available_extensions_and_test: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

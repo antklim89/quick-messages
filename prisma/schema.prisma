@@ -11,11 +11,34 @@ model Profile {
   id        String     @id @default(uuid()) @db.Uuid
   name      String     @default("anon") @db.VarChar(255)
   bio       String     @default("")
+  createdAt DateTime   @default(now())
+  
   messages  Message[]
   likes     Like[]
   favorites Favorite[]
 
   @@map("profiles")
+}
+
+model Subject {
+  id        Int       @id @default(autoincrement())
+  body      String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+
+  messages   Message[]
+
+  @@map("subjects")
+}
+
+model Report {
+  id        Int      @id @default(autoincrement())
+  body      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  message   Message @relation(fields: [messageId], references: [id])
+  messageId Int
+
+  @@map("reports")
 }
 
 model Message {
@@ -31,8 +54,12 @@ model Message {
   answerToId Int?
   answers    Message[] @relation(name: "messages")
 
+  subject Subject @relation(fields: [subjectId], references: [id])
+  subjectId Int
+
   likes     Like[]
   favorites Favorite[]
+  reports   Report[]
 
   @@map("messages")
 }
