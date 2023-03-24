@@ -13,7 +13,7 @@ export async function findSubjects({ body }: { body?: string; } = {}) {
         .select('body, id')
         .limit(50);
 
-    if (body) query.ilike('body', body);
+    if (body) query.ilike('body', `%${body}%`);
 
     const { error, data = [] } = await query;
 
