@@ -8,11 +8,13 @@ export * from './useUpdateMessageRequest';
 export * from './useUser';
 export * from './useFavoriteRequest';
 export * from './useLikeRequest';
-export * from './useFindProfie';
 export * from './useUpdateProfie';
 export * from './useResetPassword';
 export * from './useDeleteMessageRequest';
 export * from './useFindMyFavoritesRequest';
+export * from './useFindSubjects';
+export * from './useFindProfie';
 export * from './useAvatarUpload';
 export * from './useAvatarDownload';
 export * from './constants';
+
