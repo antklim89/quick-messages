@@ -2,6 +2,8 @@ import { Flex, Button, Textarea } from '@chakra-ui/react';
 import { forwardRef, ForwardRefRenderFunction, KeyboardEventHandler, useCallback } from 'react';
 import { useEditMessageFormFormik } from './EditMessageForm.formik';
 import { EditMessageFormProps } from './EditMessageForm.types';
+import SelectSubject from '~/components/SelectSubject';
+import { ISubject } from '~/types';
 
 
 const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessageFormProps> = (props, ref) => {
@@ -14,8 +16,13 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
         }
     }, []);
 
+    const handleSelectSubject = (subject: ISubject | null) => {
+        formik.setFieldValue('subjectId', subject?.id || -1);
+    };
+
     return (
         <form onSubmit={formik.handleSubmit}>
+            <SelectSubject mb={4} onChange={handleSelectSubject} />
             <Textarea
                 as="textarea"
                 mb={4}
