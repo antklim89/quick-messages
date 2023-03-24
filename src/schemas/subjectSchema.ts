@@ -2,6 +2,6 @@ import { z } from 'zod';
 
 
 export const subjectSchema = z.object({
-    id: z.string(),
+    id: z.number(),
     body: z.string(),
 });
