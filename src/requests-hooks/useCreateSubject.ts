@@ -1,18 +1,24 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
+import { subjectSchema } from '~/schemas';
 import supabase from '~/supabase/app';
+import { ISubject } from '~/types';
 
 
 export async function createSubject(body: string) {
-    const { error } = await supabase
+    const { error, data } = await supabase
         .from('subjects')
-        .insert({ body });
+        .insert({ body })
+        .select('id, body')
+        .single();
 
     if (error) {
         console.error(error.message);
         throw new Error('Failed to add new subject. Try again later.');
     }
+
+    return subjectSchema.parseAsync(data);
 }
 
 
@@ -20,9 +26,9 @@ export function useCreateSubject() {
     const queryClient = useQueryClient();
     const toast = useToast();
 
-    return useMutation<void, Error, { body: string }>({
-        async mutationFn({ body }) {
-            await createSubject(body);
+    return useMutation<ISubject, Error, { body: string }>({
+        mutationFn({ body }) {
+            return createSubject(body);
         },
         async onSuccess() {
             await queryClient.invalidateQueries([QueryName.SUBJECTS]);
