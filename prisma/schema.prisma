@@ -8,11 +8,12 @@ datasource db {
 }
 
 model Profile {
-  id        String     @id @default(uuid()) @db.Uuid
-  name      String     @default("anon") @db.VarChar(255)
-  bio       String     @default("")
-  createdAt DateTime   @default(now())
-  
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @default("anon") @db.VarChar(255)
+  bio       String   @default("")
+  avatarUrl String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+
   messages  Message[]
   likes     Like[]
   favorites Favorite[]
@@ -21,11 +22,11 @@ model Profile {
 }
 
 model Subject {
-  id        Int       @id @default(autoincrement())
-  body      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  body      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
 
-  messages   Message[]
+  messages Message[]
 
   @@map("subjects")
 }
@@ -54,7 +55,7 @@ model Message {
   answerToId Int?
   answers    Message[] @relation(name: "messages")
 
-  subject Subject @relation(fields: [subjectId], references: [id])
+  subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId Int
 
   likes     Like[]

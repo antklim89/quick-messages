@@ -100,18 +100,21 @@ export interface Database {
       }
       profiles: {
         Row: {
+          avatarUrl: string | null
           bio: string
           createdAt: string
           id: string
           name: string
         }
         Insert: {
+          avatarUrl?: string | null
           bio?: string
           createdAt?: string
           id: string
           name?: string
         }
         Update: {
+          avatarUrl?: string | null
           bio?: string
           createdAt?: string
           id?: string
