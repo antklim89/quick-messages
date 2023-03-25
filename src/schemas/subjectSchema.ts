@@ -5,3 +5,10 @@ export const subjectSchema = z.object({
     id: z.number(),
     body: z.string(),
 });
+
+
+export const subjectBodySchema = z.string()
+    .min(5)
+    .max(50)
+    .regex(/^[a-z 0-9]*$/)
+    .trim();

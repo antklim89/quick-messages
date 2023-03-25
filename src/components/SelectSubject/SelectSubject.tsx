@@ -6,6 +6,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useFindSubjects } from '~/requests-hooks';
 import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
+import { subjectBodySchema } from '~/schemas';
 import { ISubject } from '~/types';
 
 
@@ -19,30 +20,35 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
 
     const debounceRefetch = useCallback(debounce(refetch, 700), []);
 
-    const isNewSubject = subjects.findIndex(({ body }) => body === input) < 0;
+    const isNewSubject = (input.length > 0) && subjects.findIndex(({ body }) => body === input) < 0;
+
+    const validatedInput = subjectBodySchema.safeParse(input);
 
     const hundleAddSubject = async () => {
         if (isFetching) return;
         if (!isNewSubject) return;
-        const newSubject = await createSubject({ body: input });
+        if (!validatedInput.success) return;
+        const newSubject = await createSubject({ body: validatedInput.data });
         setSelectedSubject(newSubject);
     };
 
     const handleSelectSubject = (subject: ISubject) => {
         if (isFetching) return;
         setSelectedSubject(subject);
+        setInput(subject.body);
     };
 
-    useEffect(() => {
-        if (selectedSubject) setInput(selectedSubject.body);
-    }, [selectedSubject]);
 
     useEffect(() => {
         debounceRefetch();
     }, [input]);
 
     useEffect(() => {
-        onChange?.((isNewSubject || isFetching) ? null : selectedSubject);
+        if (!onChange) return undefined;
+        if (isFetching) return onChange(null);
+        if (!isNewSubject) return onChange(null);
+        if (!validatedInput.success) return onChange(null);
+        return onChange(selectedSubject);
     }, [input, isNewSubject, selectedSubject]);
 
     return (
@@ -50,33 +56,40 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
             autoFocus={false}
             isOpen={isOpen}
             placement="bottom-start"
-            onClose={onClose}
         >
             <PopoverTrigger>
                 <InputGroup>
                     <Input
                         {...props}
                         value={input}
-                        onBlur={() => setTimeout(onClose, 1)}
+                        onBlur={() => setTimeout(onClose, 10)}
                         onChange={(e) => setInput(e.target.value)}
                         onClick={onOpen}
                     />
                     <InputRightElement width={32}>
-                        {(isNewSubject && !isFetching) ? <Button size="sm" onClick={hundleAddSubject}>Add</Button> : null}
+                        <Button
+                            isDisabled={!isNewSubject || isFetching || !validatedInput.success}
+                            size="sm"
+                            onClick={hundleAddSubject}
+                        >
+                            Add
+                        </Button>
                     </InputRightElement>
                 </InputGroup>
             </PopoverTrigger>
-            <PopoverContent>
-                {subjects.map((subject) => (
-                    <Button
-                        key={subject.id}
-                        variant="ghost"
-                        onClick={() => handleSelectSubject(subject)}
-                    >
-                        {subject.body}
-                    </Button>
-                ))}
-            </PopoverContent>
+            {subjects.length > 0 && (
+                <PopoverContent>
+                    {subjects.map((subject) => (
+                        <Button
+                            key={subject.id}
+                            variant="ghost"
+                            onClick={() => handleSelectSubject(subject)}
+                        >
+                            {subject.body}
+                        </Button>
+                    ))}
+                </PopoverContent>
+            )}
         </Popover>
     );
 };

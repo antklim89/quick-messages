@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
-import { subjectSchema } from '~/schemas';
+import { subjectBodySchema, subjectSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { ISubject } from '~/types';
 
@@ -27,8 +27,9 @@ export function useCreateSubject() {
     const toast = useToast();
 
     return useMutation<ISubject, Error, { body: string }>({
-        mutationFn({ body }) {
-            return createSubject(body);
+        async mutationFn({ body }) {
+            const validatedBody = await subjectBodySchema.parse(body);
+            return createSubject(validatedBody);
         },
         async onSuccess() {
             await queryClient.invalidateQueries([QueryName.SUBJECTS]);
