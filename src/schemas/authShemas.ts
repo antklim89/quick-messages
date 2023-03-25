@@ -14,6 +14,7 @@ export const authInputSchema = z.object({
 });
 
 export const authorSchema = z.object({
-    name: z.string(),
     id: z.string(),
+    name: z.string(),
+    avatarUrl: z.string().nullish(),
 });
