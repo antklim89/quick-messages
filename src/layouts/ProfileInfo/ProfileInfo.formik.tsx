@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useUpdateProfie } from '~/requests-hooks';
-import { profileSchema } from '~/schemas';
+import { profileInputSchema } from '~/schemas';
 import { IProfile } from '~/types';
 
 
@@ -13,7 +13,7 @@ export function useProfileInfoFormik(initialValues: IProfile) {
             await updateProfile(values);
         },
         async validate(values) {
-            const result = await profileSchema.safeParseAsync(values);
+            const result = await profileInputSchema.safeParseAsync(values);
             return result.success ? {} : result.error.formErrors.fieldErrors;
         },
     });
