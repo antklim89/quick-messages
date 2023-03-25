@@ -1,7 +1,8 @@
 import {
     Button, Input, InputGroup, InputRightElement, Popover, PopoverContent, PopoverTrigger, useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
+import debounce from 'lodash/debounce';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useFindSubjects } from '~/requests-hooks';
 import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
@@ -16,14 +17,19 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
     const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input });
     const { mutateAsync: createSubject } = useCreateSubject();
 
+    const debounceRefetch = useCallback(debounce(refetch, 700), []);
+
     const isNewSubject = subjects.findIndex(({ body }) => body === input) < 0;
 
     const hundleAddSubject = async () => {
+        if (isFetching) return;
+        if (!isNewSubject) return;
         const newSubject = await createSubject({ body: input });
         setSelectedSubject(newSubject);
     };
 
     const handleSelectSubject = (subject: ISubject) => {
+        if (isFetching) return;
         setSelectedSubject(subject);
     };
 
@@ -32,7 +38,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
     }, [selectedSubject]);
 
     useEffect(() => {
-        refetch();
+        debounceRefetch();
     }, [input]);
 
     useEffect(() => {
