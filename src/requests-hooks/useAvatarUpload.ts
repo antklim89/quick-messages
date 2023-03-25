@@ -11,7 +11,11 @@ export async function avatarUpload(file: File) {
     const { error, data } = await supabase
         .storage
         .from('avatar')
-        .upload(`${userId}/avatar.jpg`, file, { upsert: true });
+        .upload(`${userId}/avatar`, file, { upsert: true });
+
+    const { data: { publicUrl: avatarUrl } } = supabase.storage.from('avatar').getPublicUrl(`${userId}/avatar`);
+
+    await supabase.from('profiles').update({ avatarUrl }).eq('id', userId);
 
     if (error) {
         console.error(error.message);
