@@ -8,7 +8,7 @@ export function useAvatarDownload({ authorId }: {authorId?: string | null}) {
         queryKey: [QueryName.AVATAR_DOWNLOAD, authorId],
         async queryFn() {
             if (!authorId) return null;
-            const { data } = await supabase.storage.from('avatar').download(`${authorId}/avatar.jpg`);
+            const { data } = await supabase.storage.from('avatar').download(`${authorId}/avatar`);
             if (!data) return null;
             return URL.createObjectURL(data);
         },
