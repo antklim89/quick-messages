@@ -3,13 +3,12 @@ import { FC } from 'react';
 import { BsPersonCheckFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import DateComponent from '~/components/DateComponent';
-import { useAvatarDownload, useUser } from '~/requests-hooks';
+import { useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
 const MessageHeader: FC<IMessage> = ({ author, createdAt, subject }) => {
     const { id: userId } = useUser();
-    const { data: src } = useAvatarDownload({ authorId: author.id });
 
     return (
         <Flex
@@ -22,7 +21,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject }) => {
                 <Avatar
                     mr={4}
                     name={author.name}
-                    src={src ? src : undefined}
+                    src={author.avatarUrl || undefined}
                 />
                 <Text
                     as={Link}
