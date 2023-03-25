@@ -7,7 +7,7 @@ import { useAvatarDownload, useUser } from '~/requests-hooks';
 import { IMessage } from '~/types';
 
 
-const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
+const MessageHeader: FC<IMessage> = ({ author, createdAt, subject }) => {
     const { id: userId } = useUser();
     const { data: src } = useAvatarDownload({ authorId: author.id });
 
@@ -39,6 +39,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt }) => {
                         : null}
                 </Text>
             </Flex>
+            <Text>{subject.body}</Text>
             <DateComponent
                 date={createdAt}
                 fontSize={['xs', 'sm']}

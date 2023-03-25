@@ -17,7 +17,7 @@ interface FindMessagesArguments {
 export async function findMessagesRequest({ answerToId, lastId, authorId }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(*), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(*), subject:subjectId(id, body), messages(count), likes(userId), favorites(userId)')
         .range(0, MESSAGES_LIMIT - 1)
         .order('id', { ascending: false });
 
