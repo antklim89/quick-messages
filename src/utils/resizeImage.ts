@@ -1,4 +1,6 @@
 
+const AVATAR_SIZE = 128;
+
 
 export function resizeImage(imageFile: File) {
     return new Promise<Blob>((resolve, reject) => {
@@ -7,10 +9,14 @@ export function resizeImage(imageFile: File) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
-            canvas.width = 128;
-            canvas.height = 128;
+            canvas.width = AVATAR_SIZE;
+            canvas.height = canvas.width;
 
-            ctx?.drawImage(img, 0, 0, 128, 128);
+
+            const width = (img.width / img.height) * AVATAR_SIZE;
+            const widthOffset = (width - AVATAR_SIZE) / 2;
+
+            ctx?.drawImage(img, -widthOffset, 0, width, AVATAR_SIZE);
 
             // const dataurl = canvas.toDataURL(imageFile.type);
             // console.log('===== \n dataurl', dataurl);
