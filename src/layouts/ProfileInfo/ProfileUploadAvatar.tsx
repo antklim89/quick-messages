@@ -9,9 +9,12 @@ const ProfileUploadAvatar: FC = () => {
     const { mutate: uploadAvatar, isLoading } = useAvatarUpload();
     const [uploadedAvatarSrc, setUploadedAvatarSrc] = useState<string | null>(null);
 
-    const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
-        if (e.target.files?.[0]) setUploadedAvatarSrc(URL.createObjectURL(e.target.files[0]));
-        uploadAvatar(e.target.files);
+    const handleUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
+        if (!e.target.files) return;
+        const [file] = [...e.target.files];
+        if (!file) return;
+        setUploadedAvatarSrc(URL.createObjectURL(file));
+        uploadAvatar(file);
     };
 
     return (

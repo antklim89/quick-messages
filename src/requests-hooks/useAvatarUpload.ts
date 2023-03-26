@@ -3,9 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
 import { getUser } from '~/utils';
+import { resizeImage } from '~/utils/resizeImage';
 
 
-export async function avatarUpload(file: File) {
+export async function avatarUpload(file: File|Blob) {
     const { id: userId } = await getUser();
 
     const { error, data } = await supabase
@@ -30,12 +31,10 @@ export function useAvatarUpload() {
     const toast = useToast();
     const queryClient = useQueryClient();
 
-    return useMutation<File|null, Error, FileList | null | undefined>({
-        async mutationFn(files) {
-            if (!files) return null;
-            const [file] = [...files];
-            if (!file) return null;
-            await avatarUpload(file);
+    return useMutation<File|Blob, Error, File>({
+        async mutationFn(file) {
+            const resizedImage = await resizeImage(file);
+            await avatarUpload(resizedImage);
             return file;
         },
         async onSuccess(file) {
