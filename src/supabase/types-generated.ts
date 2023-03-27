@@ -76,7 +76,7 @@ export interface Database {
           body: string
           createdAt: string
           id: number
-          subjectId: number
+          subjectBody: string
           updatedAt: string
         }
         Insert: {
@@ -85,7 +85,7 @@ export interface Database {
           body: string
           createdAt?: string
           id?: number
-          subjectId: number
+          subjectBody: string
           updatedAt: string
         }
         Update: {
@@ -94,7 +94,7 @@ export interface Database {
           body?: string
           createdAt?: string
           id?: number
-          subjectId?: number
+          subjectBody?: string
           updatedAt?: string
         }
       }
@@ -145,17 +145,14 @@ export interface Database {
         Row: {
           body: string
           createdAt: string
-          id: number
         }
         Insert: {
           body: string
           createdAt?: string
-          id?: number
         }
         Update: {
           body?: string
           createdAt?: string
-          id?: number
         }
       }
     }

@@ -7,13 +7,12 @@ import { SelectSubjectsProps } from './SelectSubject.types';
 import { useFindSubjects } from '~/requests-hooks';
 import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
 import { subjectBodySchema } from '~/schemas';
-import { ISubject } from '~/types';
 
 
 const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [input, setInput] = useState(defaultSubject?.body || '');
-    const [selectedSubject, setSelectedSubject] = useState<ISubject|undefined>(defaultSubject);
+    const [input, setInput] = useState(defaultSubject || '');
+    const [selectedSubject, setSelectedSubject] = useState<string|undefined>(defaultSubject);
 
     const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input });
     const { mutateAsync: createSubject } = useCreateSubject();
@@ -29,13 +28,13 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...
         if (!isNewSubject) return;
         if (!validatedInput.success) return;
         const newSubject = await createSubject({ body: validatedInput.data });
-        setSelectedSubject(newSubject);
+        setSelectedSubject(newSubject.body);
     };
 
-    const handleSelectSubject = (subject: ISubject) => {
+    const handleSelectSubject = (subject: string) => {
         if (isFetching) return;
         setSelectedSubject(subject);
-        setInput(subject.body);
+        setInput(subject);
     };
 
 
@@ -81,9 +80,9 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...
                 <PopoverContent>
                     {subjects.map((subject) => (
                         <Button
-                            key={subject.id}
+                            key={subject.body}
                             variant="ghost"
-                            onClick={() => handleSelectSubject(subject)}
+                            onClick={() => handleSelectSubject(subject.body)}
                         >
                             {subject.body}
                         </Button>

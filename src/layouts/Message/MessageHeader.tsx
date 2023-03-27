@@ -38,7 +38,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject }) => {
                         : null}
                 </Text>
             </Flex>
-            <Text as={Link} to={`/subject/${subject.id}`}>{subject.body}</Text>
+            <Text as={Link} to={`/subject/${subject.body}`}>{subject.body}</Text>
             <DateComponent
                 date={createdAt}
                 fontSize={['xs', 'sm']}

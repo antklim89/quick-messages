@@ -10,7 +10,7 @@ export async function createSubject(body: string) {
     const { error, data } = await supabase
         .from('subjects')
         .insert({ body })
-        .select('id, body')
+        .select('body')
         .single();
 
     if (error) {

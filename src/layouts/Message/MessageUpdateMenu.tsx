@@ -37,7 +37,7 @@ const MessageUpdateMenu: FC<IMessage> = (message) => {
                         {isOpen
                             ? (
                                 <EditMessageForm
-                                    defaultSubject={message.subject}
+                                    defaultSubject={message.subject.body}
                                     id={message.id}
                                     messageBody={message.body}
                                     ref={initialRef}

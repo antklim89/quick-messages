@@ -15,13 +15,13 @@ interface FindMessagesArguments extends IMessageParams {
 export async function findMessagesRequest({ answerToId, lastId, authorId, subjectId }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(id, name, avatarUrl), subject:subjectId(id, body), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(id, name, avatarUrl), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
         .range(0, MESSAGES_LIMIT - 1)
         .order('id', { ascending: false });
 
     if (lastId) supabaseQuery.lt('id', lastId);
     if (authorId) supabaseQuery.eq('authorId', authorId);
-    if (subjectId) supabaseQuery.eq('subjectId', subjectId);
+    if (subjectId) supabaseQuery.eq('subjectBody', subjectId);
 
     if (answerToId) supabaseQuery.eq('answerToId', answerToId);
     else supabaseQuery.is('answerToId', null);

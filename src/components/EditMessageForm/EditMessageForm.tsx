@@ -3,7 +3,6 @@ import { forwardRef, ForwardRefRenderFunction, KeyboardEventHandler, useCallback
 import { useEditMessageFormFormik } from './EditMessageForm.formik';
 import { EditMessageFormProps } from './EditMessageForm.types';
 import SelectSubject from '~/components/SelectSubject';
-import { ISubject } from '~/types';
 
 
 const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessageFormProps> = (props, ref) => {
@@ -16,8 +15,8 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
         }
     }, []);
 
-    const handleSelectSubject = (subject?: ISubject) => {
-        formik.setFieldValue('subjectId', subject?.id || -1);
+    const handleSelectSubject = (subject?: string) => {
+        formik.setFieldValue('subjectBody', subject || '');
     };
 
     return (

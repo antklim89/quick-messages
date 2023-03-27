@@ -10,7 +10,7 @@ import supabase from '~/supabase/app';
 export async function findSubjects({ body }: { body?: string; } = {}) {
     const query = supabase
         .from('subjects')
-        .select('body, id')
+        .select('body')
         .limit(50);
 
     if (body) query.ilike('body', `%${body}%`);

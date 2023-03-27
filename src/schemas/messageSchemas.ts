@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { authorSchema } from './authShemas';
-import { subjectSchema } from './subjectSchema';
+import { subjectBodySchema, subjectSchema } from './subjectSchema';
 
 
 export const editMessageSchema = z.object({
@@ -8,7 +8,7 @@ export const editMessageSchema = z.object({
         .trim()
         .max(400)
         .min(5),
-    subjectId: z.number().min(0),
+    subjectBody: subjectBodySchema,
 });
 
 export const messageSchema = z.object({

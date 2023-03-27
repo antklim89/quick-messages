@@ -11,7 +11,7 @@ import { getUser, transformMessage } from '~/utils';
 export async function findMessageRequest({ messageId }: {messageId: number}) {
     const { data, error } = await supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectId(id, body), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(*), subject:subjectBody(id, body), messages(count), likes(userId), favorites(userId)')
         .eq('id', messageId)
         .single();
 

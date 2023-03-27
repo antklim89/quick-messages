@@ -20,7 +20,7 @@ export async function updateMessageRequest({ values, messageId, answerToId }: Ar
         .update({ ...values, answerTo: answerToId })
         .eq('id', messageId)
         .eq('authorId', userId)
-        .select('body, subject:subjectId(id, body)')
+        .select('body, subject:subjectBody(body)')
         .single();
 
     if (error) {

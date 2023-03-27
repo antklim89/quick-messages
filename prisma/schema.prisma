@@ -22,8 +22,7 @@ model Profile {
 }
 
 model Subject {
-  id        Int      @id @default(autoincrement())
-  body      String   @db.VarChar(255)
+  body      String   @id @db.VarChar(255)
   createdAt DateTime @default(now())
 
   messages Message[]
@@ -55,12 +54,12 @@ model Message {
   answerToId Int?
   answers    Message[] @relation(name: "messages")
 
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId Int
+  subject Subject @relation(fields: [subjectBody], references: [body])
+  subjectBody String     @db.VarChar(255)
 
-  likes     Like[]
-  favorites Favorite[]
-  reports   Report[]
+  likes       Like[]
+  favorites   Favorite[]
+  reports     Report[]
 
   @@map("messages")
 }
