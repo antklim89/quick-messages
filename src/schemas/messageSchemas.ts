@@ -23,3 +23,9 @@ export const messageSchema = z.object({
     favoritesCount: z.number(),
     inFavorites: z.boolean(),
 });
+
+export const messageParamsSchema = z.object({
+    answerToId: z.coerce.number().optional(),
+    authorId: z.coerce.string().optional(),
+    subjectId: z.coerce.number().optional(),
+});

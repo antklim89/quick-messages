@@ -1,18 +1,15 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { QueryName, MESSAGES_LIMIT } from './constants';
+import { MessagesQueryKey, MESSAGES_LIMIT, QueryName } from './constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
-import { IMessage } from '~/types/message';
+import { IMessage, IMessageParams } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
 
 
-interface FindMessagesArguments {
+interface FindMessagesArguments extends IMessageParams {
     lastId?: number;
-    answerToId?: number;
-    subjectId?: number;
-    authorId?: string;
 }
 
 export async function findMessagesRequest({ answerToId, lastId, authorId, subjectId }: FindMessagesArguments) {
@@ -40,10 +37,10 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
 }
 
 
-export function useFindMessagesRequest({ answerToId, authorId, subjectId }: FindMessagesArguments = {}) {
+export function useFindMessagesRequest({ answerToId, subjectId, authorId }: IMessageParams) {
     const toast = useToast();
 
-    return useInfiniteQuery<IMessage[], Error>({
+    return useInfiniteQuery<IMessage[], Error, IMessage[], MessagesQueryKey>({
         queryKey: [QueryName.FIND_MESSAGES, answerToId, authorId, subjectId],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser({ required: false });

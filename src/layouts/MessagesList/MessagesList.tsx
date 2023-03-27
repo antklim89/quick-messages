@@ -3,20 +3,17 @@ import last from 'lodash/last';
 import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
-import { z } from 'zod';
 import MessageListCreateNew from './MessageListCreateNew';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
 import MessageAuthor from '~/layouts/MessageAuthor';
 import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests-hooks';
+import { messageParamsSchema } from '~/schemas';
 
 
 const MessagesList: FC = () => {
-    const params = useParams();
-    const answerToId = z.coerce.number().optional().parse(params.messageId);
-    const authorId = z.coerce.string().optional().parse(params.userId);
-    const subjectId = z.coerce.number().optional().parse(params.subjectId);
+    const { answerToId, authorId, subjectId } = messageParamsSchema.parse(useParams());
 
     const {
         isLoading,
