@@ -10,4 +10,13 @@ export const QueryName = {
     AVATAR_DOWNLOAD: 'AVATAR_DOWNLOAD',
 } as const;
 
+export type QueryName = typeof QueryName[keyof typeof QueryName]
+
 export const MESSAGES_LIMIT = 10;
+
+export type MessagesQueryKey = [
+    key: typeof QueryName.FIND_MESSAGES,
+    answerToId?: number,
+    authorId?: string,
+    subjectId?: number
+]
