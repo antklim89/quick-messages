@@ -34,12 +34,17 @@ const MessageUpdateMenu: FC<IMessage> = (message) => {
                     <ModalCloseButton />
 
                     <ModalBody pb={6}>
-                        <EditMessageForm
-                            id={message.id}
-                            messageBody={message.body}
-                            ref={initialRef}
-                            onSuccess={onClose}
-                        />
+                        {isOpen
+                            ? (
+                                <EditMessageForm
+                                    defaultSubject={message.subject}
+                                    id={message.id}
+                                    messageBody={message.body}
+                                    ref={initialRef}
+                                    onSuccess={onClose}
+                                />
+                            )
+                            : null}
                     </ModalBody>
                 </ModalContent>
             </Modal>

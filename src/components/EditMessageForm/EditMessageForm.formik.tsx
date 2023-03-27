@@ -6,13 +6,19 @@ import { editMessageSchema } from '~/schemas';
 import { IEditMessageInput } from '~/types';
 
 
-export function useEditMessageFormFormik({ messageBody, id, answerToId, onSuccess }: EditMessageFormProps) {
+export function useEditMessageFormFormik({
+    id,
+    answerToId,
+    messageBody,
+    defaultSubject,
+    onSuccess,
+}: EditMessageFormProps) {
     const { mutateAsync: createMessage } = useCreateMessageRequest({ answerToId });
     const { mutateAsync: updateMessage } = useUpdateMessageRequest({ answerToId });
 
     const initialValues = useMemo<IEditMessageInput>(() => ({
         body: messageBody || '',
-        subjectId: -1,
+        subjectId: defaultSubject?.id || -1,
     }), []);
 
     const formik = useFormik<IEditMessageInput>({

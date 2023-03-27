@@ -10,10 +10,10 @@ import { subjectBodySchema } from '~/schemas';
 import { ISubject } from '~/types';
 
 
-const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
+const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [input, setInput] = useState('');
-    const [selectedSubject, setSelectedSubject] = useState<ISubject|null>(null);
+    const [input, setInput] = useState(defaultSubject?.body || '');
+    const [selectedSubject, setSelectedSubject] = useState<ISubject|undefined>(defaultSubject);
 
     const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input });
     const { mutateAsync: createSubject } = useCreateSubject();
@@ -45,9 +45,9 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, ...props }) => {
 
     useEffect(() => {
         if (!onChange) return undefined;
-        if (isFetching) return onChange(null);
-        if (!isNewSubject) return onChange(null);
-        if (!validatedInput.success) return onChange(null);
+        if (isFetching) return onChange();
+        if (isNewSubject) return onChange();
+        if (!validatedInput.success) return onChange();
         return onChange(selectedSubject);
     }, [input, isNewSubject, selectedSubject]);
 

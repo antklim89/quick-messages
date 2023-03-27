@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryName } from './constants';
 import supabase from '~/supabase/app';
-import { IEditMessageInput, IMessage } from '~/types';
+import { IEditMessageInput, IMessage, ISubject } from '~/types';
 import { getUser } from '~/utils';
 
 
@@ -15,17 +15,20 @@ interface Arguments {
 export async function updateMessageRequest({ values, messageId, answerToId }: Arguments) {
     const { id: userId } = await getUser({ errorMessage: 'Login to update message' });
 
-    const { error } = await supabase
+    const { error, data } = await supabase
         .from('messages')
         .update({ ...values, answerTo: answerToId })
         .eq('id', messageId)
-        .eq('authorId', userId);
-
+        .eq('authorId', userId)
+        .select('body, subject:subjectId(id, body)')
+        .single();
 
     if (error) {
         console.error(error.message);
         if (error) throw new Error('Failed to update message. Try again later.');
     }
+
+    return data as {body: string, subject: ISubject};
 }
 
 
@@ -33,11 +36,11 @@ export function useUpdateMessageRequest({ answerToId }: { answerToId?: number; }
     const toast = useToast();
     const queryClient = useQueryClient();
 
-    return useMutation<void, Error, { messageId: number; values: IEditMessageInput; }>({
+    return useMutation<{body: string, subject: ISubject}, Error, { messageId: number; values: IEditMessageInput; }>({
         async mutationFn({ values, messageId }) {
-            await updateMessageRequest({ messageId, answerToId, values });
+            return updateMessageRequest({ messageId, answerToId, values });
         },
-        async onSuccess(_, { messageId, values }) {
+        async onSuccess(values, { messageId }) {
             toast({ title: 'Message successfully updated!', status: 'success' });
 
             await queryClient.setQueryData<IMessage>(

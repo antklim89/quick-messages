@@ -16,13 +16,13 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
         }
     }, []);
 
-    const handleSelectSubject = (subject: ISubject | null) => {
+    const handleSelectSubject = (subject?: ISubject) => {
         formik.setFieldValue('subjectId', subject?.id || -1);
     };
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <SelectSubject mb={4} onChange={handleSelectSubject} />
+            <SelectSubject defaultSubject={props.defaultSubject} mb={4} onChange={handleSelectSubject} />
             <Textarea
                 as="textarea"
                 mb={4}

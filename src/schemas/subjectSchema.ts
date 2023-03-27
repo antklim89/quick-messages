@@ -8,7 +8,7 @@ export const subjectSchema = z.object({
 
 
 export const subjectBodySchema = z.string()
-    .min(5)
+    .min(3)
     .max(50)
     .regex(/^[a-zA-Z 0-9]*$/)
     .trim()
