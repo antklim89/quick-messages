@@ -11,10 +11,11 @@ import { getUser, transformMessage } from '~/utils';
 interface FindMessagesArguments {
     lastId?: number;
     answerToId?: number;
+    subjectId?: number;
     authorId?: string;
 }
 
-export async function findMessagesRequest({ answerToId, lastId, authorId }: FindMessagesArguments) {
+export async function findMessagesRequest({ answerToId, lastId, authorId, subjectId }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
         .select('*, author:authorId(id, name, avatarUrl), subject:subjectId(id, body), messages(count), likes(userId), favorites(userId)')
@@ -23,6 +24,7 @@ export async function findMessagesRequest({ answerToId, lastId, authorId }: Find
 
     if (lastId) supabaseQuery.lt('id', lastId);
     if (authorId) supabaseQuery.eq('authorId', authorId);
+    if (subjectId) supabaseQuery.eq('subjectId', subjectId);
 
     if (answerToId) supabaseQuery.eq('answerToId', answerToId);
     else supabaseQuery.is('answerToId', null);
@@ -38,14 +40,14 @@ export async function findMessagesRequest({ answerToId, lastId, authorId }: Find
 }
 
 
-export function useFindMessagesRequest({ answerToId, authorId }: { answerToId?: number; authorId?: string } = {}) {
+export function useFindMessagesRequest({ answerToId, authorId, subjectId }: FindMessagesArguments = {}) {
     const toast = useToast();
 
     return useInfiniteQuery<IMessage[], Error>({
-        queryKey: [QueryName.FIND_MESSAGES, answerToId, authorId],
+        queryKey: [QueryName.FIND_MESSAGES, answerToId, authorId, subjectId],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser({ required: false });
-            const data = await findMessagesRequest({ answerToId, authorId, lastId });
+            const data = await findMessagesRequest({ answerToId, subjectId, authorId, lastId });
 
             return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
         },

@@ -16,6 +16,7 @@ const MessagesList: FC = () => {
     const params = useParams();
     const answerToId = z.coerce.number().optional().parse(params.messageId);
     const authorId = z.coerce.string().optional().parse(params.userId);
+    const subjectId = z.coerce.number().optional().parse(params.subjectId);
 
     const {
         isLoading,
@@ -23,7 +24,7 @@ const MessagesList: FC = () => {
         isFetchingNextPage,
         fetchNextPage,
         data: { pages } = { pages: [] },
-    } = useFindMessagesRequest({ answerToId, authorId });
+    } = useFindMessagesRequest({ answerToId, authorId, subjectId });
 
     useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
