@@ -10,5 +10,6 @@ export const subjectSchema = z.object({
 export const subjectBodySchema = z.string()
     .min(5)
     .max(50)
-    .regex(/^[a-z 0-9]*$/)
-    .trim();
+    .regex(/^[a-zA-Z 0-9]*$/)
+    .trim()
+    .transform((v) => v.toLowerCase());
