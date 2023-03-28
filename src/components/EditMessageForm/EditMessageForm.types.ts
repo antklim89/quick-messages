@@ -6,6 +6,7 @@ export interface EditMessageFormProps {
     answerToId?: number
     onSuccess?: () => void
     defaultSubject?: string
+    subject?: string
 }
 
 

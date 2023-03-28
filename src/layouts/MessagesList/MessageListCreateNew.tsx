@@ -3,15 +3,14 @@ import {
 } from '@chakra-ui/react';
 import { FC, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { z } from 'zod';
 import EditMessageForm from '~/components/EditMessageForm';
 import { useUser } from '~/requests-hooks';
+import { messageParamsSchema } from '~/schemas';
 
 
 const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) => {
     const { isAuth } = useUser();
-    const params = useParams();
-    const answerToId = z.coerce.number().optional().parse(params.messageId);
+    const { answerToId, subjectBody } = messageParamsSchema.parse(useParams());
     const ref = useRef<HTMLTextAreaElement>(null);
 
     const handleFormFocus = useCallback((e: number) => {
@@ -40,7 +39,7 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
                         Add New Message
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        <EditMessageForm answerToId={answerToId} ref={ref} />
+                        <EditMessageForm answerToId={answerToId} ref={ref} subject={subjectBody} />
                     </AccordionPanel>
                 </Skeleton>
             </AccordionItem>

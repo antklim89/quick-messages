@@ -11,6 +11,7 @@ export function useEditMessageFormFormik({
     answerToId,
     messageBody,
     defaultSubject,
+    subject,
     onSuccess,
 }: EditMessageFormProps) {
     const { mutateAsync: createMessage } = useCreateMessageRequest({ answerToId });
@@ -18,7 +19,7 @@ export function useEditMessageFormFormik({
 
     const initialValues = useMemo<IEditMessageInput>(() => ({
         body: messageBody || '',
-        subjectBody: defaultSubject || '',
+        subjectBody: subject || defaultSubject || '',
     }), []);
 
     const formik = useFormik<IEditMessageInput>({

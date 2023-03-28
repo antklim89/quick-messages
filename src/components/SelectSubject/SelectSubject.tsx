@@ -9,10 +9,10 @@ import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
 import { subjectBodySchema } from '~/schemas';
 
 
-const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...props }) => {
+const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSubject, ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [input, setInput] = useState(defaultSubject || '');
-    const [selectedSubject, setSelectedSubject] = useState<string|undefined>(defaultSubject);
+    const [input, setInput] = useState(subject || defaultSubject || '');
+    const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
 
     const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input });
     const { mutateAsync: createSubject } = useCreateSubject();
@@ -31,10 +31,10 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...
         setSelectedSubject(newSubject.body);
     };
 
-    const handleSelectSubject = (subject: string) => {
+    const handleSelectSubject = (subjectToSelect: string) => {
         if (isFetching) return;
-        setSelectedSubject(subject);
-        setInput(subject);
+        setSelectedSubject(subjectToSelect);
+        setInput(subjectToSelect);
     };
 
 
@@ -60,31 +60,34 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, defaultSubject, ...
                 <InputGroup>
                     <Input
                         {...props}
+                        isReadOnly={Boolean(subject)}
                         value={input}
                         onBlur={() => setTimeout(onClose, 10)}
                         onChange={(e) => setInput(e.target.value)}
                         onClick={onOpen}
                     />
-                    <InputRightElement width={32}>
-                        <Button
-                            isDisabled={!isNewSubject || isFetching || !validatedInput.success}
-                            size="sm"
-                            onClick={hundleAddSubject}
-                        >
-                            Add
-                        </Button>
-                    </InputRightElement>
+                    {!subject && (
+                        <InputRightElement width={32}>
+                            <Button
+                                isDisabled={!isNewSubject || isFetching || !validatedInput.success}
+                                size="sm"
+                                onClick={hundleAddSubject}
+                            >
+                                Add
+                            </Button>
+                        </InputRightElement>
+                    )}
                 </InputGroup>
             </PopoverTrigger>
-            {subjects.length > 0 && (
+            {(!subject && subjects.length > 0) && (
                 <PopoverContent>
-                    {subjects.map((subject) => (
+                    {subjects.map(({ body }) => (
                         <Button
-                            key={subject.body}
+                            key={body}
                             variant="ghost"
-                            onClick={() => handleSelectSubject(subject.body)}
+                            onClick={() => handleSelectSubject(body)}
                         >
-                            {subject.body}
+                            {body}
                         </Button>
                     ))}
                 </PopoverContent>

@@ -24,6 +24,7 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
             <SelectSubject
                 defaultSubject={props.defaultSubject}
                 mb={4}
+                subject={props.subject}
                 onChange={handleSelectSubject}
             />
             <Textarea
