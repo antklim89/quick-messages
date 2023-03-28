@@ -13,7 +13,7 @@ import { messageParamsSchema } from '~/schemas';
 
 
 const MessagesList: FC = () => {
-    const { answerToId, authorId, subjectId } = messageParamsSchema.parse(useParams());
+    const { answerToId, authorId, subjectBody } = messageParamsSchema.parse(useParams());
 
     const {
         isLoading,
@@ -21,7 +21,7 @@ const MessagesList: FC = () => {
         isFetchingNextPage,
         fetchNextPage,
         data: { pages } = { pages: [] },
-    } = useFindMessagesRequest({ answerToId, authorId, subjectId });
+    } = useFindMessagesRequest({ answerToId, authorId, subjectBody });
 
     useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
 

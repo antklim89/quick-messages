@@ -12,7 +12,7 @@ interface FindMessagesArguments extends IMessageParams {
     lastId?: number;
 }
 
-export async function findMessagesRequest({ answerToId, lastId, authorId, subjectId }: FindMessagesArguments) {
+export async function findMessagesRequest({ answerToId, lastId, authorId, subjectBody }: FindMessagesArguments) {
     const supabaseQuery = supabase
         .from('messages')
         .select('*, author:authorId(id, name, avatarUrl), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
@@ -21,7 +21,7 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
 
     if (lastId) supabaseQuery.lt('id', lastId);
     if (authorId) supabaseQuery.eq('authorId', authorId);
-    if (subjectId) supabaseQuery.eq('subjectBody', subjectId);
+    if (subjectBody) supabaseQuery.eq('subjectBody', subjectBody);
 
     if (answerToId) supabaseQuery.eq('answerToId', answerToId);
     else supabaseQuery.is('answerToId', null);
@@ -37,14 +37,14 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
 }
 
 
-export function useFindMessagesRequest({ answerToId, subjectId, authorId }: IMessageParams) {
+export function useFindMessagesRequest({ answerToId, subjectBody, authorId }: IMessageParams) {
     const toast = useToast();
 
     return useInfiniteQuery<IMessage[], Error, IMessage[], MessagesQueryKey>({
-        queryKey: [QueryName.FIND_MESSAGES, answerToId, authorId, subjectId],
+        queryKey: [QueryName.FIND_MESSAGES, answerToId, authorId, subjectBody],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser({ required: false });
-            const data = await findMessagesRequest({ answerToId, subjectId, authorId, lastId });
+            const data = await findMessagesRequest({ answerToId, subjectBody, authorId, lastId });
 
             return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
         },

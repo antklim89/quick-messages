@@ -27,5 +27,5 @@ export const messageSchema = z.object({
 export const messageParamsSchema = z.object({
     answerToId: z.coerce.number().optional(),
     authorId: z.coerce.string().optional(),
-    subjectId: z.coerce.number().optional(),
+    subjectBody: z.coerce.string().optional(),
 });

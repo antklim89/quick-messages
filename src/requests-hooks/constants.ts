@@ -18,5 +18,5 @@ export type MessagesQueryKey = [
     key: typeof QueryName.FIND_MESSAGES,
     answerToId?: number,
     authorId?: string,
-    subjectId?: number
+    subjectBody?: string
 ]

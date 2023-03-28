@@ -30,7 +30,7 @@ export const router = createBrowserRouter([
             },
             {
                 element: <MessagesList />,
-                path: 'subject/:subjectId',
+                path: 'subject/:subjectBody',
             },
             {
                 element: <Protected><Profile /></Protected>,
