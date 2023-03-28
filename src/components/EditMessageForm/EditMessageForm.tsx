@@ -21,7 +21,11 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <SelectSubject defaultSubject={props.defaultSubject} mb={4} onChange={handleSelectSubject} />
+            <SelectSubject
+                defaultSubject={props.defaultSubject}
+                mb={4}
+                onChange={handleSelectSubject}
+            />
             <Textarea
                 as="textarea"
                 mb={4}
