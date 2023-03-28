@@ -14,7 +14,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     const [input, setInput] = useState(subject || defaultSubject || '');
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
 
-    const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input }, { enabled: isOpen });
+    const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input }, { enabled: false });
     const { mutateAsync: createSubject } = useCreateSubject();
 
     const debounceRefetch = useCallback(debounce(refetch, 700), []);
@@ -39,8 +39,8 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
 
 
     useEffect(() => {
-        debounceRefetch();
-    }, [input]);
+        if (isOpen) debounceRefetch();
+    }, [input, isOpen]);
 
     useEffect(() => {
         if (!onChange) return undefined;
