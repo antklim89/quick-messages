@@ -11,7 +11,7 @@ export async function findSubjects({ body }: { body?: string; } = {}) {
     const query = supabase
         .from('subjects')
         .select('body')
-        .limit(50);
+        .limit(10);
 
     if (body) query.ilike('body', `%${body}%`);
 
