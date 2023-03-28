@@ -14,7 +14,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     const [input, setInput] = useState(subject || defaultSubject || '');
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
 
-    const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input });
+    const { data: subjects = [], refetch, isFetching } = useFindSubjects({ body: input }, { enabled: isOpen });
     const { mutateAsync: createSubject } = useCreateSubject();
 
     const debounceRefetch = useCallback(debounce(refetch, 700), []);
@@ -51,7 +51,8 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     }, [input, isNewSubject, selectedSubject]);
 
     return (
-        <Popover // eslint-disable-next-line jsx-a11y/no-autofocus
+        <Popover
+            isLazy // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={false}
             isOpen={isOpen}
             placement="bottom-start"
