@@ -5,7 +5,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 
 const MessageMenu: FC<{children: ReactNode}> = ({ children }) => {
     return (
-        <Menu>
+        <Menu isLazy>
             <MenuButton
                 aria-label="message-options"
                 as={IconButton}
