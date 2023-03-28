@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import { IMessage } from '~/types';
 
 
-const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount }) => {
+const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount, subject }) => {
     return (
         <IconButton
             aria-label={`show ${messagesCount} message answers`}
             as={Link}
-            to={`/message/${id}`}
+            to={`answer/${subject.body}/${id}`}
             variant="ghost"
         >
             <>

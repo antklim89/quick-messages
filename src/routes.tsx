@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
             },
             {
                 element: <MessagesList />,
-                path: 'message/:messageId',
+                path: 'answer/:subjectBody/:messageId',
             },
             {
                 element: <MessagesList />,
