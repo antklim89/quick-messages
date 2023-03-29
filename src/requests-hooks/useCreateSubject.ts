@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import { subjectBodySchema, subjectSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { ISubject } from '~/types';
@@ -32,7 +32,7 @@ export function useCreateSubject() {
             return createSubject(validatedBody);
         },
         async onSuccess() {
-            await queryClient.invalidateQueries([QueryName.SUBJECTS]);
+            await queryClient.invalidateQueries(['SUBJECTS'] satisfies QueryKey);
 
             toast({ title: 'New subject successfully added!', status: 'success' });
         },

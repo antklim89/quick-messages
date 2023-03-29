@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import { MESSAGES_LIMIT } from '~/requests-hooks/constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -13,7 +13,7 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectBody(id, body), messages(count), likes(userId), favorites!inner(userId)')
+        .select('*, author:authorId(*), subject:subjectBody(body), messages(count), likes(userId), favorites!inner(userId)')
         .eq('favorites.userId', user.id)
         .range(0, MESSAGES_LIMIT - 1)
         .order('createdAt', { ascending: false });
@@ -34,7 +34,7 @@ export function useFindMyFavoritesRequest() {
     const toast = useToast();
 
     return useInfiniteQuery<IMessage[], Error>({
-        queryKey: [QueryName.MY_FAVORITES],
+        queryKey: ['FAVORITES_LIST'] satisfies QueryKey,
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
             const data = await findMyFavorites({ lastId });

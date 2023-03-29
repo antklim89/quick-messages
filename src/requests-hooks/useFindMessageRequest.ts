@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';
@@ -11,7 +11,7 @@ import { getUser, transformMessage } from '~/utils';
 export async function findMessageRequest({ messageId }: {messageId: number}) {
     const { data, error } = await supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectBody(id, body), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(*), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
         .eq('id', messageId)
         .single();
 
@@ -30,7 +30,7 @@ export function useFindMessageRequest(messageId: number, initialData?: IMessage)
 
     return useQuery<IMessage, Error>({
         initialData,
-        queryKey: [QueryName.FIND_MESSAGE, messageId],
+        queryKey: ['FIND_MESSAGE', messageId] satisfies QueryKey,
         async queryFn() {
             const user = await getUser({ required: false });
             const data = await findMessageRequest({ messageId });

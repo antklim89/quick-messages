@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types';
 import { getUser } from '~/utils';
@@ -39,11 +39,11 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number })
         },
         async onSuccess() {
             await queryClient.invalidateQueries({
-                predicate: ({ queryKey }) => queryKey[0] === QueryName.FIND_MESSAGES,
+                predicate: ({ queryKey }) => queryKey[0] === 'FIND_MESSAGES' satisfies QueryKey[0],
             });
 
-            await queryClient.setQueryData<IMessage>(
-                [QueryName.FIND_MESSAGE, answerToId],
+            if (answerToId) await queryClient.setQueryData<IMessage>(
+                ['FIND_MESSAGE', answerToId] satisfies QueryKey,
                 (oldMessage) => (oldMessage && ({ ...oldMessage, messagesCount: oldMessage.messagesCount + 1 })),
             );
 

@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { subjectSchema } from '../schemas/subjectSchema';
 import { ISubject } from '../types/subject';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import supabase from '~/supabase/app';
 
 
@@ -29,7 +29,7 @@ export function useFindSubjects({ body }: { body?: string; } = {}, options: UseQ
     const toast = useToast();
 
     return useQuery<ISubject[], Error>({
-        queryKey: [QueryName.SUBJECTS],
+        queryKey: ['SUBJECTS', body] satisfies QueryKey,
         async queryFn() {
             return findSubjects({ body });
         },

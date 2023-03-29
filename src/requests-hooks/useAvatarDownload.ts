@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import supabase from '~/supabase/app';
 
 
 export function useAvatarDownload({ authorId }: {authorId?: string | null}) {
     return useQuery<string | null, Error>({
-        queryKey: [QueryName.AVATAR_DOWNLOAD, authorId],
+        queryKey: ['AVATAR_DOWNLOAD', authorId] satisfies QueryKey,
         async queryFn() {
             if (!authorId) return null;
             const { data } = await supabase.storage.from('avatar').download(`${authorId}/avatar`);

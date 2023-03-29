@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QueryName } from './constants';
+import { QueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IProfile } from '~/types';
 import { getUser } from '~/utils';
@@ -35,7 +35,7 @@ export function useUpdateProfie() {
         },
         async onSuccess(_, newProfile) {
             await queryClient.setQueryData<IProfile>(
-                [QueryName.PROFILE],
+                ['PROFILE'] satisfies QueryKey,
                 (oldProfile) => (oldProfile && ({ ...oldProfile, ...newProfile })),
             );
 
