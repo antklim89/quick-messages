@@ -7,6 +7,7 @@ import { useDebounce } from '~/hooks';
 import { useFindSubjects } from '~/requests-hooks';
 import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
 import { subjectBodySchema } from '~/schemas';
+import { addSubjectToLocalStorage } from '~/utils';
 
 
 const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSubject, ...props }) => {
@@ -28,12 +29,14 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
         if (!validatedInput.success) return;
         const newSubject = await createSubject({ body: validatedInput.data });
         setSelectedSubject(newSubject.body);
+        addSubjectToLocalStorage(newSubject);
     };
 
     const handleSelectSubject = (subjectToSelect: string) => {
         if (isFetching) return;
         setSelectedSubject(subjectToSelect);
         setInput(subjectToSelect);
+        addSubjectToLocalStorage({ body: subjectToSelect });
     };
 
     useEffect(() => {
