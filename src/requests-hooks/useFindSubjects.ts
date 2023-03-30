@@ -5,7 +5,6 @@ import { subjectSchema } from '../schemas/subjectSchema';
 import { QueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { ISubject } from '~/types/subject';
-import { getSubjectsFromLocalStorage } from '~/utils';
 
 
 export async function findSubjects({ body }: { body?: string; } = {}) {
@@ -32,7 +31,6 @@ export function useFindSubjects({ body }: { body?: string; } = {}, options: UseQ
     return useQuery<ISubject[], Error>({
         queryKey: ['SUBJECTS', body] satisfies QueryKey,
         async queryFn() {
-            if (!body || body.length < 2) return getSubjectsFromLocalStorage();
             return findSubjects({ body });
         },
         onError(error) {
@@ -40,6 +38,7 @@ export function useFindSubjects({ body }: { body?: string; } = {}, options: UseQ
             else toast({ title: error.message, status: 'error' });
         },
         keepPreviousData: true,
+        enabled: Boolean(body && body.length > 0),
         ...options,
     });
 }
