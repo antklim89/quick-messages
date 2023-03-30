@@ -4,9 +4,19 @@ import _ from 'lodash';
 
 
 const prisma = new PrismaClient();
-const MESSAGES = 5;
+const MESSAGES = 20;
+const SUBJECTS_NUMBER = 5;
 
-async function generateMessages(users) {
+
+async function generateSubjects() {
+    const subjects = faker.helpers.uniqueArray(() => faker.random.word().toLowerCase(), SUBJECTS_NUMBER);
+    await prisma.subject.createMany({
+        data: subjects.map((subject) => ({ body: subject })),
+    });
+    return subjects;
+}
+
+async function generateMessages(users, subjects) {
     const messages = [];
     for (let index = 0; index < MESSAGES; index += 1) {
         const author = _.sample(users);
@@ -14,6 +24,7 @@ async function generateMessages(users) {
         messages.push({
             body: faker.lorem.sentences(_.random(3, 5)),
             authorId: author.id,
+            subjectBody: _.sample(subjects),
         });
     }
     return prisma.$transaction(messages.map((data) => prisma.message.create({ data })));
@@ -29,6 +40,7 @@ async function generateAnswers(users, answers) {
                 body: faker.lorem.sentences(_.random(3, 5)),
                 authorId: author.id,
                 answerToId: answer.id,
+                subjectBody: answer.subjectBody,
             });
         }
     }
@@ -66,7 +78,8 @@ async function generateLikesAndFavorites(users) {
 
     const users = await prisma.profile.findMany();
 
-    const messages = await generateMessages(users);
+    const subjects = await generateSubjects();
+    const messages = await generateMessages(users, subjects);
     const answers1 = await generateAnswers(users, messages);
     await generateAnswers(users, answers1);
 
