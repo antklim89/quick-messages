@@ -7,11 +7,11 @@ import { useDebounce } from '~/hooks';
 import { useFindSubjects } from '~/requests-hooks';
 import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
 import { subjectBodySchema } from '~/schemas';
-import { addSubjectToLocalStorage } from '~/utils';
+import { addSubjectToLocalStorage, getSubjectsFromLocalStorage } from '~/utils';
 
 
 const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSubject, ...props }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onClose, onToggle } = useDisclosure();
     const [input, setInput] = useReducer((_: string, v: string) => (v.toLowerCase()), subject || defaultSubject || '');
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
     const deboncedInput = useDebounce(input, 200);
@@ -47,6 +47,8 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
         return onChange(selectedSubject);
     }, [input, isNewSubject, selectedSubject]);
 
+    const allSubjects = subjects.length === 0 ? getSubjectsFromLocalStorage() : subjects;
+
     return (
         <Popover
             isLazy // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -62,7 +64,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
                         value={input}
                         onBlur={() => setTimeout(onClose, 10)}
                         onChange={(e) => setInput(e.target.value)}
-                        onClick={onOpen}
+                        onClick={onToggle}
                     />
                     {!subject && (
                         <InputRightElement width={32}>
@@ -77,9 +79,9 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
                     )}
                 </InputGroup>
             </PopoverTrigger>
-            {(!subject && subjects.length > 0) && (
+            {(!subject && allSubjects.length > 0) && (
                 <PopoverContent>
-                    {subjects.map(({ body }) => (
+                    {(allSubjects).map(({ body }) => (
                         <Button
                             key={body}
                             variant="ghost"
