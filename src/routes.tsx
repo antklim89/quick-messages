@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <Navigate replace to="info" />,
+                        element: <Navigate replace to="/profile/info" />,
                     },
                     {
                         path: 'info',
