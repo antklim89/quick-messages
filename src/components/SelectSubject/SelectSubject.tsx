@@ -1,7 +1,7 @@
 import {
     Button, Input, InputGroup, InputRightElement, Popover, PopoverContent, PopoverTrigger, useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useReducer, useState } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useDebounce } from '~/hooks';
 import { useFindSubjects } from '~/requests-hooks';
@@ -12,7 +12,7 @@ import { addSubjectToLocalStorage } from '~/utils';
 
 const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSubject, ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [input, setInput] = useState(subject || defaultSubject || '');
+    const [input, setInput] = useReducer((_: string, v: string) => (v.toLowerCase()), subject || defaultSubject || '');
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
     const deboncedInput = useDebounce(input, 200);
 
