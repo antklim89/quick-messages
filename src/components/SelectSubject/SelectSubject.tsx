@@ -4,8 +4,7 @@ import {
 import { FC, useEffect, useReducer, useState } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useDebounce } from '~/hooks';
-import { useFindSubjects } from '~/requests-hooks';
-import { useCreateSubject } from '~/requests-hooks/useCreateSubject';
+import { useFindSubjects, useCreateSubject } from '~/requests';
 import { subjectBodySchema } from '~/schemas';
 import { addSubjectToLocalStorage, getSubjectsFromLocalStorage } from '~/utils';
 

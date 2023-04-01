@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { BsPersonCheckFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import DateComponent from '~/components/DateComponent';
-import { useUser } from '~/requests-hooks';
+import { useUser } from '~/requests';
 import { IMessage } from '~/types';
 
 

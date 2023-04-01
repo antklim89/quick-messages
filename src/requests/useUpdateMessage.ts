@@ -20,15 +20,15 @@ export async function updateMessageRequest({ values, messageId, answerToId }: Ar
         .update({ ...values, answerTo: answerToId })
         .eq('id', messageId)
         .eq('authorId', userId)
-        .select('body, subject:subjectBody(body)')
-        .single();
+        .select('body, subject:subjectBody(body)');
 
-    if (error) {
-        console.error(error.message);
-        if (error) throw new Error('Failed to update message. Try again later.');
+
+    if (error || data.length === 0) {
+        if (error) console.error(error.message);
+        throw new Error('Failed to update message. Try again later.');
     }
 
-    return data as {body: string, subject: ISubject};
+    return data[0] as {body: string, subject: ISubject};
 }
 
 

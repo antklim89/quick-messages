@@ -2,7 +2,7 @@ import { Card, Input, Skeleton } from '@chakra-ui/react';
 import { FC } from 'react';
 import ProfileInfoForm from './ProfileInfoForm';
 import ProfileUploadAvatar from './ProfileUploadAvatar';
-import { useFindProfie } from '~/requests-hooks';
+import { useFindProfie } from '~/requests';
 
 
 const ProfileInfo: FC = () => {

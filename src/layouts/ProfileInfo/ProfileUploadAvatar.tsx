@@ -1,7 +1,6 @@
 import { Avatar, Button, Flex, Input } from '@chakra-ui/react';
 import { ChangeEventHandler, FC, useState } from 'react';
-import { useFindProfie } from '~/requests-hooks';
-import { useAvatarUpload } from '~/requests-hooks/useAvatarUpload';
+import { useFindProfie, useAvatarUpload } from '~/requests';
 
 
 const ProfileUploadAvatar: FC = () => {

@@ -11,7 +11,7 @@ import MessageUpdateMenu from './MessageUpdateMenu';
 import MessageFavoriteButton from '~/components/MessageFavoriteButton';
 import MessageLikeButton from '~/components/MessageLikeButton';
 import MessageSkeleton from '~/components/MessageSkeleton';
-import { useFindMessageRequest } from '~/requests-hooks';
+import { useFindMessageRequest } from '~/requests';
 
 
 const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false }) => {

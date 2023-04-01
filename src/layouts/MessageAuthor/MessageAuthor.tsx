@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { MessageAuthorProps } from './MessageAuthor.types';
-import { useAvatarDownload, useFindProfie } from '~/requests-hooks';
+import { useAvatarDownload, useFindProfie } from '~/requests';
 
 
 const MessageAuthor: FC<MessageAuthorProps> = ({ authorId }) => {

@@ -2,7 +2,7 @@ import { Icon, IconButton, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { BsBookmarkFill, BsBookmark } from 'react-icons/bs';
 import { MessageFavoriteButtonProps } from './MessageFavoriteButtonProps';
-import { useFavoriteRequest } from '~/requests-hooks';
+import { useFavoriteRequest } from '~/requests';
 
 
 const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...props }) => {

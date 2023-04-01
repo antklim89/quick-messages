@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { QueryKey } from './constants';
-import { MESSAGES_LIMIT } from '~/requests-hooks/constants';
+import { MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';

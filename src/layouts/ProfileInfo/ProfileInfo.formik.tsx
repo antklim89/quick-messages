@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useUpdateProfie } from '~/requests-hooks';
+import { useUpdateProfie } from '~/requests';
 import { profileInputSchema } from '~/schemas';
 import { IProfile } from '~/types';
 

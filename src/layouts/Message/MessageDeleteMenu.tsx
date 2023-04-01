@@ -1,7 +1,7 @@
 import { MenuItem } from '@chakra-ui/react';
 import { FC, useCallback } from 'react';
 import ConfirmDialog from '~/components/ConfirmDialog';
-import { useDeleteMessageRequest, useUser } from '~/requests-hooks';
+import { useDeleteMessageRequest, useUser } from '~/requests';
 
 
 const MessageDeleteMenu: FC<{authorId: string, messageId: number}> = ({ authorId, messageId }) => {

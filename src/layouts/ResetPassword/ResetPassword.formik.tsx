@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
 import { z } from 'zod';
-import { useResetPassword, useUser } from '~/requests-hooks';
+import { useResetPassword, useUser } from '~/requests';
 
 
 export function useResetPasswordFormik() {

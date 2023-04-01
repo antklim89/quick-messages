@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, useCallback, useRef } from 'react';
 import EditMessageForm from '~/components/EditMessageForm';
-import { useUser } from '~/requests-hooks';
+import { useUser } from '~/requests';
 import { IMessage } from '~/types';
 
 

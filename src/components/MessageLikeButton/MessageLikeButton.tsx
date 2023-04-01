@@ -2,7 +2,7 @@ import { Icon, IconButton, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { MessageLikeButtonProps } from './MessageLikeButtonProps';
-import { useLikeRequest } from '~/requests-hooks';
+import { useLikeRequest } from '~/requests';
 
 
 const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) => {

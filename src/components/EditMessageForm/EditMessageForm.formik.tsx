@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useMemo } from 'react';
 import { EditMessageFormProps } from './EditMessageForm.types';
-import { useCreateMessageRequest, useUpdateMessageRequest } from '~/requests-hooks';
+import { useCreateMessageRequest, useUpdateMessageRequest } from '~/requests';
 import { editMessageSchema } from '~/schemas';
 import { IEditMessageInput } from '~/types';
 

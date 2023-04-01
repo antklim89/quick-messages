@@ -8,7 +8,7 @@ import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
 import MessageAuthor from '~/layouts/MessageAuthor';
-import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests-hooks';
+import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests';
 import { messageParamsSchema } from '~/schemas';
 
 

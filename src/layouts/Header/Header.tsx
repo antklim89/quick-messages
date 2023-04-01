@@ -4,7 +4,7 @@ import {
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
-import { useUser } from '~/requests-hooks';
+import { useUser } from '~/requests';
 import supabase from '~/supabase/app';
 
 

@@ -4,7 +4,7 @@ import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message';
-import { MESSAGES_LIMIT, useFindMessagesRequest, useUser } from '~/requests-hooks';
+import { MESSAGES_LIMIT, useFindMessagesRequest, useUser } from '~/requests';
 
 
 const MyMessages: FC = () => {
