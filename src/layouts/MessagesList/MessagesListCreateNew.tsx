@@ -1,4 +1,6 @@
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, Skeleton } from '@chakra-ui/react';
+import {
+    Accordion, AccordionItem, AccordionButton, AccordionPanel, Skeleton, Button,
+} from '@chakra-ui/react';
 import { FC, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import EditMessageForm from '~/components/EditMessageForm';
@@ -20,16 +22,14 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
     return (
         <Accordion
             allowToggle
-            border="1px"
-            borderColor="primary.600"
             borderRadius="lg"
-            boxShadow="md"
+            borderWidth="thin"
             mb={4}
             onChange={handleFormFocus}
         >
             <AccordionItem border="none">
                 <Skeleton isLoaded={!isLoading}>
-                    <AccordionButton justifyContent="center">
+                    <AccordionButton as={Button} justifyContent="center" variant="ghost">
                         Add New Message
                     </AccordionButton>
                     <AccordionPanel pb={4}>

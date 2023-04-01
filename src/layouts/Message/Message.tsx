@@ -20,9 +20,8 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
     if (!message || isLoading) return <MessageSkeleton />;
     return (
         <Card
-            borderWidth={isMain ? 'medium' : 'thin'}
-            boxShadow={isMain ? 'lg' : 'md'}
-            mb={4}
+            borderWidth={isMain ? 'medium' : 'thin'} boxShadow="none" mb={4}
+            variant="outline"
         >
             <CardHeader alignItems="center" p={4} >
                 <MessageHeader {...message} />
@@ -40,6 +39,8 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
             <CardFooter
                 display="flex"
                 justifyContent="space-around"
+                p={0}
+                pt={2}
                 sx={{ '&>*': { flex: '1 1 0' } }}
             >
                 <MessageFavoriteButton message={message} />
