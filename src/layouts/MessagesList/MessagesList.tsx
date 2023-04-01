@@ -3,7 +3,7 @@ import last from 'lodash/last';
 import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
-import MessageListCreateNew from './MessageListCreateNew';
+import MessageListCreateNew from './MessagesListCreateNew';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
