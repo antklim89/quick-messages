@@ -9,7 +9,7 @@ import { getUser } from '~/utils';
 export async function createMessageRequest(body: string, answerToId: number | undefined, subjectBody: string) {
     const { id: userId } = await getUser();
 
-    const { error, data } = await supabase
+    const { error } = await supabase
         .from('messages')
         .insert({
             body,
@@ -17,15 +17,12 @@ export async function createMessageRequest(body: string, answerToId: number | un
             answerToId,
             subjectBody,
             updatedAt: new Date().toISOString(),
-        })
-        .single();
+        });
 
     if (error) {
         console.error(error.message);
         throw new Error('Failed to add new message. Try again later.');
     }
-
-    return data;
 }
 
 

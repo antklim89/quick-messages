@@ -18,7 +18,7 @@ export async function addFavoriteRequest({ messageId }: {messageId: number}) {
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to add favorite message. Try again later.');
+        throw new Error('Failed to add favorite message. Try again later.');
     }
 }
 
@@ -34,7 +34,7 @@ export async function removeFavoriteRequest({ messageId }: {messageId: number}) 
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to remove favorite message. Try again later.');
+        throw new Error('Failed to remove favorite message. Try again later.');
     }
 }
 

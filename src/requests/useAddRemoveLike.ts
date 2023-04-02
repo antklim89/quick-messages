@@ -16,7 +16,7 @@ export async function likeRequest({ messageId }: {messageId: number}) {
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to unlike message. Try again later.');
+        throw new Error('Failed to unlike message. Try again later.');
     }
 }
 
@@ -31,7 +31,7 @@ export async function unlikeRequest({ messageId }: {messageId: number}) {
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to like message. Try again later.');
+        throw new Error('Failed to like message. Try again later.');
     }
 }
 

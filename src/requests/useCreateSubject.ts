@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ZodError } from 'zod';
 import { QueryKey } from './constants';
 import { subjectBodySchema, subjectSchema } from '~/schemas';
 import supabase from '~/supabase/app';
@@ -7,9 +8,11 @@ import { ISubject } from '~/types';
 
 
 export async function createSubject(body: string) {
+    const validatedBody = await subjectBodySchema.parse(body);
+
     const { error, data } = await supabase
         .from('subjects')
-        .insert({ body })
+        .insert({ body: validatedBody })
         .select('body')
         .single();
 
@@ -28,8 +31,7 @@ export function useCreateSubject() {
 
     return useMutation<ISubject, Error, { body: string }>({
         async mutationFn({ body }) {
-            const validatedBody = await subjectBodySchema.parse(body);
-            return createSubject(validatedBody);
+            return createSubject(body);
         },
         async onSuccess() {
             await queryClient.invalidateQueries(['SUBJECTS'] satisfies QueryKey);
@@ -37,7 +39,8 @@ export function useCreateSubject() {
             toast({ title: 'New subject successfully added!', status: 'success' });
         },
         onError(error) {
-            toast({ title: error.message, status: 'error' });
+            if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
+            else toast({ title: error.message, status: 'error' });
         },
     });
 }

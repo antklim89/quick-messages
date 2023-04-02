@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ZodError } from 'zod';
 import { QueryKey } from './constants';
 import { MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
@@ -45,7 +46,8 @@ export function useFindMyFavoritesRequest() {
             return lastPage.slice().pop()?.id;
         },
         onError(error) {
-            toast({ title: error.message, status: 'error' });
+            if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
+            else toast({ title: error.message, status: 'error' });
         },
     });
 }
