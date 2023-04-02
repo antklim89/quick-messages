@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { resolve } from 'path';
 import { URL } from 'url';
 import react from '@vitejs/plugin-react';
