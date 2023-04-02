@@ -26,9 +26,9 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
         if (isFetching) return;
         if (!isNewSubject) return;
         if (!validatedInput.success) return;
-        const newSubject = await createSubject({ body: validatedInput.data });
-        setSelectedSubject(newSubject.body);
-        addSubjectToLocalStorage(newSubject);
+        await createSubject({ body: validatedInput.data });
+        setSelectedSubject(validatedInput.data);
+        addSubjectToLocalStorage({ body: validatedInput.data });
     };
 
     const handleSelectSubject = (subjectToSelect: string) => {
