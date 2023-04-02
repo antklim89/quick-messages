@@ -17,5 +17,6 @@ export * from './useFindProfie';
 export * from './useUploadAvatar';
 export * from './useDownloadAvatar';
 export * from './useCreateSubject';
+export * from './useCreateReport';
 export * from './constants';
 
