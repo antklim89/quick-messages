@@ -6,6 +6,7 @@ import MessageDeleteMenu from './MessageDeleteMenu';
 import MessageHeader from './MessageHeader';
 import MessageMenu from './MessageMenu';
 import MessageReportMenu from './MessageReportMenu';
+import MessageShareMenu from './MessageShareMenu';
 import MessageUpdateMenu from './MessageUpdateMenu';
 import MessageFavoriteButton from '~/components/MessageFavoriteButton';
 import MessageLikeButton from '~/components/MessageLikeButton';
@@ -25,6 +26,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
             <CardHeader alignItems="center" p={4} >
                 <MessageHeader {...message} />
                 <MessageMenu>
+                    <MessageShareMenu {...message} />
                     <MessageReportMenu messageId={message.id} />
                     <MessageDeleteMenu authorId={message.author.id} messageId={message.id} />
                     <MessageUpdateMenu {...message} />
