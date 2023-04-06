@@ -41,6 +41,7 @@ const MessageUpdateMenu: FC<IMessage> = (message) => {
                                     id={message.id}
                                     messageBody={message.body}
                                     ref={initialRef}
+                                    subject={message.subject.body}
                                     onSuccess={onClose}
                                 />
                             )
