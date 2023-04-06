@@ -3,14 +3,14 @@ import { FC, MouseEventHandler } from 'react';
 import { IMessage } from '~/types';
 
 
-const MessageShareMenu: FC<IMessage> = ({ author, body }) => {
+const MessageShareMenu: FC<IMessage> = ({ author, body, subject, id }) => {
     const handleShare: MouseEventHandler<HTMLButtonElement> = async () => {
         if (!navigator.share) return;
         try {
             await navigator.share({
-                title: author.name,
+                title: `${author.name}'s message.`,
                 text: body,
-                url: location.href,
+                url: `${location.origin}/answer/${subject.body}/${id}`,
             });
         } catch (error) {
             console.error(error);
@@ -21,7 +21,7 @@ const MessageShareMenu: FC<IMessage> = ({ author, body }) => {
 
     return (
         <MenuItem onClick={handleShare}>
-            {String(navigator.share)}
+            Share
         </MenuItem>
     );
 };
