@@ -7,7 +7,7 @@ import { useUser } from '~/requests';
 import { IMessage } from '~/types';
 
 
-const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id }) => {
+const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id, body }) => {
     const { id: userId } = useUser();
 
     return (
@@ -17,7 +17,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id }) => {
             position="relative"
             width="100%"
         >
-            <Flex alignItems="center">
+            <Flex alignItems="center" mb={1}>
                 <Avatar
                     mr={4}
                     name={author.name}
@@ -51,6 +51,7 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id }) => {
             </Flex>
             <Flex>
                 <SocialShare
+                    body={body}
                     title={`${author.name}'s message. About the subject "${subject.body}".`}
                     url={`/answer/${subject.body}/${id}`}
                 />

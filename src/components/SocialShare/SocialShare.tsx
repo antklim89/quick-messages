@@ -15,7 +15,14 @@ import {
 import { SocialShareProps } from './SocialShare.types';
 
 
-const SocialShare: FC<SocialShareProps> = ({ title, url }) => {
+const buttons = [
+    { ShareButton: VKShareButton, Icon: VKIcon, id: 1 },
+    { ShareButton: TelegramShareButton, Icon: TelegramIcon, id: 2 },
+    { ShareButton: TwitterShareButton, Icon: TwitterIcon, id: 3 },
+    { ShareButton: RedditShareButton, Icon: RedditIcon, id: 4 },
+] as const;
+
+const SocialShare: FC<SocialShareProps> = ({ title, url, body }) => {
     const [isLoad, setIsLoad] = useState(false);
     const fullUrl = `${location.origin}${url}`;
 
@@ -23,37 +30,15 @@ const SocialShare: FC<SocialShareProps> = ({ title, url }) => {
 
     if (!isLoad) return null;
     return (
-        <HStack sx={{ svg: { width: 8 } }}>
-            <VKShareButton
-                title={title}
-                url={fullUrl}
-            >
-                <VKIcon />
-            </VKShareButton>
-            <EmailShareButton
-                subject={title}
-                url={fullUrl}
-            >
-                <EmailIcon />
+        <HStack>
+            {buttons.map(({ ShareButton, Icon, id }) => (
+                <ShareButton key={id} title={title} url={fullUrl}>
+                    <Icon round size={32} />
+                </ShareButton>
+            ))}
+            <EmailShareButton body={body} subject={title} url={fullUrl}>
+                <EmailIcon round size={32} />
             </EmailShareButton>
-            <TelegramShareButton
-                title={title}
-                url={fullUrl}
-            >
-                <TelegramIcon />
-            </TelegramShareButton>
-            <TwitterShareButton
-                title={title}
-                url={fullUrl}
-            >
-                <TwitterIcon />
-            </TwitterShareButton>
-            <RedditShareButton
-                title={title}
-                url={fullUrl}
-            >
-                <RedditIcon />
-            </RedditShareButton>
         </HStack>
     );
 };
