@@ -23,7 +23,7 @@ const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false
             borderWidth={isMain ? 'medium' : 'thin'} boxShadow="none" mb={4}
             variant="outline"
         >
-            <CardHeader alignItems="center" p={4} >
+            <CardHeader alignItems="start" >
                 <MessageHeader {...message} />
                 <MessageMenu>
                     <MessageShareMenu {...message} />
