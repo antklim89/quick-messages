@@ -66,7 +66,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
                         onClick={onToggle}
                     />
                     {!subject && (
-                        <InputRightElement width={32}>
+                        <InputRightElement width={32} zIndex={0}>
                             <Button
                                 isDisabled={!isNewSubject || isFetching || !validatedInput.success}
                                 size="sm"
