@@ -53,8 +53,8 @@ const HeaderAuth: FC = () => {
         <>
             {colorModeMenu}
             <MenuDivider />
-            <Auth as="div" textTransform="uppercase" />
-            <Auth as="div" defaultType="register" textTransform="uppercase" />
+            <Auth textTransform="uppercase" />
+            <Auth defaultType="register" textTransform="uppercase" />
         </>
     );
 };

@@ -3,6 +3,7 @@ import {
     Button,
     MenuItem,
     Modal,
+    ModalBody,
     ModalCloseButton,
     ModalContent,
     ModalFooter,
@@ -29,6 +30,7 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
 
     const handleToggleType = useCallback(() => setType(opositeType), [opositeType]);
     const handleToggleResetPassword = useCallback(() => setShowResetPassword((p) => !p), []);
+
     return (
         <>
             <MenuItem cursor="pointer" {...props} onClick={onOpen}>
@@ -37,19 +39,15 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent p={4}>
-                    <ModalHeader textTransform="uppercase">{type}</ModalHeader>
-                    <ModalCloseButton />
-                    <AuthForm formik={formik} type={type} />
-                    <Text pb={4} textAlign="center">Or <Button variant="link" onClick={handleToggleType}>{opositeType}</Button></Text>
-                    <Button variant="link" onClick={handleToggleResetPassword}>Forgot password?</Button>
-                    {showResetPassword
-                        ? (
-                            <Box my={4}>
-                                <ResetPassword />
-                            </Box>
-                        )
-                        : null}
+                <ModalContent>
+                    <ModalBody display="flex" flexDirection="column">
+                        <ModalHeader textTransform="uppercase">{type}</ModalHeader>
+                        <ModalCloseButton />
+                        <AuthForm formik={formik} type={type} />
+                        <Text pb={4} textAlign="center">Or <Button variant="link" onClick={handleToggleType}>{opositeType}</Button></Text>
+                        <Button variant="link" onClick={handleToggleResetPassword}>Forgot password?</Button>
+                        {showResetPassword ? <Box my={4}><ResetPassword /></Box> : null}
+                    </ModalBody>
                     <ModalFooter>
                         <Button
                             disabled={!formik.isValid}
@@ -65,7 +63,6 @@ const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {
                 </ModalContent>
             </Modal>
         </>
-
     );
 };
 
