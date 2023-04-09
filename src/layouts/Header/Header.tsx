@@ -1,9 +1,10 @@
 import {
-    Box, Text, Container, IconButton, Menu, MenuButton, MenuList, Avatar, useColorModeValue,
+    Box, Container, IconButton, Menu, MenuButton, MenuList, Avatar, useColorModeValue,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
+import HeaderLogo from './HeaderLogo';
 import { useUser } from '~/requests';
 import supabase from '~/supabase/app';
 
@@ -14,19 +15,13 @@ const Header: FC = () => {
     const logoColor = useColorModeValue('primary.800', 'primary.200');
 
     return (
-        <Box as="header" shadow="md" >
+        <Box as="header" shadow="md">
             <Container alignItems="center" display="flex" maxWidth="container.xl">
-                <Text
-                    as={Link}
-                    color={logoColor}
-                    colorScheme="primary"
-                    fontSize="2xl"
-                    to="/"
-                >
-                    Quick Messages
-                </Text>
-                <Box flexGrow={1} />
+                <Link to="/">
+                    <HeaderLogo color={logoColor} height="100%" width="220px" />
+                </Link>
 
+                <Box flexGrow={1} />
                 <Menu>
                     <MenuButton
                         aria-label="main-menu"
