@@ -1,7 +1,7 @@
 import {
     Accordion, AccordionItem, AccordionButton, AccordionPanel, Skeleton, Button,
 } from '@chakra-ui/react';
-import { FC, useCallback, useRef } from 'react';
+import { FC, useCallback, useRef, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import EditMessageForm from '~/components/EditMessageForm';
 import { useUser } from '~/requests';
@@ -41,4 +41,4 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
     );
 };
 
-export default MessageListCreateNew;
+export default memo(MessageListCreateNew);

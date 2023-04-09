@@ -1,7 +1,7 @@
 import {
     Button, Input, InputGroup, InputRightElement, Popover, PopoverContent, PopoverTrigger, useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useEffect, useReducer, useState } from 'react';
+import { FC, memo, useEffect, useReducer, useState } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useDebounce } from '~/hooks';
 import { useFindSubjects, useCreateSubject } from '~/requests';
@@ -95,4 +95,4 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     );
 };
 
-export default SelectSubjects;
+export default memo(SelectSubjects);
