@@ -15,8 +15,9 @@ import { useFindMessageRequest } from '~/requests';
 
 
 const Message: FC<MessageProps> = ({ id, message: initialMessage, isMain = false }) => {
-    const { data: message, isLoading } = useFindMessageRequest(id, initialMessage);
+    const { data: message, isLoading, isError } = useFindMessageRequest(id, initialMessage);
 
+    if (isError) return null;
     if (!message || isLoading) return <MessageSkeleton />;
     return (
         <Card
