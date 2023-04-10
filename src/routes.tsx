@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
             },
             {
                 element: <MessagesList />,
-                path: 'user/:userId',
+                path: 'user/:authorId',
             },
             {
                 element: <MessagesList />,
