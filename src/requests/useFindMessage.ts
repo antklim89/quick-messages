@@ -9,19 +9,22 @@ import { getUser, transformMessage } from '~/utils';
 
 
 export async function findMessageRequest({ messageId }: {messageId: number}) {
-    const { data, error } = await supabase
+    const user = await getUser({ required: false });
+    const { data = [], error } = await supabase
         .from('messages')
         .select('*, author:authorId(*), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
-        .eq('id', messageId)
-        .single();
-
+        .eq('id', messageId);
 
     if (error) {
         console.error(error.message);
-        if (error) throw new Error('Failed to load message. Try again later.');
+        throw new Error('Failed to load message. Try again later.');
     }
 
-    return data;
+    if (!data || !data[0]) {
+        throw new Error('Message not found.');
+    }
+
+    return messageSchema.parseAsync(transformMessage(data[0], user ? user.id : null));
 }
 
 
@@ -29,15 +32,13 @@ export function useFindMessageRequest(messageId: number, initialData?: IMessage)
     const toast = useToast();
 
     return useQuery<IMessage, Error>({
+        retry: 0,
+        staleTime: initialData ? Infinity : undefined,
         initialData,
         queryKey: ['FIND_MESSAGE', messageId] satisfies QueryKey,
         async queryFn() {
-            const user = await getUser({ required: false });
-            const data = await findMessageRequest({ messageId });
-
-            return messageSchema.parseAsync(transformMessage(data, user ? user.id : null));
+            return findMessageRequest({ messageId });
         },
-        staleTime: initialData ? Infinity : undefined,
         onError(error) {
             if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
             else toast({ title: error.message, status: 'error' });

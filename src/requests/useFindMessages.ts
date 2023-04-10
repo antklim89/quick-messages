@@ -13,6 +13,7 @@ interface FindMessagesArguments extends IMessageParams {
 }
 
 export async function findMessagesRequest({ answerToId, lastId, authorId, subjectBody }: FindMessagesArguments) {
+    const user = await getUser({ required: false });
     const supabaseQuery = supabase
         .from('messages')
         .select('*, author:authorId(id, name, avatarUrl), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
@@ -33,7 +34,8 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
         if (error) throw new Error('Failed to load messages. Try again later.');
     }
 
-    return data;
+    if (!data) return [];
+    return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
 }
 
 
@@ -41,12 +43,10 @@ export function useFindMessagesRequest({ answerToId, subjectBody, authorId }: IM
     const toast = useToast();
 
     return useInfiniteQuery<IMessage[], Error, IMessage[], QueryKey>({
+        retry: 1,
         queryKey: ['FIND_MESSAGES', answerToId, authorId, subjectBody],
         async queryFn({ pageParam: lastId }) {
-            const user = await getUser({ required: false });
-            const data = await findMessagesRequest({ answerToId, subjectBody, authorId, lastId });
-
-            return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
+            return findMessagesRequest({ answerToId, subjectBody, authorId, lastId });
         },
         getNextPageParam(lastPage) {
             return lastPage.slice().pop()?.id;
