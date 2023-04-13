@@ -5,11 +5,10 @@ import _ from 'lodash';
 
 const prisma = new PrismaClient();
 const MESSAGES = 20;
-const SUBJECTS_NUMBER = 5;
 
 
 async function generateSubjects() {
-    const subjects = faker.helpers.uniqueArray(() => faker.random.word().toLowerCase(), SUBJECTS_NUMBER);
+    const subjects = ['funny', 'cars', 'movies', 'star wars', 'funny cats', 'news'];
     await prisma.subject.createMany({
         data: subjects.map((subject) => ({ body: subject })),
     });
@@ -33,7 +32,7 @@ async function generateMessages(users, subjects) {
 async function generateAnswers(users, answers) {
     const messages = [];
     for (const answer of answers) {
-        for (let index = 0; index < MESSAGES; index += 1) {
+        for (let index = 0; index < _.random(0, MESSAGES, false); index += 1) {
             const author = _.sample(users);
             if (!author) break;
             messages.push({
