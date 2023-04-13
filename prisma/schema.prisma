@@ -35,7 +35,7 @@ model Report {
   body      String   @db.VarChar(255)
   createdAt DateTime @default(now())
 
-  message   Message @relation(fields: [messageId], references: [id])
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   messageId Int
 
   @@map("reports")
@@ -54,12 +54,12 @@ model Message {
   answerToId Int?
   answers    Message[] @relation(name: "messages")
 
-  subject Subject @relation(fields: [subjectBody], references: [body])
-  subjectBody String     @db.VarChar(255)
+  subject     Subject @relation(fields: [subjectBody], references: [body])
+  subjectBody String  @db.VarChar(255)
 
-  likes       Like[]
-  favorites   Favorite[]
-  reports     Report[]
+  likes     Like[]
+  favorites Favorite[]
+  reports   Report[]
 
   @@map("messages")
 }
