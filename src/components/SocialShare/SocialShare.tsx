@@ -7,8 +7,6 @@ import {
     EmailShareButton,
     RedditIcon,
     RedditShareButton,
-    TelegramShareButton,
-    TelegramIcon,
     TwitterShareButton,
     TwitterIcon,
 } from 'react-share';
@@ -17,7 +15,6 @@ import { SocialShareProps } from './SocialShare.types';
 
 const buttons = [
     { ShareButton: VKShareButton, Icon: VKIcon, id: 1 },
-    { ShareButton: TelegramShareButton, Icon: TelegramIcon, id: 2 },
     { ShareButton: TwitterShareButton, Icon: TwitterIcon, id: 3 },
     { ShareButton: RedditShareButton, Icon: RedditIcon, id: 4 },
 ] as const;
