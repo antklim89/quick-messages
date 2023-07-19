@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QueryKey } from './constants';
+import { AvatarDownloadQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { getUser } from '~/utils';
 import { resizeImage } from '~/utils/resizeImage';
@@ -41,7 +41,7 @@ export function useAvatarUpload() {
             const { id: userId } = await getUser();
 
             await queryClient.setQueryData<string>(
-                ['AVATAR_DOWNLOAD', userId] satisfies QueryKey,
+                ['AVATAR_DOWNLOAD', { authorId: userId }] satisfies AvatarDownloadQueryKey,
                 (oldMessage) => (file ? URL.createObjectURL(file) : oldMessage),
             );
             toast({ title: 'Avatar succesfully uploaded.', status: 'success' });

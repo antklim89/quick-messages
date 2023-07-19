@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { QueryKey } from './constants';
+import { LikesQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
@@ -52,7 +52,7 @@ export function useLikeRequest({
 
     const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount } } = useQuery<Likes>({
         queryFn: () => ({ hasLiked: initialHasLiked, likesCount: initialLikesCount }),
-        queryKey: ['LIKES', messageId] satisfies QueryKey,
+        queryKey: ['LIKES', { messageId }] satisfies LikesQueryKey,
     });
 
     const mutation = useMutation<void, Error, void>({
@@ -62,7 +62,7 @@ export function useLikeRequest({
         },
         async onSuccess() {
             await queryClient.setQueryData<Likes>(
-                ['LIKES', messageId] satisfies QueryKey,
+                ['LIKES', { messageId }] satisfies LikesQueryKey,
                 (oldLikes) => oldLikes && ({
                     hasLiked: !oldLikes.hasLiked,
                     likesCount: oldLikes.hasLiked ? oldLikes.likesCount - 1 : oldLikes.likesCount + 1,

@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QueryKey } from './constants';
+import { FindMessageQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IEditMessageInput, IMessage, ISubject } from '~/types';
 import { getUser } from '~/utils';
@@ -44,7 +44,7 @@ export function useUpdateMessageRequest({ answerToId }: { answerToId?: number; }
             toast({ title: 'Message successfully updated!', status: 'success' });
 
             await queryClient.setQueryData<IMessage>(
-                ['FIND_MESSAGE', messageId] satisfies QueryKey,
+                ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
                 (oldMessage) => (oldMessage && ({ ...oldMessage, ...values })),
             );
         },

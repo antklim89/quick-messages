@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { QueryKey } from './constants';
+import { ProfileQueryKey } from './constants';
 import { profileSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IProfile } from '~/types';
@@ -31,7 +31,7 @@ export function useFindProfie({ profileId }: {profileId?: string} = {}) {
     const toast = useToast();
 
     return useQuery<IProfile, Error>({
-        queryKey: ['PROFILE', profileId] satisfies QueryKey,
+        queryKey: ['PROFILE', { profileId }] satisfies ProfileQueryKey,
         async queryFn() {
             return findProfile({ profileId });
         },

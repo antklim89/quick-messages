@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { MESSAGES_LIMIT, QueryKey } from './constants';
+import { FindMessagesQueryKey, MESSAGES_LIMIT } from './constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage, IMessageParams } from '~/types/message';
@@ -42,9 +42,9 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
 export function useFindMessagesRequest({ answerToId, subjectBody, authorId }: IMessageParams) {
     const toast = useToast();
 
-    return useInfiniteQuery<IMessage[], Error, IMessage[], QueryKey>({
+    return useInfiniteQuery<IMessage[], Error, IMessage[], FindMessagesQueryKey>({
         retry: 1,
-        queryKey: ['FIND_MESSAGES', answerToId, authorId, subjectBody],
+        queryKey: ['FIND_MESSAGES', { answerToId, authorId, subjectBody }],
         async queryFn({ pageParam: lastId }) {
             return findMessagesRequest({ answerToId, subjectBody, authorId, lastId });
         },

@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { QueryKey } from './constants';
+import { FindMessageQueryKey } from './constants';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';
@@ -35,7 +35,7 @@ export function useFindMessageRequest(messageId: number, initialData?: IMessage)
         retry: 0,
         staleTime: initialData ? Infinity : undefined,
         initialData,
-        queryKey: ['FIND_MESSAGE', messageId] satisfies QueryKey,
+        queryKey: ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
         async queryFn() {
             return findMessageRequest({ messageId });
         },

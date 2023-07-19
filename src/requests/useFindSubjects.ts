@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { subjectSchema } from '../schemas/subjectSchema';
-import { QueryKey } from './constants';
+import { SubjectsQueryKey } from './constants';
+import { subjectSchema } from '~/schemas/subjectSchema';
 import supabase from '~/supabase/app';
 import { ISubject } from '~/types/subject';
 
@@ -29,7 +29,7 @@ export function useFindSubjects({ body }: { body?: string; } = {}, options: UseQ
     const toast = useToast();
 
     return useQuery<ISubject[], Error>({
-        queryKey: ['SUBJECTS', body] satisfies QueryKey,
+        queryKey: ['SUBJECTS', { body }] satisfies SubjectsQueryKey,
         async queryFn() {
             return findSubjects({ body });
         },
