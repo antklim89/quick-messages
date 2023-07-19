@@ -33,7 +33,7 @@ const HeaderAuth: FC = () => {
                 MY MESSAGES
             </MenuItem>
             <MenuItem as={Link} to="/profile/my-favorites">
-                FAVORITES
+                MY FAVORITES
             </MenuItem>
             <MenuDivider />
             <ConfirmDialog

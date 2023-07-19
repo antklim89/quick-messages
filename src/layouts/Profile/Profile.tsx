@@ -22,8 +22,8 @@ const Profile: FC = () => {
                 >
                     <Button as={NavLink} px={12} to="/profile/info" >Info</Button>
                     <Button as={NavLink} px={12} to="/profile/reset-password">Reset Password</Button>
-                    <Button as={NavLink} px={12} to="/profile/my-messages">Messages</Button>
-                    <Button as={NavLink} px={12} to="/profile/my-favorites">Favorites</Button>
+                    <Button as={NavLink} px={12} to="/profile/my-messages">My Messages</Button>
+                    <Button as={NavLink} px={12} to="/profile/my-favorites">My Favorites</Button>
                 </SimpleGrid>
                 <Box width="100%">
                     <Outlet />
