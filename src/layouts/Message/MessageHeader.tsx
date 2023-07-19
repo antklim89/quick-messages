@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import DateComponent from '~/components/DateComponent';
@@ -23,31 +23,29 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id, body }) =
                     name={author.name}
                     src={author.avatarUrl || undefined}
                 />
-                <Box>
+                <Flex flexDirection="column">
                     <Text
                         as={Link}
-                        fontSize={['xl', '2xl']}
+                        fontSize={['2xl', '3xl']}
                         left="50%"
                         to={`/subject/${subject.body}`}
                     >
                         {subject.body}
                     </Text>
-                    <Text as="span" mx={2}>by</Text>
                     <Text
                         as={Link}
-                        fontSize={['xl', '2xl']}
+                        fontSize={['md', 'lg']}
                         to={`/user/${author.id}`}
                     >
-                        {author.id === userId ? 'you' : author.name}
+                        by {author.id === userId ? 'you' : author.name}
                     </Text>
-                    <br />
                     <DateComponent
                         date={createdAt}
                         fontSize={['xs', 'sm']}
                         mr={4}
                     />
 
-                </Box>
+                </Flex>
             </Flex>
             <Flex>
                 <SocialShare
