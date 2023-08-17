@@ -181,31 +181,31 @@ export interface Database {
         }
         Relationships: []
       }
-      subscribe: {
+      subscription: {
         Row: {
           id: number
           subjectBody: string
-          userId: string | null
+          userId: string
         }
         Insert: {
           id?: number
           subjectBody: string
-          userId?: string | null
+          userId: string
         }
         Update: {
           id?: number
           subjectBody?: string
-          userId?: string | null
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "subscribe_subjectBody_fkey"
+            foreignKeyName: "subscription_subjectBody_fkey"
             columns: ["subjectBody"]
             referencedRelation: "subjects"
             referencedColumns: ["body"]
           },
           {
-            foreignKeyName: "subscribe_userId_fkey"
+            foreignKeyName: "subscription_userId_fkey"
             columns: ["userId"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
