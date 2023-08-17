@@ -7,7 +7,7 @@
     "dev": "run-p dev:**",
     "dev:vite": "vite --host --port 3000",
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
-    "typegen": "supabase gen types typescript --project-id lvmbwguhsclmvztgialw > ./src/supabase/types-generated.ts",
+    "typegen": "supabase gen types typescript --project-id vfczwfodkqeiicgbqmxn > ./src/supabase/types-generated.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
