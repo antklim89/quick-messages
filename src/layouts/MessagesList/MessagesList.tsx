@@ -8,6 +8,7 @@ import MessageSkeleton from '~/components/MessageSkeleton';
 import { useEndScreenTrigger } from '~/hooks';
 import Message from '~/layouts/Message/Message';
 import MessageAuthor from '~/layouts/MessageAuthor';
+import SubjectsList from '~/layouts/SubjectsList';
 import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests';
 import { messageParamsSchema } from '~/schemas';
 
@@ -27,6 +28,7 @@ const MessagesList: FC = () => {
 
     return (
         <Container my={[4, 6]} p={[0, 2]}>
+            <SubjectsList />
             {answerToId ? <Message isMain id={answerToId} /> : null}
             {authorId ? <MessageAuthor authorId={authorId} /> : <MessageListCreateNew isLoading={isLoading} /> }
 
