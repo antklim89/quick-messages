@@ -13,7 +13,7 @@ async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
     if (!user) return [];
 
     const supabaseQuery = supabase
-        .from('subscribe')
+        .from('subscription')
         .select('*')
         .eq('userId', user.id);
 

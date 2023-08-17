@@ -9,7 +9,7 @@ async function addSubscription({ subjectBody }: { subjectBody: string }) {
     const { id: userId } = await getUser({ errorMessage: 'Log in to add subscription' });
 
     const { error } = await supabase
-        .from('subscribe')
+        .from('subscription')
         .insert({ subjectBody, userId });
 
     if (error) {
@@ -22,14 +22,14 @@ async function removeSubscription({ subscriptionId }: { subscriptionId: number }
     const { id: userId } = await getUser({ errorMessage: 'Log in to add subscription' });
 
     const { error } = await supabase
-        .from('subscribe')
+        .from('subscription')
         .delete()
         .eq('id', subscriptionId)
         .eq('userId', userId);
 
     if (error) {
         console.error(error.message);
-        throw new Error('Failed to add subscription. Try again later.');
+        throw new Error('Failed to remove subscription. Try again later.');
     }
 }
 
