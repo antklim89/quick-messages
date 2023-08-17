@@ -28,8 +28,8 @@ const MessagesList: FC = () => {
 
     return (
         <Container my={[4, 6]} p={[0, 2]}>
-            <SubjectsList />
             {answerToId ? <Message isMain id={answerToId} /> : null}
+            <SubjectsList />
             {authorId ? <MessageAuthor authorId={authorId} /> : <MessageListCreateNew isLoading={isLoading} /> }
 
             {isLoading

@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { SubscriptionsQueryKey } from './constants';
 import { subscriptionSchema } from '~/schemas';
@@ -15,8 +15,7 @@ async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
     const supabaseQuery = supabase
         .from('subscribe')
         .select('*')
-        .eq('userId', user.id)
-        .eq('subjectBody', subjectBody);
+        .eq('userId', user.id);
 
     if (subjectBody) supabaseQuery.eq('subjectBody', subjectBody);
 
@@ -30,8 +29,8 @@ async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
     return subscriptionSchema.array().parseAsync(data);
 }
 
-
-export function useFindSubscriptions({ subjectBody }: { subjectBody?: string }) {
+type Options = UseQueryOptions<unknown, Error, ISubscription[], SubscriptionsQueryKey>;
+export function useFindSubscriptions({ subjectBody }: { subjectBody?: string }, options: Options = {}) {
     const toast = useToast();
 
     return useQuery<unknown, Error, ISubscription[], SubscriptionsQueryKey>({
@@ -43,6 +42,7 @@ export function useFindSubscriptions({ subjectBody }: { subjectBody?: string }) 
             if (error instanceof ZodError) toast({ title: 'Unexpected server error. Try again later.', status: 'error' });
             else toast({ title: error.message, status: 'error' });
         },
+        ...options,
     });
 }
 

@@ -3,44 +3,12 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
   public: {
     Tables: {
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number
-          checksum: string
-          finished_at: string | null
-          id: string
-          logs: string | null
-          migration_name: string
-          rolled_back_at: string | null
-          started_at: string
-        }
-        Insert: {
-          applied_steps_count?: number
-          checksum: string
-          finished_at?: string | null
-          id: string
-          logs?: string | null
-          migration_name: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Update: {
-          applied_steps_count?: number
-          checksum?: string
-          finished_at?: string | null
-          id?: string
-          logs?: string | null
-          migration_name?: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-      }
       favorites: {
         Row: {
           messageId: number
@@ -54,6 +22,20 @@ export interface Database {
           messageId?: number
           userId?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_messageId_fkey"
+            columns: ["messageId"]
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       likes: {
         Row: {
@@ -68,6 +50,20 @@ export interface Database {
           messageId?: number
           userId?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "likes_messageId_fkey"
+            columns: ["messageId"]
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "likes_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       messages: {
         Row: {
@@ -97,6 +93,26 @@ export interface Database {
           subjectBody?: string
           updatedAt?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "messages_answerToId_fkey"
+            columns: ["answerToId"]
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_authorId_fkey"
+            columns: ["authorId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_subjectBody_fkey"
+            columns: ["subjectBody"]
+            referencedRelation: "subjects"
+            referencedColumns: ["body"]
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -120,6 +136,7 @@ export interface Database {
           id?: string
           name?: string
         }
+        Relationships: []
       }
       reports: {
         Row: {
@@ -140,6 +157,14 @@ export interface Database {
           id?: number
           messageId?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "reports_messageId_fkey"
+            columns: ["messageId"]
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       subjects: {
         Row: {
@@ -154,6 +179,38 @@ export interface Database {
           body?: string
           createdAt?: string
         }
+        Relationships: []
+      }
+      subscribe: {
+        Row: {
+          id: number
+          subjectBody: string
+          userId: string | null
+        }
+        Insert: {
+          id?: number
+          subjectBody: string
+          userId?: string | null
+        }
+        Update: {
+          id?: number
+          subjectBody?: string
+          userId?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscribe_subjectBody_fkey"
+            columns: ["subjectBody"]
+            referencedRelation: "subjects"
+            referencedColumns: ["body"]
+          },
+          {
+            foreignKeyName: "subscribe_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
