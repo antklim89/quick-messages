@@ -40,7 +40,6 @@ export function useFindSubjects({ body }: { body?: string; } = {}, options: Opti
             else toast({ title: error.message, status: 'error' });
         },
         keepPreviousData: true,
-        enabled: Boolean(body && body.length > 0),
         ...options,
     });
 }

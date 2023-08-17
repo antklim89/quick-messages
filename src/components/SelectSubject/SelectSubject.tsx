@@ -15,7 +15,11 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
     const deboncedInput = useDebounce(input, 200);
 
-    const { data: subjects = [], isFetching } = useFindSubjects({ body: deboncedInput });
+    const { data: subjects = [], isFetching } = useFindSubjects({
+        body: deboncedInput,
+    }, {
+        enabled: Boolean(deboncedInput && deboncedInput.length > 0),
+    });
     const { mutateAsync: createSubject } = useCreateSubject();
 
     const isNewSubject = (input.length > 0) && subjects.findIndex(({ body }) => body === input) < 0;
