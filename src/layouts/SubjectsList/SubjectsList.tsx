@@ -1,18 +1,19 @@
 import {
-    useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, Button, ModalHeader, Badge,
+    useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, Button, ModalHeader, Badge, Spinner,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useFindSubjects } from '~/requests';
+import { useFindSubjects, useFindSubscriptions } from '~/requests';
 import { messageParamsSchema } from '~/schemas';
 
 
 const SubjectsList: FC = () => {
-    const { data: subjects = [], isLoading } = useFindSubjects({}, { enabled: true });
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const { subjectBody } = messageParamsSchema.parse(useParams());
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    if (isLoading) return null;
+    const { data: subjects = [], isLoading: subjectsIsLoading } = useFindSubjects({}, { enabled: true });
+    const { data: subscriptions = [], isLoading: subscriptionsIsLoading } = useFindSubscriptions({});
+
     return (
         <div>
             <Button
@@ -36,6 +37,20 @@ const SubjectsList: FC = () => {
                                 onClick={onClose}
                             >
                                 {subject.body}
+                            </Badge>
+                        ))}
+
+                        {subscriptionsIsLoading ? <Spinner /> : null}
+                        {subscriptions.map((subscription) => (
+                            <Badge
+                                as={Link}
+                                colorScheme="yellow"
+                                key={subscription.subjectBody}
+                                p={2}
+                                to={`/subject/${subscription.subjectBody}`}
+                                onClick={onClose}
+                            >
+                                {subscription.subjectBody}
                             </Badge>
                         ))}
                     </ModalBody>

@@ -9,3 +9,4 @@ export type AvatarDownloadQueryKey = ['AVATAR_DOWNLOAD', {authorId?: string | nu
 export type GetUserQueryKey = ['GET_USER']
 export type ProfileQueryKey = ['PROFILE', {profileId?: string}]
 export type LikesQueryKey = ['LIKES', {messageId: number}]
+export type SubscriptionsQueryKey = ['SUBSCRIPTIONS', {subjectBody?: string}]
