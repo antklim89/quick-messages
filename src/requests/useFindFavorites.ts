@@ -33,8 +33,8 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 export function useFindMyFavoritesRequest() {
     const toast = useToast();
 
-    return useInfiniteQuery<IMessage[], Error>({
-        queryKey: ['FAVORITES_LIST'] satisfies FavoritesListQueryKey,
+    return useInfiniteQuery<IMessage[], Error, IMessage[], FavoritesListQueryKey>({
+        queryKey: ['FAVORITES_LIST'],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
             const data = await findMyFavorites({ lastId });

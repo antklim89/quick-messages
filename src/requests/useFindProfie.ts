@@ -30,8 +30,8 @@ export async function findProfile({ profileId }: {profileId?: string}) {
 export function useFindProfie({ profileId }: {profileId?: string} = {}) {
     const toast = useToast();
 
-    return useQuery<IProfile, Error>({
-        queryKey: ['PROFILE', { profileId }] satisfies ProfileQueryKey,
+    return useQuery<IProfile, Error, IProfile, ProfileQueryKey>({
+        queryKey: ['PROFILE', { profileId }],
         async queryFn() {
             return findProfile({ profileId });
         },

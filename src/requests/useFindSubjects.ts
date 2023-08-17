@@ -25,11 +25,13 @@ export async function findSubjects({ body }: { body?: string; } = {}) {
 }
 
 
-export function useFindSubjects({ body }: { body?: string; } = {}, options: UseQueryOptions<ISubject[], Error> = {}) {
+type Options = UseQueryOptions<ISubject[], Error, ISubject[], SubjectsQueryKey>;
+
+export function useFindSubjects({ body }: { body?: string; } = {}, options: Options = {}) {
     const toast = useToast();
 
-    return useQuery<ISubject[], Error>({
-        queryKey: ['SUBJECTS', { body }] satisfies SubjectsQueryKey,
+    return useQuery<ISubject[], Error, ISubject[], SubjectsQueryKey>({
+        queryKey: ['SUBJECTS', { body }],
         async queryFn() {
             return findSubjects({ body });
         },

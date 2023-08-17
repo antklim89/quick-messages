@@ -31,11 +31,11 @@ export async function findMessageRequest({ messageId }: {messageId: number}) {
 export function useFindMessageRequest(messageId: number, initialData?: IMessage) {
     const toast = useToast();
 
-    return useQuery<IMessage, Error>({
+    return useQuery<IMessage, Error, IMessage, FindMessageQueryKey>({
         retry: 0,
         staleTime: initialData ? Infinity : undefined,
         initialData,
-        queryKey: ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
+        queryKey: ['FIND_MESSAGE', { messageId }],
         async queryFn() {
             return findMessageRequest({ messageId });
         },
