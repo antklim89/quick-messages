@@ -5,14 +5,13 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
 import HeaderLogo from './HeaderLogo';
-import { useUser } from '~/requests';
-import supabase from '~/supabase/app';
+import { useAvatarDownload, useUser } from '~/requests';
 
 
 const Header: FC = () => {
     const { id } = useUser();
-    const { data: { publicUrl: avatarSrc } } = id ? supabase.storage.from('avatar').getPublicUrl(`${id}/avatar`) : { data: { publicUrl: undefined } };
     const logoColor = useColorModeValue('primary.800', 'primary.200');
+    const { data: avatarSrc } = useAvatarDownload({ authorId: id });
 
     return (
         <Box as="header" shadow="md">
