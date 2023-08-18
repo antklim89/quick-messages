@@ -28,7 +28,7 @@ const SubjectsList: FC = () => {
     const { data: subscriptions = [], isLoading: subsIsLoading } = useFindSubscriptions({});
 
     const { id: subscriptionId } = subscriptions.find((sub) => sub.subjectBody === subjectBody) || {};
-    const { mutateAsync } = useAddRemoveSubscription({ subjectBody, subscriptionId });
+    const toggleSubscription = useAddRemoveSubscription({ subjectBody, subscriptionId });
 
     return (
         <div>
@@ -45,7 +45,9 @@ const SubjectsList: FC = () => {
                     ? (
                         <IconButton
                             aria-label={subscriptionId ? 'subscribe' : 'unsubscribe'}
-                            onClick={() => mutateAsync()}
+                            isLoading={toggleSubscription.isLoading}
+                            variant="outline"
+                            onClick={() => toggleSubscription.mutateAsync()}
                         >
                             {subscriptionId ? <BsStarFill color="yellow" /> : <BsStar />}
                         </IconButton>
