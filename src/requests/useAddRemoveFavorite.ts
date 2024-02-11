@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FavoritesListQueryKey, FindMessageQueryKey } from './constants';
+import { FavsMessagesQueryKey, FindMessageQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
@@ -57,7 +57,7 @@ export function useFavoriteRequest({
                     favoritesCount: message.inFavorites ? message.favoritesCount - 1 : message.favoritesCount + 1,
                 }),
             );
-            await queryClient.invalidateQueries(['FAVORITES_LIST'] satisfies FavoritesListQueryKey);
+            await queryClient.invalidateQueries(['FAVS_MESSAGES'] satisfies FavsMessagesQueryKey);
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

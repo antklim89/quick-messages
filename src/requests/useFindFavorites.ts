@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
-import { FavoritesListQueryKey, MESSAGES_LIMIT } from '~/requests';
+import { FavsMessagesQueryKey, MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types/message';
@@ -33,8 +33,8 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 export function useFindMyFavoritesRequest() {
     const toast = useToast();
 
-    return useInfiniteQuery<IMessage[], Error, IMessage[], FavoritesListQueryKey>({
-        queryKey: ['FAVORITES_LIST'],
+    return useInfiniteQuery<IMessage[], Error, IMessage[], FavsMessagesQueryKey>({
+        queryKey: ['FAVS_MESSAGES'],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
             const data = await findMyFavorites({ lastId });
