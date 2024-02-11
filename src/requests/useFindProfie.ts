@@ -2,19 +2,19 @@ import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { ProfileQueryKey } from './constants';
+import { useUser } from './useUser';
 import { profileSchema } from '~/schemas';
 import supabase from '~/supabase/app';
 import { IProfile } from '~/types';
-import { getUser } from '~/utils';
 
 
 export async function findProfile({ profileId }: {profileId?: string}) {
-    const id = profileId || (await getUser()).id;
+    if (!profileId) return null;
 
     const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', id)
+        .eq('id', profileId)
         .single();
 
 
@@ -23,20 +23,20 @@ export async function findProfile({ profileId }: {profileId?: string}) {
         if (error) throw new Error('Failed to load profile. Try again later.');
     }
 
-    return data;
+    return profileSchema.parse(data);
 }
 
 
-export function useFindProfie({ profileId }: {profileId?: string} = {}) {
+export function useFindProfie({ profileId }: { profileId?: string } = {}) {
+    const user = useUser();
     const toast = useToast();
+    const userId = profileId || user.id || undefined;
 
-    return useQuery<IProfile, Error, IProfile, ProfileQueryKey>({
-        queryKey: ['PROFILE', { profileId }],
+    return useQuery<unknown, Error, IProfile|null, ProfileQueryKey>({
+        enabled: Boolean(userId),
+        queryKey: ['PROFILE', { profileId: userId }],
         async queryFn() {
-            return findProfile({ profileId });
-        },
-        select(data) {
-            return profileSchema.parse(data);
+            return findProfile({ profileId: userId });
         },
         onError(error) {
             if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });

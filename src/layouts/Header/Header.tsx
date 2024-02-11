@@ -1,17 +1,23 @@
 import {
-    Box, Container, IconButton, Menu, MenuButton, MenuList, Avatar, useColorModeValue,
+    Avatar,
+    Box,
+    Container,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuList,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
 import HeaderLogo from './HeaderLogo';
-import { useAvatarDownload, useUser } from '~/requests';
+import { useFindProfie } from '~/requests';
 
 
 const Header: FC = () => {
-    const { id } = useUser();
     const logoColor = useColorModeValue('primary.800', 'primary.200');
-    const { data: avatarSrc } = useAvatarDownload({ authorId: id });
+    const { data: profile } = useFindProfie();
 
     return (
         <Box as="header" shadow="md">
@@ -25,7 +31,7 @@ const Header: FC = () => {
                     <MenuButton
                         aria-label="main-menu"
                         as={IconButton}
-                        icon={<Avatar h="38px" src={avatarSrc || undefined} w="38px" />}
+                        icon={<Avatar h="38px" src={profile?.avatarUrl || undefined} w="38px" />}
                         m={1}
                         variant="ghost"
                     />
