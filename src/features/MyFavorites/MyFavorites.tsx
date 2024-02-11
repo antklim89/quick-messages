@@ -3,8 +3,8 @@ import last from 'lodash/last';
 import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
+import Message from '~/features/Message';
 import { useEndScreenTrigger } from '~/hooks';
-import Message from '~/layouts/Message';
 import { MESSAGES_LIMIT, useFindMyFavoritesRequest } from '~/requests';
 
 

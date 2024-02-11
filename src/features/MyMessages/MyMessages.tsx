@@ -2,8 +2,8 @@ import { Box } from '@chakra-ui/react';
 import { last, times } from 'lodash';
 import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
+import Message from '~/features/Message';
 import { useEndScreenTrigger } from '~/hooks';
-import Message from '~/layouts/Message';
 import { MESSAGES_LIMIT, useFindMessagesRequest, useUser } from '~/requests';
 
 

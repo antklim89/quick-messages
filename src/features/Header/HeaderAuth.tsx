@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { BsBoxArrowRight, BsMoon, BsSun } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '~/components/ConfirmDialog';
-import Auth from '~/layouts/Auth';
+import Auth from '~/features/Auth';
 import { useLogoutRequest, useUser } from '~/requests';
 
 

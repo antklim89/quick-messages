@@ -16,7 +16,7 @@ import { FC, useCallback, useState } from 'react';
 import { useAuthFormik } from './Auth.formik';
 import { AuthProps, AuthType } from './Auth.types';
 import AuthForm from './AuthForm';
-import ResetPassword from '~/layouts/ResetPassword';
+import ResetPassword from '~/features/ResetPassword';
 
 
 const Auth: FC<AuthProps> = ({ defaultType = 'login', ...props }) => {

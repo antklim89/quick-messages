@@ -2,12 +2,12 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import Protected from './components/Protected';
 import RouterError from './components/RouterError';
-import MyFavorites from './layouts/MyFavorites';
-import MyMessages from './layouts/MyMessages';
-import ProfileInfo from './layouts/ProfileInfo';
-import ResetPassword from './layouts/ResetPassword';
-import MessagesList from '~/layouts/MessagesList';
-import Profile from '~/layouts/Profile';
+import MyFavorites from './features/MyFavorites';
+import MyMessages from './features/MyMessages';
+import ProfileInfo from './features/ProfileInfo';
+import ResetPassword from './features/ResetPassword';
+import MessagesList from '~/features/MessagesList';
+import Profile from '~/features/Profile';
 
 
 export const router = createBrowserRouter([

@@ -5,10 +5,10 @@ import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import MessageListCreateNew from './MessagesListCreateNew';
 import MessageSkeleton from '~/components/MessageSkeleton';
+import Message from '~/features/Message/Message';
+import MessageAuthor from '~/features/MessageAuthor';
+import SubjectsList from '~/features/SubjectsList';
 import { useEndScreenTrigger } from '~/hooks';
-import Message from '~/layouts/Message/Message';
-import MessageAuthor from '~/layouts/MessageAuthor';
-import SubjectsList from '~/layouts/SubjectsList';
 import { MESSAGES_LIMIT, useFindMessagesRequest } from '~/requests';
 import { messageParamsSchema } from '~/schemas';
 
