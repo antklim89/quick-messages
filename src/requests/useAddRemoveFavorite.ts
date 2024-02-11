@@ -1,12 +1,9 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { FavoritesButtonQueryKey, FavoritesListQueryKey } from './constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FavoritesListQueryKey, FindMessageQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
-
-
-type Favorites = Pick<IMessage, 'favoritesCount' | 'inFavorites'>
 
 
 export async function addFavoriteRequest({ messageId }: {messageId: number}) {
@@ -41,30 +38,24 @@ export async function removeFavoriteRequest({ messageId }: {messageId: number}) 
 
 export function useFavoriteRequest({
     id: messageId,
-    inFavorites: initialInFavorites,
-    favoritesCount: initialFavoritesCount,
+    inFavorites,
 }: Pick<IMessage, 'id' | 'favoritesCount' | 'inFavorites'>) {
     const toast = useToast();
     const queryClient = useQueryClient();
 
-    const { data = { inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount } } = useQuery<Favorites>({
-        queryFn: () => ({ inFavorites: initialInFavorites, favoritesCount: initialFavoritesCount }),
-        queryKey: ['FAVORITES_BUTTON', { messageId }] satisfies FavoritesButtonQueryKey,
-    });
-
-
     const mutation = useMutation<void, Error, void>({
         async mutationFn() {
-            if (data.inFavorites) await removeFavoriteRequest({ messageId });
+            if (inFavorites) await removeFavoriteRequest({ messageId });
             else await addFavoriteRequest({ messageId });
         },
         async onSuccess() {
-            await queryClient.setQueryData<Favorites>(
-                ['FAVORITES_BUTTON', { messageId }] satisfies FavoritesButtonQueryKey,
-                (oldFavs) => (oldFavs && ({
-                    inFavorites: !oldFavs.inFavorites,
-                    favoritesCount: oldFavs.inFavorites ? oldFavs.favoritesCount - 1 : oldFavs.favoritesCount + 1,
-                })),
+            await queryClient.setQueryData<IMessage>(
+                ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
+                (message) => message && ({
+                    ...message,
+                    inFavorites: !message.inFavorites,
+                    favoritesCount: message.inFavorites ? message.favoritesCount - 1 : message.favoritesCount + 1,
+                }),
             );
             await queryClient.invalidateQueries(['FAVORITES_LIST'] satisfies FavoritesListQueryKey);
         },
@@ -72,5 +63,5 @@ export function useFavoriteRequest({
             toast({ title: error.message, status: 'error' });
         },
     });
-    return { ...mutation, data };
+    return mutation;
 }

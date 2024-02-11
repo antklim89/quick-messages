@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { LikesQueryKey } from './constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FindMessageQueryKey } from './constants';
 import supabase from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
@@ -36,36 +36,27 @@ export async function unlikeRequest({ messageId }: {messageId: number}) {
 }
 
 
-interface Likes {
-    hasLiked: boolean;
-    likesCount: number;
-}
-
 export function useLikeRequest({
     id: messageId,
-    hasLiked: initialHasLiked,
-    likesCount: initialLikesCount,
-}: Pick<IMessage, 'id' | 'hasLiked' | 'likesCount'>) {
+    hasLiked,
+}: IMessage) {
     const toast = useToast();
 
     const queryClient = useQueryClient();
 
-    const { data = { hasLiked: initialHasLiked, likesCount: initialLikesCount } } = useQuery<Likes>({
-        queryFn: () => ({ hasLiked: initialHasLiked, likesCount: initialLikesCount }),
-        queryKey: ['LIKES', { messageId }] satisfies LikesQueryKey,
-    });
-
     const mutation = useMutation<void, Error, void>({
         async mutationFn() {
-            if (data.hasLiked) await unlikeRequest({ messageId });
+            if (hasLiked) await unlikeRequest({ messageId });
             else await likeRequest({ messageId });
         },
+
         async onSuccess() {
-            await queryClient.setQueryData<Likes>(
-                ['LIKES', { messageId }] satisfies LikesQueryKey,
-                (oldLikes) => oldLikes && ({
-                    hasLiked: !oldLikes.hasLiked,
-                    likesCount: oldLikes.hasLiked ? oldLikes.likesCount - 1 : oldLikes.likesCount + 1,
+            await queryClient.setQueryData<IMessage>(
+                ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
+                (message) => message && ({
+                    ...message,
+                    hasLiked: !message.hasLiked,
+                    likesCount: message.hasLiked ? message.likesCount - 1 : message.likesCount + 1,
                 }),
             );
         },
@@ -73,6 +64,6 @@ export function useLikeRequest({
             toast({ title: error.message, status: 'error' });
         },
     });
-    return { ...mutation, data };
+    return mutation;
 }
 

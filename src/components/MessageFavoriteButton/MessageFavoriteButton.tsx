@@ -6,7 +6,7 @@ import { useFavoriteRequest } from '~/requests';
 
 
 const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...props }) => {
-    const { mutate, isLoading, data: { favoritesCount, inFavorites } } = useFavoriteRequest(message);
+    const { mutate, isLoading } = useFavoriteRequest(message);
 
     return (
         <IconButton
@@ -17,8 +17,8 @@ const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...pro
             onClick={() => mutate()}
         >
             <>
-                <Icon as={inFavorites ? BsBookmarkFill : BsBookmark} />
-                <Text fontSize="xl" mx={1}>{favoritesCount}</Text>
+                <Icon as={message.inFavorites ? BsBookmarkFill : BsBookmark} />
+                <Text fontSize="xl" mx={1}>{message.favoritesCount}</Text>
             </>
         </IconButton>
     );

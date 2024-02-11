@@ -6,7 +6,7 @@ import { useLikeRequest } from '~/requests';
 
 
 const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) => {
-    const { isLoading, mutate, data: { hasLiked, likesCount } } = useLikeRequest(message);
+    const { isLoading, mutate } = useLikeRequest(message);
 
     return (
         <IconButton
@@ -17,8 +17,8 @@ const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) =>
             onClick={() => mutate()}
         >
             <>
-                <Icon as={hasLiked ? BsHeartFill : BsHeart} />
-                <Text fontSize="xl" mx={1}>{likesCount}</Text>
+                <Icon as={message.hasLiked ? BsHeartFill : BsHeart} />
+                <Text fontSize="xl" mx={1}>{message.likesCount}</Text>
             </>
         </IconButton>
     );
