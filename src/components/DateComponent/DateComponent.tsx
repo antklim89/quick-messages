@@ -7,8 +7,8 @@ const DateComponent: FC<DateComponentProps> = ({ date, format: dateFormat = 'dd-
     const [formatedDate, setFormatedDate] = useState<string | null>(null);
 
     useEffect(() => {
-        import('date-fns')
-            .then(({ format }) => setFormatedDate(format(new Date(date), dateFormat)));
+        import('date-fns/esm/format')
+            .then(({ default: format }) => setFormatedDate(format(new Date(date), dateFormat)));
     }, []);
 
     return (
