@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import { last, times } from 'lodash';
 import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import Message from '~/features/Message';
@@ -17,12 +16,12 @@ const MyMessages: FC = () => {
         data: { pages } = { pages: [] },
     } = useFindMessagesRequest({ authorId: getUserId() });
 
-    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
+    useEndScreenTrigger(fetchNextPage, (!isFetching && (pages.at(-1)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
         <Box>
             {isLoading
-                ? times(10, (i) => (
+                ? Array.from({ length: 10 }, (_, i) => (
                     <MessageSkeleton key={i} />
                 ))
                 : pages.map((messagePages) => (
@@ -33,7 +32,7 @@ const MyMessages: FC = () => {
                     </Fragment>
                 ))}
             {isFetchingNextPage
-                ? times(10, (i) => (
+                ? Array.from({ length: 10 }, (_, i) => (
                     <MessageSkeleton key={i} />
                 ))
                 : null}

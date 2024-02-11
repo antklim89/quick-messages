@@ -1,6 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import last from 'lodash/last';
-import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import Message from '~/features/Message';
@@ -17,12 +15,12 @@ const MyFavorites: FC = () => {
         data: { pages } = { pages: [] },
     } = useFindMyFavoritesRequest();
 
-    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
+    useEndScreenTrigger(fetchNextPage, (!isFetching && (pages.at(-1)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
         <Box>
             {isLoading
-                ? times(10, (i) => (
+                ? Array.from({ length: 10 }, (_, i) => (
                     <MessageSkeleton key={i} />
                 ))
                 : pages.map((messagePages) => (
@@ -33,7 +31,7 @@ const MyFavorites: FC = () => {
                     </Fragment>
                 ))}
             {isFetchingNextPage
-                ? times(10, (i) => (
+                ? Array.from({ length: 10 }, (_, i) => (
                     <MessageSkeleton key={i} />
                 ))
                 : null}

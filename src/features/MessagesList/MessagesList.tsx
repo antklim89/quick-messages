@@ -1,6 +1,4 @@
 import { Container } from '@chakra-ui/react';
-import last from 'lodash/last';
-import times from 'lodash/times';
 import { FC, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import MessageListCreateNew from './MessagesListCreateNew';
@@ -24,7 +22,7 @@ const MessagesList: FC = () => {
         data: { pages } = { pages: [] },
     } = useFindMessagesRequest({ answerToId, authorId, subjectBody });
 
-    useEndScreenTrigger(fetchNextPage, (!isFetching && (last(pages)?.length || 0) >= MESSAGES_LIMIT), 1000);
+    useEndScreenTrigger(fetchNextPage, (!isFetching && (pages.at(-1)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
     return (
         <Container my={[4, 6]} p={[0, 2]}>
@@ -33,7 +31,7 @@ const MessagesList: FC = () => {
             {authorId ? <MessageAuthor authorId={authorId} /> : <MessageListCreateNew isLoading={isLoading} /> }
 
             {isLoading
-                ? times(10, (i) => <MessageSkeleton key={i} />)
+                ? Array.from({ length: 10 }, (_, i) => <MessageSkeleton key={i} />)
                 : pages.map((messagePages) => (
                     <Fragment key={messagePages[0]?.id || 0}>
                         {messagePages.map((message) => (
@@ -42,7 +40,7 @@ const MessagesList: FC = () => {
                     </Fragment>
                 ))}
 
-            {isFetchingNextPage ? times(10, (i) => <MessageSkeleton key={i} />) : null}
+            {isFetchingNextPage ? Array.from({ length: 10 }, (_, i) => <MessageSkeleton key={i} />) : null}
         </Container>
     );
 };

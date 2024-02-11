@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash';
 import { subjectSchema } from '~/schemas/subjectSchema';
 import { ISubject } from '~/types';
 
@@ -18,16 +17,16 @@ export function getSubjectsFromLocalStorage(): ISubject[] {
 }
 
 export function setSubjectsToLocalStorage(subjects: ISubject[]): void {
-    const localSubjectsStr = JSON.stringify(uniqBy(subjects, 'body'));
+    const localSubjectsStr = JSON.stringify(subjects);
     localStorage.setItem(LOCALSTORAGE_SUBJECTS, localSubjectsStr);
 }
 
 export function addSubjectToLocalStorage(subject: ISubject): void {
     const subjects = getSubjectsFromLocalStorage();
-    setSubjectsToLocalStorage(uniqBy([subject, ...subjects.slice(0, 9)], 'body'));
+    setSubjectsToLocalStorage([subject, ...subjects.slice(0, 9)]);
 }
 
 export function removeSubjectToLocalStorage(subjectToDelete: string): void {
     const subjects = getSubjectsFromLocalStorage();
-    setSubjectsToLocalStorage(uniqBy(subjects.filter(({ body }) => body === subjectToDelete), 'body'));
+    setSubjectsToLocalStorage(subjects.filter(({ body }) => body === subjectToDelete));
 }
