@@ -1,5 +1,3 @@
-// generate export all files
-
 export * from './constants';
 export * from './useAddRemoveFavorite';
 export * from './useAddRemoveLike';
@@ -8,7 +6,6 @@ export * from './useCreateMessage';
 export * from './useCreateReport';
 export * from './useCreateSubject';
 export * from './useDeleteMessage';
-export * from './useDownloadAvatar';
 export * from './useFindFavorites';
 export * from './useFindMessage';
 export * from './useFindMessages';
