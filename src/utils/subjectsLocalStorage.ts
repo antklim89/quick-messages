@@ -1,32 +1,21 @@
-import { subjectSchema } from '~/schemas/subjectSchema';
-import { ISubject } from '~/types';
+import { z } from 'zod';
 
 
-const LOCALSTORAGE_SUBJECTS = 'LOCALSTORAGE_SUBJECTS';
+const LOCAL_STORAGE_SUBJECTS = 'LOCAL_STORAGE_SUBJECTS';
 
-
-export function getSubjectsFromLocalStorage(): ISubject[] {
+export function getPreviouslySelectedSubjects(): string[] {
     try {
-        const localSubjectsStr = localStorage.getItem(LOCALSTORAGE_SUBJECTS);
+        const localSubjectsStr = localStorage.getItem(LOCAL_STORAGE_SUBJECTS);
         const localSubjectsParsed = (localSubjectsStr ? JSON.parse(localSubjectsStr) : []);
-        const localSubjects = subjectSchema.array().parse(localSubjectsParsed);
+        const localSubjects = z.string().array().parse(localSubjectsParsed);
         return localSubjects;
     } catch (error) {
         return [];
     }
 }
 
-export function setSubjectsToLocalStorage(subjects: ISubject[]): void {
-    const localSubjectsStr = JSON.stringify(subjects);
-    localStorage.setItem(LOCALSTORAGE_SUBJECTS, localSubjectsStr);
-}
-
-export function addSubjectToLocalStorage(subject: ISubject): void {
-    const subjects = getSubjectsFromLocalStorage();
-    setSubjectsToLocalStorage([subject, ...subjects.slice(0, 9)]);
-}
-
-export function removeSubjectToLocalStorage(subjectToDelete: string): void {
-    const subjects = getSubjectsFromLocalStorage();
-    setSubjectsToLocalStorage(subjects.filter(({ body }) => body === subjectToDelete));
+export function addToPreviouslySelectedSubjects(subject: string): void {
+    const subjects = getPreviouslySelectedSubjects();
+    const localSubjectsStr = JSON.stringify([...new Set([subject, ...subjects.slice(0, 9)])]);
+    localStorage.setItem(LOCAL_STORAGE_SUBJECTS, localSubjectsStr);
 }
