@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+
 export type Json =
   | string
   | number
@@ -6,7 +9,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       favorites: {
@@ -26,12 +29,14 @@ export interface Database {
           {
             foreignKeyName: "favorites_messageId_fkey"
             columns: ["messageId"]
+            isOneToOne: false
             referencedRelation: "messages"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "favorites_userId_fkey"
             columns: ["userId"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -54,12 +59,14 @@ export interface Database {
           {
             foreignKeyName: "likes_messageId_fkey"
             columns: ["messageId"]
+            isOneToOne: false
             referencedRelation: "messages"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "likes_userId_fkey"
             columns: ["userId"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -97,18 +104,21 @@ export interface Database {
           {
             foreignKeyName: "messages_answerToId_fkey"
             columns: ["answerToId"]
+            isOneToOne: false
             referencedRelation: "messages"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "messages_authorId_fkey"
             columns: ["authorId"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "messages_subjectBody_fkey"
             columns: ["subjectBody"]
+            isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["body"]
           }
@@ -161,6 +171,7 @@ export interface Database {
           {
             foreignKeyName: "reports_messageId_fkey"
             columns: ["messageId"]
+            isOneToOne: false
             referencedRelation: "messages"
             referencedColumns: ["id"]
           }
@@ -201,12 +212,14 @@ export interface Database {
           {
             foreignKeyName: "subscription_subjectBody_fkey"
             columns: ["subjectBody"]
+            isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["body"]
           },
           {
             foreignKeyName: "subscription_userId_fkey"
             columns: ["userId"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -227,3 +240,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never
