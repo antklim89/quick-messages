@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 
 
 export function useLogoutRequest() {
@@ -8,6 +8,7 @@ export function useLogoutRequest() {
 
     return useMutation<unknown, Error, unknown>({
         async mutationFn() {
+            const supabase = await createSupabaseClient();
             await supabase.auth.signOut();
         },
         async onSuccess() {

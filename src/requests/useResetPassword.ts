@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 
 
 export async function resetPasswordRequest({ email }: {email: string}) {
-
+    const supabase = await createSupabaseClient();
     const { error } = await supabase
         .auth
         .resetPasswordForEmail(email);

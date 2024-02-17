@@ -1,11 +1,12 @@
 import { useToast } from '@chakra-ui/react';
 import { User } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import type { IAuthInput } from '~/types';
 
 
 export async function register(values: IAuthInput) {
+    const supabase = await createSupabaseClient();
     const { data, error } = await supabase.auth.signUp(values);
 
     if (error || !data.user) {

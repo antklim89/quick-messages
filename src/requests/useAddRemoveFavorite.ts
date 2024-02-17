@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FavsMessagesQueryKey, FindMessageQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
 export async function addFavoriteRequest({ messageId }: {messageId: number}) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Login to add favorite message' });
 
     const { error } = await supabase
@@ -21,6 +22,7 @@ export async function addFavoriteRequest({ messageId }: {messageId: number}) {
 
 
 export async function removeFavoriteRequest({ messageId }: {messageId: number}) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser();
 
     const { error } = await supabase

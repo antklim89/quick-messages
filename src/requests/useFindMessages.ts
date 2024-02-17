@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { FindMessagesQueryKey, MESSAGES_LIMIT } from './constants';
 import { messageSchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage, IMessageParams } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
 
@@ -13,6 +13,7 @@ interface FindMessagesArguments extends IMessageParams {
 }
 
 export async function findMessagesRequest({ answerToId, lastId, authorId, subjectBody }: FindMessagesArguments) {
+    const supabase = await createSupabaseClient();
     const user = await getUser({ required: false });
     const supabaseQuery = supabase
         .from('messages')

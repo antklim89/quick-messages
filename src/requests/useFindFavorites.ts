@@ -3,12 +3,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { FavsMessagesQueryKey, MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
 
 
 async function findMyFavorites({ lastId }: {lastId?: number}) {
+    const supabase = await createSupabaseClient();
     const user = await getUser({ required: true });
 
     const supabaseQuery = supabase

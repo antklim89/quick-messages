@@ -3,7 +3,7 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { SubscriptionsQueryKey } from './constants';
 import { subscriptionSchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { ISubscription } from '~/types';
 import { getUser } from '~/utils';
 
@@ -11,6 +11,7 @@ import { getUser } from '~/utils';
 async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
     const user = await getUser({ required: false });
     if (!user) return [];
+    const supabase = await createSupabaseClient();
 
     const supabaseQuery = supabase
         .from('subscription')

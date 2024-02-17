@@ -1,13 +1,14 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProfileQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IProfile } from '~/types';
 import { getUser } from '~/utils';
 import { resizeImage } from '~/utils/resizeImage';
 
 
 export async function avatarUpload(file: File|Blob) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser();
 
     const { error, data } = await supabase

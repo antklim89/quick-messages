@@ -4,12 +4,13 @@ import { ZodError } from 'zod';
 import { ProfileQueryKey } from './constants';
 import { useUser } from './useUser';
 import { profileSchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IProfile } from '~/types';
 
 
 export async function findProfile({ profileId }: {profileId?: string}) {
     if (!profileId) return null;
+    const supabase = await createSupabaseClient();
 
     const { data, error } = await supabase
         .from('profiles')

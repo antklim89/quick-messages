@@ -3,11 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { SubjectsQueryKey } from './constants';
 import { subjectBodySchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { ISubject } from '~/types';
 
 
 export async function createSubject(body: string) {
+    const supabase = await createSupabaseClient();
     const validatedBody = await subjectBodySchema.parse(body);
 
     const { error } = await supabase

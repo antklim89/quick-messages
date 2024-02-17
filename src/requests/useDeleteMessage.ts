@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FindMessageQueryKey, FindMessagesQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
 export async function deleteMessageRequest(messageId: number) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser();
 
     const { error } = await supabase

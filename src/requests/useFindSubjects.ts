@@ -3,11 +3,12 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { SubjectsQueryKey } from './constants';
 import { subjectSchema } from '~/schemas/subjectSchema';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { ISubject } from '~/types/subject';
 
 
 export async function findSubjects({ body }: { body?: string; } = {}) {
+    const supabase = await createSupabaseClient();
     const query = supabase
         .from('subjects')
         .select('body')

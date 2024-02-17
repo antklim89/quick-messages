@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FindMessageQueryKey, FindMessagesQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IEditMessageInput, IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
 export async function createMessageRequest(body: string, answerToId: number | undefined, subjectBody: string) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser();
 
     const { error } = await supabase

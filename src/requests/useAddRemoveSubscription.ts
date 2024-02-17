@@ -1,11 +1,12 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubscriptionsQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { getUser } from '~/utils';
 
 
 async function addSubscription({ subjectBody }: { subjectBody: string }) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Log in to add subscription' });
 
     const { error } = await supabase
@@ -19,6 +20,7 @@ async function addSubscription({ subjectBody }: { subjectBody: string }) {
 }
 
 async function removeSubscription({ subscriptionId }: { subscriptionId: number }) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Log in to add subscription' });
 
     const { error } = await supabase

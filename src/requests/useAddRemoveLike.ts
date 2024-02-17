@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FindMessageQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
 export async function likeRequest({ messageId }: {messageId: number}) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Log in to like message' });
 
     const { error } = await supabase
@@ -21,6 +22,7 @@ export async function likeRequest({ messageId }: {messageId: number}) {
 }
 
 export async function unlikeRequest({ messageId }: {messageId: number}) {
+    const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Log in to unlike message' });
 
     const { error } = await supabase

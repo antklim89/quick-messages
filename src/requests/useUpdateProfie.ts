@@ -1,13 +1,14 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProfileQueryKey } from './constants';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IProfile } from '~/types';
 import { getUser } from '~/utils';
 
 
 export async function updateProfile(values: IProfile) {
     const { id: userId } = await getUser({ errorMessage: 'Login to like message' });
+    const supabase = await createSupabaseClient();
 
     const { error } = await supabase
         .from('profiles')

@@ -1,9 +1,10 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 
 
 export async function createReport({ messageId, body }: { messageId: number; body: string; }) {
+    const supabase = await createSupabaseClient();
     const { error } = await supabase
         .from('reports')
         .insert({ body, messageId })

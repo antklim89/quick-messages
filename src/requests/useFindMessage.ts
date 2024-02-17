@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { FindMessageQueryKey } from './constants';
 import { messageSchema } from '~/schemas';
-import supabase from '~/supabase/app';
+import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
 
 
 export async function findMessageRequest({ messageId }: {messageId: number}) {
+    const supabase = await createSupabaseClient();
     const user = await getUser({ required: false });
     const { data = [], error } = await supabase
         .from('messages')
