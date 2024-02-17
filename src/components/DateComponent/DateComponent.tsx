@@ -4,16 +4,16 @@ import { DateComponentProps } from './DateComponent.types';
 
 
 const DateComponent: FC<DateComponentProps> = ({ date, format: dateFormat = 'dd-MMM-yyyy H:mm', ...props }) => {
-    const [formatedDate, setFormatedDate] = useState<string | null>(null);
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
 
     useEffect(() => {
-        import('date-fns/esm/format')
-            .then(({ default: format }) => setFormatedDate(format(new Date(date), dateFormat)));
+        import('date-fns/format')
+            .then(({ format }) => setFormattedDate(format(new Date(date), dateFormat)));
     }, []);
 
     return (
         <Text {...props} as="span">
-            {formatedDate}&nbsp;
+            {formattedDate}&nbsp;
         </Text>
     );
 };
