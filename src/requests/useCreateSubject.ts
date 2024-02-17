@@ -7,9 +7,9 @@ import createSupabaseClient from '~/supabase/app';
 import { ISubject } from '~/types';
 
 
-export async function createSubject(body: string) {
+export async function createSubject(subject: string) {
     const supabase = await createSupabaseClient();
-    const validatedBody = await subjectBodySchema.parse(body);
+    const validatedBody = await subjectBodySchema.parse(subject);
 
     const { error } = await supabase
         .from('subjects')
@@ -28,11 +28,11 @@ export function useCreateSubject() {
     const toast = useToast();
 
     return useMutation<void, Error, ISubject>({
-        async mutationFn({ body }) {
-            await createSubject(body);
+        async mutationFn(subject) {
+            await createSubject(subject);
         },
         async onSuccess() {
-            await queryClient.invalidateQueries(['SUBJECTS', {}] satisfies SubjectsQueryKey);
+            await queryClient.invalidateQueries({ queryKey: ['SUBJECTS', {}] satisfies SubjectsQueryKey });
 
             toast({ title: 'New subject successfully added!', status: 'success' });
         },

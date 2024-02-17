@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
 
-export const subjectSchema = z.object({
-    body: z.string(),
-});
+export const subjectSchema = z.string();
 
 
 export const subjectBodySchema = z.string()

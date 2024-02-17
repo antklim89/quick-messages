@@ -2,11 +2,11 @@ import {
     Button, Input, InputGroup, InputRightElement, Popover, PopoverContent, PopoverTrigger, useDisclosure,
 } from '@chakra-ui/react';
 import {
-    FC, memo, useEffect, useMemo, useReducer, useState,
+    FC, memo, useEffect, useReducer, useState,
 } from 'react';
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useDebounce } from '~/hooks';
-import { useFindSubjects, useCreateSubject } from '~/requests';
+import { useCreateSubject, useFindSubjects } from '~/requests';
 import { subjectBodySchema } from '~/schemas';
 import { addToPreviouslySelectedSubjects, getPreviouslySelectedSubjects } from '~/utils';
 
@@ -17,11 +17,9 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
     const [selectedSubject, setSelectedSubject] = useState<string|undefined>(subject || defaultSubject);
     const debouncedInput = useDebounce(input, 200);
 
-    const { data = [], isFetching } = useFindSubjects({ body: debouncedInput }, {
+    const { data: subjects = [], isFetching } = useFindSubjects({ body: debouncedInput }, {
         enabled: Boolean(debouncedInput && debouncedInput.length > 0),
     });
-
-    const subjects = useMemo(() => data.map((i) => i.body), [data]);
 
     const { mutateAsync: createSubject } = useCreateSubject();
 
@@ -33,7 +31,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
         if (isFetching) return;
         if (!isNewSubject) return;
         if (!validatedInput.success) return;
-        await createSubject({ body: validatedInput.data });
+        await createSubject(validatedInput.data);
         setSelectedSubject(validatedInput.data);
         addToPreviouslySelectedSubjects(validatedInput.data);
     };

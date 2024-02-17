@@ -45,7 +45,7 @@ const SubjectsList: FC = () => {
                     ? (
                         <IconButton
                             aria-label={subscriptionId ? 'subscribe' : 'unsubscribe'}
-                            isLoading={toggleSubscription.isLoading}
+                            isLoading={toggleSubscription.isPending}
                             variant="outline"
                             onClick={() => toggleSubscription.mutateAsync()}
                         >
@@ -66,12 +66,12 @@ const SubjectsList: FC = () => {
                                 <Badge
                                     as={Link}
                                     colorScheme="primary"
-                                    key={subject.body}
+                                    key={subject}
                                     p={2}
-                                    to={`/subject/${subject.body}`}
+                                    to={`/subject/${subject}`}
                                     onClick={onClose}
                                 >
-                                    {subject.body}
+                                    {subject}
                                 </Badge>
                             ))}
                         </Flex>
