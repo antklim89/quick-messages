@@ -8,11 +8,11 @@ import {
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { MessageAuthorProps } from './MessageAuthor.types';
-import { useFindProfie } from '~/requests';
+import { useFindProfile } from '~/requests';
 
 
 const MessageAuthor: FC<MessageAuthorProps> = ({ authorId }) => {
-    const { data: profile } = useFindProfie({ profileId: authorId });
+    const { data: profile } = useFindProfile({ profileId: authorId });
 
     if (!profile) return null;
     return (

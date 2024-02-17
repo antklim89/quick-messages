@@ -10,7 +10,7 @@ const MessageAnswerButton: FC<IMessage> = ({ id, messagesCount, subject }) => {
         <IconButton
             aria-label={`show ${messagesCount} message answers`}
             as={Link}
-            to={`/answer/${subject.body}/${id}`}
+            to={`/answer/${subject}/${id}`}
             variant="ghost"
         >
             <>

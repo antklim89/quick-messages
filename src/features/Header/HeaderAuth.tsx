@@ -8,7 +8,7 @@ import { useLogoutRequest, useUser } from '~/requests';
 
 
 const HeaderAuth: FC = () => {
-    const { mutate: handleLogout, isLoading } = useLogoutRequest();
+    const { mutate: handleLogout, isPending } = useLogoutRequest();
     const { isAuth } = useUser();
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -42,7 +42,7 @@ const HeaderAuth: FC = () => {
                 onConfirm={handleLogout}
             >
                 {(toggle) => (
-                    <MenuItem isDisabled={isLoading} onClick={toggle}>
+                    <MenuItem isDisabled={isPending} onClick={toggle}>
                         <Icon as={BsBoxArrowRight} mr={2} /> LOG OUT
                     </MenuItem>
                 )}

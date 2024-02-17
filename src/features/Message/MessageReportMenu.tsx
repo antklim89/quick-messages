@@ -33,7 +33,7 @@ const MessageReportMenu: FC<{ messageId: number}> = ({ messageId }) => {
 
     const [reportSelect, setReportSelect] = useState<ReportsList>(reportsList[0]);
     const [reportInput, setReportInput] = useState('');
-    const { mutate: sendReport, isLoading } = useCreateReport({ messageId });
+    const { mutate: sendReport, isPending } = useCreateReport({ messageId });
 
     const initialRef = useRef(null);
     const finalRef = useRef(null);
@@ -64,7 +64,7 @@ const MessageReportMenu: FC<{ messageId: number}> = ({ messageId }) => {
 
                     <ModalBody pb={6}>
                         <Select
-                            isDisabled={isLoading}
+                            isDisabled={isPending}
                             mb={4}
                             value={reportSelect}
                             onChange={(e) => setReportSelect(e.target.value as ReportsList)}
@@ -73,15 +73,15 @@ const MessageReportMenu: FC<{ messageId: number}> = ({ messageId }) => {
                         </Select>
                         {reportSelect === OTHER_OPTION && (
                             <Input
-                                isDisabled={isLoading}
+                                isDisabled={isPending}
                                 mb={4}
                                 value={reportInput}
                                 onChange={(e) => setReportInput(e.target.value)}
                             />
                         )}
                         <Flex justifyContent="flex-end">
-                            <Button isLoading={isLoading} variant="outline" onClick={onClose}>Cancel</Button>
-                            <Button isLoading={isLoading} ml={4} onClick={handleSendReport}>Send</Button>
+                            <Button isLoading={isPending} variant="outline" onClick={onClose}>Cancel</Button>
+                            <Button isLoading={isPending} ml={4} onClick={handleSendReport}>Send</Button>
                         </Flex>
                     </ModalBody>
                 </ModalContent>

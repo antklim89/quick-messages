@@ -59,7 +59,7 @@ export function useFavoriteRequest({
                     favoritesCount: message.inFavorites ? message.favoritesCount - 1 : message.favoritesCount + 1,
                 }),
             );
-            await queryClient.invalidateQueries(['FAVS_MESSAGES'] satisfies FavsMessagesQueryKey);
+            await queryClient.invalidateQueries({ queryKey: ['FAVS_MESSAGES'] satisfies FavsMessagesQueryKey });
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

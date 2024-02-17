@@ -6,13 +6,13 @@ import { useLikeRequest } from '~/requests';
 
 
 const MessageLikeButton: FC<MessageLikeButtonProps> = ({ message, ...props }) => {
-    const { isLoading, mutate } = useLikeRequest(message);
+    const { isPending, mutate } = useLikeRequest(message);
 
     return (
         <IconButton
             {...props}
             aria-label="like"
-            isDisabled={isLoading}
+            isDisabled={isPending}
             variant="ghost"
             onClick={() => mutate()}
         >

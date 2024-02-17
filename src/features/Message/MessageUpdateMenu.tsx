@@ -37,11 +37,11 @@ const MessageUpdateMenu: FC<IMessage> = (message) => {
                         {isOpen
                             ? (
                                 <EditMessageForm
-                                    defaultSubject={message.subject.body}
+                                    defaultSubject={message.subject}
                                     id={message.id}
                                     messageBody={message.body}
                                     ref={initialRef}
-                                    subject={message.subject.body}
+                                    subject={message.subject}
                                     onSuccess={onClose}
                                 />
                             )

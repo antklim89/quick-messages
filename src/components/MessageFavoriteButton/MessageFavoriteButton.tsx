@@ -6,13 +6,13 @@ import { useFavoriteRequest } from '~/requests';
 
 
 const MessageFavoriteButton: FC<MessageFavoriteButtonProps> = ({ message, ...props }) => {
-    const { mutate, isLoading } = useFavoriteRequest(message);
+    const { mutate, isPending } = useFavoriteRequest(message);
 
     return (
         <IconButton
             {...props}
             aria-label="favorites"
-            disabled={isLoading}
+            disabled={isPending}
             variant="ghost"
             onClick={() => mutate()}
         >

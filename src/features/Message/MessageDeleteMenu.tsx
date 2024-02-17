@@ -6,14 +6,14 @@ import { useDeleteMessageRequest, useUser } from '~/requests';
 
 const MessageDeleteMenu: FC<{authorId: string, messageId: number}> = ({ authorId, messageId }) => {
     const { id } = useUser();
-    const { mutate, isLoading } = useDeleteMessageRequest({ messageId });
+    const { mutate, isPending } = useDeleteMessageRequest({ messageId });
     const handleDeleteMessage = useCallback(() => mutate(), []);
 
     if (id !== authorId) return null;
     return (
         <ConfirmDialog
             confirmText="Delete"
-            isLoading={isLoading}
+            isLoading={isPending}
             message="Are you sure you want to delete this message?"
             onConfirm={handleDeleteMessage}
         >

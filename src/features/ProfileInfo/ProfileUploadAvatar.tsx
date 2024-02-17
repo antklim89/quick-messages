@@ -1,11 +1,11 @@
 import { Avatar, Button, Flex, Input } from '@chakra-ui/react';
 import { ChangeEventHandler, FC, useState } from 'react';
-import { useFindProfie, useAvatarUpload } from '~/requests';
+import { useFindProfile, useAvatarUpload } from '~/requests';
 
 
 const ProfileUploadAvatar: FC = () => {
-    const { data: profile } = useFindProfie();
-    const { mutate: uploadAvatar, isLoading } = useAvatarUpload();
+    const { data: profile } = useFindProfile();
+    const { mutate: uploadAvatar, isPending } = useAvatarUpload();
     const [uploadedAvatarSrc, setUploadedAvatarSrc] = useState<string | null>(null);
 
     const handleUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -26,7 +26,7 @@ const ProfileUploadAvatar: FC = () => {
                 as="label"
                 cursor="pointer"
                 htmlFor="upload avatar"
-                isLoading={isLoading}
+                isLoading={isPending}
             >
                 Upload Avatar
             </Button>

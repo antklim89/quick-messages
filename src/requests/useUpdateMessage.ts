@@ -21,7 +21,7 @@ export async function updateMessageRequest({ values, messageId, answerToId }: Ar
         .update({ ...values, answerTo: answerToId })
         .eq('id', messageId)
         .eq('authorId', userId)
-        .select('body, subject:subjectBody(body)');
+        .select('body, subject:subjectBody');
 
 
     if (error || data.length === 0) {
@@ -29,7 +29,7 @@ export async function updateMessageRequest({ values, messageId, answerToId }: Ar
         throw new Error('Failed to update message. Try again later.');
     }
 
-    return data[0] as {body: string, subject: ISubject};
+    return data[0] as {body: string, subject: string};
 }
 
 

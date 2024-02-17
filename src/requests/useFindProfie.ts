@@ -1,6 +1,4 @@
-import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { ZodError } from 'zod';
 import { ProfileQueryKey } from './constants';
 import { useUser } from './useUser';
 import { profileSchema } from '~/schemas';
@@ -28,9 +26,8 @@ export async function findProfile({ profileId }: {profileId?: string}) {
 }
 
 
-export function useFindProfie({ profileId }: { profileId?: string } = {}) {
+export function useFindProfile({ profileId }: { profileId?: string } = {}) {
     const user = useUser();
-    const toast = useToast();
     const userId = profileId || user.id || undefined;
 
     return useQuery<unknown, Error, IProfile|null, ProfileQueryKey>({
@@ -38,10 +35,6 @@ export function useFindProfie({ profileId }: { profileId?: string } = {}) {
         queryKey: ['PROFILE', { profileId: userId }],
         async queryFn() {
             return findProfile({ profileId: userId });
-        },
-        onError(error) {
-            if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
-            else toast({ title: error.message, status: 'error' });
         },
     });
 }

@@ -28,9 +28,9 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id, body }) =
                         as={Link}
                         fontSize={['2xl', '3xl']}
                         left="50%"
-                        to={`/subject/${subject.body}`}
+                        to={`/subject/${subject}`}
                     >
-                        {subject.body}
+                        {subject}
                     </Text>
                     <Text
                         as={Link}
@@ -50,8 +50,8 @@ const MessageHeader: FC<IMessage> = ({ author, createdAt, subject, id, body }) =
             <Flex>
                 <SocialShare
                     body={body}
-                    title={`${author.name}'s message. About the subject "${subject.body}".`}
-                    url={`/answer/${subject.body}/${id}`}
+                    title={`${author.name}'s message. About the subject "${subject}".`}
+                    url={`/answer/${subject}/${id}`}
                 />
             </Flex>
         </Flex>

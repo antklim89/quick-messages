@@ -1,6 +1,4 @@
-import { useToast } from '@chakra-ui/react';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { ZodError } from 'zod';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { FavsMessagesQueryKey, MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
 import createSupabaseClient from '~/supabase/app';
@@ -14,7 +12,7 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectBody(body), messages(count), likes(userId), favorites!inner(userId)')
+        .select('*, author:authorId(*), subject:subjectBody, messages(count), likes(userId), favorites!inner(userId)')
         .eq('favorites.userId', user.id)
         .range(0, MESSAGES_LIMIT - 1)
         .order('createdAt', { ascending: false });
@@ -25,16 +23,14 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 
     if (error) {
         console.error(error.message);
-        throw new Error('Failed to load messages. Try again later.');
+        throw new Error('Failed to load my favorite messages. Try again later.');
     }
 
     return data;
 }
 
 export function useFindMyFavoritesRequest() {
-    const toast = useToast();
-
-    return useInfiniteQuery<IMessage[], Error, IMessage[], FavsMessagesQueryKey>({
+    return useInfiniteQuery<IMessage[], Error, InfiniteData<IMessage[]>, FavsMessagesQueryKey, number>({
         queryKey: ['FAVS_MESSAGES'],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
@@ -45,9 +41,6 @@ export function useFindMyFavoritesRequest() {
         getNextPageParam(lastPage) {
             return lastPage.slice().pop()?.id;
         },
-        onError(error) {
-            if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
-            else toast({ title: error.message, status: 'error' });
-        },
+        initialPageParam: 0,
     });
 }

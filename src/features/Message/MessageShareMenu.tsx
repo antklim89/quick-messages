@@ -10,7 +10,7 @@ const MessageShareMenu: FC<IMessage> = ({ author, body, subject, id }) => {
             await navigator.share({
                 title: `${author.name}'s message.`,
                 text: body,
-                url: `${location.origin}/answer/${subject.body}/${id}`,
+                url: `${location.origin}/answer/${subject}/${id}`,
             });
         } catch (error) {
             console.error(error);

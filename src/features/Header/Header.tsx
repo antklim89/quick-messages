@@ -12,12 +12,12 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderAuth from './HeaderAuth';
 import HeaderLogo from './HeaderLogo';
-import { useFindProfie } from '~/requests';
+import { useFindProfile } from '~/requests';
 
 
 const Header: FC = () => {
     const logoColor = useColorModeValue('primary.800', 'primary.200');
-    const { data: profile } = useFindProfie();
+    const { data: profile } = useFindProfile();
 
     return (
         <Box as="header" shadow="md">

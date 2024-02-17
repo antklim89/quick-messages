@@ -1,6 +1,4 @@
-import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { ZodError } from 'zod';
 import { FindMessageQueryKey } from './constants';
 import { messageSchema } from '~/schemas';
 import createSupabaseClient from '~/supabase/app';
@@ -11,9 +9,10 @@ import { getUser, transformMessage } from '~/utils';
 export async function findMessageRequest({ messageId }: {messageId: number}) {
     const supabase = await createSupabaseClient();
     const user = await getUser({ required: false });
+
     const { data = [], error } = await supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectBody(body), messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(*), subject:subjectBody, messages(count), likes(userId), favorites(userId)')
         .eq('id', messageId);
 
     if (error) {
@@ -30,8 +29,6 @@ export async function findMessageRequest({ messageId }: {messageId: number}) {
 
 
 export function useFindMessageRequest(messageId: number, initialData?: IMessage) {
-    const toast = useToast();
-
     return useQuery<IMessage, Error, IMessage, FindMessageQueryKey>({
         retry: 0,
         staleTime: initialData ? Infinity : undefined,
@@ -39,10 +36,6 @@ export function useFindMessageRequest(messageId: number, initialData?: IMessage)
         queryKey: ['FIND_MESSAGE', { messageId }],
         async queryFn() {
             return findMessageRequest({ messageId });
-        },
-        onError(error) {
-            if (error instanceof ZodError) toast({ title: 'Unexpected error. Try again later.', status: 'error' });
-            else toast({ title: error.message, status: 'error' });
         },
     });
 }

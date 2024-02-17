@@ -2,11 +2,11 @@ import { Card, Input, Skeleton } from '@chakra-ui/react';
 import { FC } from 'react';
 import ProfileInfoForm from './ProfileInfoForm';
 import ProfileUploadAvatar from './ProfileUploadAvatar';
-import { useFindProfie } from '~/requests';
+import { useFindProfile } from '~/requests';
 
 
 const ProfileInfo: FC = () => {
-    const { data: profile, isLoading } = useFindProfie();
+    const { data: profile, isLoading } = useFindProfile();
 
     return (
         <Card p={4}>
