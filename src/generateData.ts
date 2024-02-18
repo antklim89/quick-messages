@@ -1,3 +1,4 @@
+/* eslint-disable array-element-newline */
 import { faker } from '@faker-js/faker';
 import { User, createClient } from '@supabase/supabase-js';
 import _ from 'lodash';
@@ -9,14 +10,20 @@ if (!import.meta.env.SUPABASE_SERVICE_ROLE) throw new Error('No SERVICE ROLE');
 const supabase = createClient<Database>(SUPABASE_URL, import.meta.env.SUPABASE_SERVICE_ROLE);
 
 
-const MESSAGES = 20;
+const MESSAGES = 50;
+const ANSWERS = 10;
 
 
 type Subjects = Database['public']['Tables']['subjects']['Row']
 type Messages = Database['public']['Tables']['messages']['Row']
 
 async function generateSubjects() {
-    const subjects = ['funny', 'cars', 'movies', 'star wars', 'funny cats', 'news'];
+    const subjects = [
+        'General', 'Family', 'Friends', 'Work', 'Pets', 'Cooking', 'Gaming', 'Music', 'Movies', 'Sports', 'Technology', 'Business', 'Programming', 'Design', 'Fashion', 'Beauty', 'Health', 'Finance', 'Travel', 'Food',
+        'Cars', 'DIY', 'Parenting', 'Entertainment', 'Art', 'Animals', 'History', 'Politics', 'Science', 'Nature', 'Hobbies', 'Education', 'Environment', 'Law', 'Real Estate', 'Automotive',
+        'Gardening', 'Lifestyle', 'Photography', 'Vacation', 'Wedding', 'Soccer', 'Baseball', 'Tennis', 'Golf', 'Fishing', 'Hiking', 'Camping', 'Biking', 'Volleyball', 'Swimming',
+        'Yoga', 'Dancing', 'Martial Arts', 'Running', 'Cycling', 'Poker', 'Board Games', 'Card Games', 'Chess', 'Baking', 'Crochet', 'Knitting', 'Sewing', 'Painting', 'Sculpting', 'Woodworking', 'DIY Projects', 'Crafts', 'Cooking Recipes', 'Baking Recipes',
+    ];
     return supabase.from('subjects').upsert(subjects.map((subject) => ({ body: subject }))).select('*');
 }
 
@@ -38,7 +45,7 @@ async function generateMessages(users: User[], subjects: Subjects[]) {
 async function generateAnswers(users: User[], answers: Messages[]) {
     const messages: Database['public']['Tables']['messages']['Insert'][] = [];
     for (const answer of answers) {
-        for (let index = 0; index < _.random(0, MESSAGES, false); index += 1) {
+        for (let index = 0; index < _.random(0, ANSWERS, false); index += 1) {
             const author = _.sample(users);
             if (!author) break;
             messages.push({
@@ -58,6 +65,7 @@ async function generateLikesAndFavorites(users: User[]) {
 
     const likes: Database['public']['Tables']['likes']['Insert'][] = [];
     const favorites: Database['public']['Tables']['favorites']['Insert'][] = [];
+
     for (const message of (messages || [])) {
         for (const user of users) {
             if (_.random(true) < 0.5) {
@@ -65,7 +73,6 @@ async function generateLikesAndFavorites(users: User[]) {
                     messageId: message.id,
                     userId: user.id,
                 });
-
             }
             if (_.random(true) < 0.5) {
                 favorites.push({
@@ -75,14 +82,13 @@ async function generateLikesAndFavorites(users: User[]) {
             }
         }
     }
+
     await supabase.from('likes').insert(likes);
     await supabase.from('favorites').insert(favorites);
 }
 
 
 (async () => {
-    await supabase.from('messages').delete();
-
     const { data: { users } } = await supabase.auth.admin.listUsers();
 
     const { data: subjects } = await generateSubjects();

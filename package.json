@@ -8,6 +8,7 @@
     "dev:vite": "vite --host --port 3000",
     "dev:tsc": "tsc --noEmit -w --preserveWatchOutput",
     "typegen": "supabase gen types typescript --project-id vfczwfodkqeiicgbqmxn > ./src/supabase/types-generated.ts",
+    "gendata": "vite-node src/generateData.ts",
     "build": "tsc && vite build",
     "start": "vite preview --host --port 3000"
   },
