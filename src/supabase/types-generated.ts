@@ -79,7 +79,7 @@ export type Database = {
           body: string
           createdAt: string
           id: number
-          subjectBody: string
+          subject: string
           updatedAt: string
         }
         Insert: {
@@ -88,7 +88,7 @@ export type Database = {
           body: string
           createdAt?: string
           id?: number
-          subjectBody: string
+          subject: string
           updatedAt: string
         }
         Update: {
@@ -97,7 +97,7 @@ export type Database = {
           body?: string
           createdAt?: string
           id?: number
-          subjectBody?: string
+          subject?: string
           updatedAt?: string
         }
         Relationships: [
@@ -117,7 +117,7 @@ export type Database = {
           },
           {
             foreignKeyName: "messages_subjectBody_fkey"
-            columns: ["subjectBody"]
+            columns: ["subject"]
             isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["body"]
@@ -195,23 +195,23 @@ export type Database = {
       subscription: {
         Row: {
           id: number
-          subjectBody: string
+          subject: string
           userId: string
         }
         Insert: {
           id?: number
-          subjectBody: string
+          subject: string
           userId: string
         }
         Update: {
           id?: number
-          subjectBody?: string
+          subject?: string
           userId?: string
         }
         Relationships: [
           {
             foreignKeyName: "subscription_subjectBody_fkey"
-            columns: ["subjectBody"]
+            columns: ["subject"]
             isOneToOne: false
             referencedRelation: "subjects"
             referencedColumns: ["body"]

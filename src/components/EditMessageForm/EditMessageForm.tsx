@@ -16,7 +16,7 @@ const EditMessageForm: ForwardRefRenderFunction<HTMLTextAreaElement, EditMessage
     }, []);
 
     const handleSelectSubject = useCallback((subject?: string) => {
-        formik.setFieldValue('subjectBody', subject || '');
+        formik.setFieldValue('subject', subject || '');
     }, []);
 
     return (

@@ -6,7 +6,7 @@ import { ISubscription } from '~/types';
 import { getUser } from '~/utils';
 
 
-async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
+async function findSubscriptions({ subject }: { subject?: string }) {
     const user = await getUser({ required: false });
     if (!user) return [];
     const supabase = await createSupabaseClient();
@@ -16,7 +16,7 @@ async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
         .select('*')
         .eq('userId', user.id);
 
-    if (subjectBody) supabaseQuery.eq('subjectBody', subjectBody);
+    if (subject) supabaseQuery.eq('subject', subject);
 
     const { error, data } = await supabaseQuery;
 
@@ -29,11 +29,11 @@ async function findSubscriptions({ subjectBody }: { subjectBody?: string }) {
 }
 
 type Options = Partial<UseQueryOptions<unknown, Error, ISubscription[], SubscriptionsQueryKey>>;
-export function useFindSubscriptions({ subjectBody }: { subjectBody?: string }, options: Options = {}) {
+export function useFindSubscriptions({ subject }: { subject?: string }, options: Options = {}) {
     return useQuery<unknown, Error, ISubscription[], SubscriptionsQueryKey>({
-        queryKey: ['SUBSCRIPTIONS', { subjectBody }],
+        queryKey: ['SUBSCRIPTIONS', { subject }],
         queryFn() {
-            return findSubscriptions({ subjectBody });
+            return findSubscriptions({ subject });
         },
         ...options,
     });

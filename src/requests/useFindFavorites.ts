@@ -12,7 +12,7 @@ async function findFavorites({ lastId }: {lastId?: number}) {
 
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(*), subject:subjectBody, messages(count), likes(userId), favorites!inner(userId)')
+        .select('*, author:authorId(*), subject, messages(count), likes(userId), favorites!inner(userId)')
         .eq('favorites.userId', user.id)
         .range(0, MESSAGES_LIMIT - 1)
         .order('createdAt', { ascending: false });

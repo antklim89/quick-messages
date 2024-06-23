@@ -35,7 +35,7 @@ async function generateMessages(users: User[], subjects: Subjects[]) {
         messages.push({
             body: faker.lorem.sentences(_.random(3, 5)),
             authorId: author.id,
-            subjectBody: _.sample(subjects.map(({ body }) => body)) || '',
+            subject: _.sample(subjects.map(({ body }) => body)) || '',
             updatedAt: new Date().toISOString(),
         });
     }
@@ -52,7 +52,7 @@ async function generateAnswers(users: User[], answers: Messages[]) {
                 body: faker.lorem.sentences(_.random(3, 5)),
                 authorId: author.id,
                 answerToId: answer.id,
-                subjectBody: answer.subjectBody,
+                subject: answer.subject,
                 updatedAt: new Date().toISOString(),
             });
         }

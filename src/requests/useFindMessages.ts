@@ -10,19 +10,19 @@ interface FindMessagesArguments extends IMessageParams {
     lastId?: number;
 }
 
-export async function findMessagesRequest({ answerToId, lastId, authorId, subjectBody }: FindMessagesArguments) {
+export async function findMessagesRequest({ answerToId, lastId, authorId, subject: subject }: FindMessagesArguments) {
     const supabase = await createSupabaseClient();
     const user = await getUser({ required: false });
 
     const supabaseQuery = supabase
         .from('messages')
-        .select('*, author:authorId(id, name, avatarUrl), subject:subjectBody, messages(count), likes(userId), favorites(userId)')
+        .select('*, author:authorId(id, name, avatarUrl), subject, messages(count), likes(userId), favorites(userId)')
         .range(0, MESSAGES_LIMIT - 1)
         .order('id', { ascending: false });
 
     if (lastId) supabaseQuery.lt('id', lastId);
     if (authorId) supabaseQuery.eq('authorId', authorId);
-    if (subjectBody) supabaseQuery.eq('subjectBody', subjectBody);
+    if (subject) supabaseQuery.eq('subject', subject);
 
     if (answerToId) supabaseQuery.eq('answerToId', answerToId);
     else supabaseQuery.is('answerToId', null);
@@ -40,12 +40,12 @@ export async function findMessagesRequest({ answerToId, lastId, authorId, subjec
 }
 
 
-export function useFindMessagesRequest({ answerToId, subjectBody, authorId }: IMessageParams) {
+export function useFindMessagesRequest({ answerToId, subject: subject, authorId }: IMessageParams) {
     return useInfiniteQuery<IMessage[], Error, InfiniteData<IMessage[]>, FindMessagesQueryKey, number>({
         retry: 1,
-        queryKey: ['FIND_MESSAGES', { answerToId, authorId, subjectBody }],
+        queryKey: ['FIND_MESSAGES', { answerToId, authorId, subject }],
         async queryFn({ pageParam: lastId }) {
-            return findMessagesRequest({ answerToId, subjectBody, authorId, lastId });
+            return findMessagesRequest({ answerToId, subject: subject, authorId, lastId });
         },
         getNextPageParam(lastPage) {
             return lastPage.slice().pop()?.id;

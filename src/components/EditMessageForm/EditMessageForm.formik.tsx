@@ -19,7 +19,7 @@ export function useEditMessageFormFormik({
 
     const initialValues = useMemo<IEditMessageInput>(() => ({
         body: messageBody || '',
-        subjectBody: subject || defaultSubject || '',
+        subject: subject || defaultSubject || '',
     }), []);
 
     const formik = useFormik<IEditMessageInput>({

@@ -5,13 +5,13 @@ import createSupabaseClient from '~/supabase/app';
 import { getUser } from '~/utils';
 
 
-async function addSubscription({ subjectBody }: { subjectBody: string }) {
+async function addSubscription({ subject }: { subject: string }) {
     const supabase = await createSupabaseClient();
     const { id: userId } = await getUser({ errorMessage: 'Log in to add subscription' });
 
     const { error } = await supabase
         .from('subscription')
-        .insert({ subjectBody, userId });
+        .insert({ subject, userId });
 
     if (error) {
         console.error(error.message);
@@ -37,10 +37,10 @@ async function removeSubscription({ subscriptionId }: { subscriptionId: number }
 
 
 export function useAddRemoveSubscription({
-    subjectBody,
+    subject,
     subscriptionId,
 }: {
-     subjectBody?: string,
+     subject?: string,
      subscriptionId?: number
 }) {
     const toast = useToast();
@@ -49,7 +49,7 @@ export function useAddRemoveSubscription({
     return useMutation<void, Error, void>({
         async mutationFn() {
             if (subscriptionId) await removeSubscription({ subscriptionId });
-            else if (subjectBody) await addSubscription({ subjectBody });
+            else if (subject) await addSubscription({ subject });
         },
         async onSuccess() {
             await queryClient.invalidateQueries({

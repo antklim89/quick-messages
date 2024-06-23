@@ -8,7 +8,7 @@ export const messageEditSchema = z.object({
         .trim()
         .max(400)
         .min(5),
-    subjectBody: subjectEditSchema,
+    subject: subjectEditSchema,
 });
 
 export const messageSchema = z.object({
@@ -27,5 +27,5 @@ export const messageSchema = z.object({
 export const messageParamsSchema = z.object({
     answerToId: z.coerce.number().optional(),
     authorId: z.coerce.string().optional(),
-    subjectBody: z.coerce.string().optional(),
+    subject: z.coerce.string().optional(),
 });

@@ -10,7 +10,7 @@ import { messageParamsSchema } from '~/schemas';
 
 const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) => {
     const { isAuth } = useUser();
-    const { answerToId, subjectBody } = messageParamsSchema.parse(useParams());
+    const { answerToId, subject } = messageParamsSchema.parse(useParams());
     const ref = useRef<HTMLTextAreaElement>(null);
 
     const handleFormFocus = useCallback((e: number) => {
@@ -33,7 +33,7 @@ const MessageListCreateNew: FC<{isLoading?: boolean}> = ({ isLoading = false }) 
                         Add New Message
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        <EditMessageForm answerToId={answerToId} ref={ref} subject={subjectBody} />
+                        <EditMessageForm answerToId={answerToId} ref={ref} subject={subject} />
                     </AccordionPanel>
                 </Skeleton>
             </AccordionItem>

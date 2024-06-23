@@ -21,7 +21,7 @@ export async function updateMessageRequest({ values, messageId, answerToId }: Ar
         .update({ ...values, answerTo: answerToId })
         .eq('id', messageId)
         .eq('authorId', userId)
-        .select('body, subject:subjectBody');
+        .select('body, subject:subject');
 
 
     if (error || data.length === 0) {

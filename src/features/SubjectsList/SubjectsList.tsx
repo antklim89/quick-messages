@@ -21,14 +21,14 @@ import { messageParamsSchema } from '~/schemas';
 
 
 const SubjectsList: FC = () => {
-    const { subjectBody } = messageParamsSchema.parse(useParams());
+    const { subject: subject } = messageParamsSchema.parse(useParams());
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const { data: subjects = [], isLoading: subjectsIsLoading } = useFindSubjects({});
     const { data: subscriptions = [], isLoading: subsIsLoading } = useFindSubscriptions({});
 
-    const { id: subscriptionId } = subscriptions.find((sub) => sub.subjectBody === subjectBody) || {};
-    const toggleSubscription = useAddRemoveSubscription({ subjectBody, subscriptionId });
+    const { id: subscriptionId } = subscriptions.find((sub) => sub.subject === subject) || {};
+    const toggleSubscription = useAddRemoveSubscription({ subject, subscriptionId });
 
     return (
         <div>
@@ -39,9 +39,9 @@ const SubjectsList: FC = () => {
                     width="100%"
                     onClick={onOpen}
                 >
-                    {subjectBody || 'Show Subjects'}
+                    {subject || 'Show Subjects'}
                 </Button>
-                {subjectBody
+                {subject
                     ? (
                         <IconButton
                             aria-label={subscriptionId ? 'subscribe' : 'unsubscribe'}
@@ -82,12 +82,12 @@ const SubjectsList: FC = () => {
                                 <Badge
                                     as={Link}
                                     colorScheme="yellow"
-                                    key={subscription.subjectBody}
+                                    key={subscription.subject}
                                     p={2}
-                                    to={`/subject/${subscription.subjectBody}`}
+                                    to={`/subject/${subscription.subject}`}
                                     onClick={onClose}
                                 >
-                                    {subscription.subjectBody}
+                                    {subscription.subject}
                                 </Badge>
                             ))}
                         </Flex>

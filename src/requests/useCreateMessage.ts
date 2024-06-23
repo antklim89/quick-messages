@@ -6,7 +6,7 @@ import { IEditMessageInput, IMessage } from '~/types';
 import { getUser } from '~/utils';
 
 
-export async function createMessageRequest(body: string, answerToId: number | undefined, subjectBody: string) {
+export async function createMessageRequest(body: string, answerToId: number | undefined, subject: string) {
     const supabase = await createSupabaseClient();
     const { id: userId } = await getUser();
 
@@ -16,7 +16,7 @@ export async function createMessageRequest(body: string, answerToId: number | un
             body,
             authorId: userId,
             answerToId,
-            subjectBody,
+            subject,
             updatedAt: new Date().toISOString(),
         });
 
@@ -31,9 +31,9 @@ export function useCreateMessageRequest({ answerToId }: { answerToId?: number })
     const queryClient = useQueryClient();
     const toast = useToast();
 
-    return useMutation<void, Error, IEditMessageInput & {subjectBody: string}>({
-        async mutationFn({ body, subjectBody }) {
-            await createMessageRequest(body, answerToId, subjectBody);
+    return useMutation<void, Error, IEditMessageInput & {subject: string}>({
+        async mutationFn({ body, subject: subject }) {
+            await createMessageRequest(body, answerToId, subject);
         },
         async onSuccess() {
             await queryClient.invalidateQueries({
