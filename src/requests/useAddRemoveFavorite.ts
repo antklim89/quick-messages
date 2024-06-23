@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FavsMessagesQueryKey, FindMessageQueryKey } from './constants';
+import { FindMessagesQueryKey, FindMessageQueryKey } from './constants';
 import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types';
 import { getUser } from '~/utils';
@@ -51,15 +51,8 @@ export function useFavoriteRequest({
             else await addFavoriteRequest({ messageId });
         },
         async onSuccess() {
-            await queryClient.setQueryData<IMessage>(
-                ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey,
-                (message) => message && ({
-                    ...message,
-                    inFavorites: !message.inFavorites,
-                    favoritesCount: message.inFavorites ? message.favoritesCount - 1 : message.favoritesCount + 1,
-                }),
-            );
-            await queryClient.invalidateQueries({ queryKey: ['FAVS_MESSAGES'] satisfies FavsMessagesQueryKey });
+            await queryClient.invalidateQueries({ queryKey: ['FIND_MESSAGE', { messageId }] satisfies FindMessageQueryKey });
+            await queryClient.invalidateQueries({ queryKey: ['FIND_MESSAGES', {isFavorites: true}] satisfies FindMessagesQueryKey });
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

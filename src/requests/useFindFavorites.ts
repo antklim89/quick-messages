@@ -1,5 +1,5 @@
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-import { FavsMessagesQueryKey, MESSAGES_LIMIT } from '~/requests';
+import { FindMessagesQueryKey, MESSAGES_LIMIT } from '~/requests';
 import { messageSchema } from '~/schemas';
 import createSupabaseClient from '~/supabase/app';
 import { IMessage } from '~/types/message';
@@ -30,8 +30,8 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
 }
 
 export function useFindMyFavoritesRequest() {
-    return useInfiniteQuery<IMessage[], Error, InfiniteData<IMessage[]>, FavsMessagesQueryKey, number>({
-        queryKey: ['FAVS_MESSAGES'],
+    return useInfiniteQuery<IMessage[], Error, InfiniteData<IMessage[]>, FindMessagesQueryKey, number>({
+        queryKey: ['FIND_MESSAGES', {isFavorites: true}],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
             const data = await findMyFavorites({ lastId });
