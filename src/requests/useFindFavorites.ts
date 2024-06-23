@@ -6,7 +6,7 @@ import { IMessage } from '~/types/message';
 import { getUser, transformMessage } from '~/utils';
 
 
-async function findMyFavorites({ lastId }: {lastId?: number}) {
+async function findFavorites({ lastId }: {lastId?: number}) {
     const supabase = await createSupabaseClient();
     const user = await getUser({ required: true });
 
@@ -29,12 +29,12 @@ async function findMyFavorites({ lastId }: {lastId?: number}) {
     return data;
 }
 
-export function useFindMyFavoritesRequest() {
+export function useFindFavoritesRequest() {
     return useInfiniteQuery<IMessage[], Error, InfiniteData<IMessage[]>, FindMessagesQueryKey, number>({
         queryKey: ['FIND_MESSAGES', {isFavorites: true}],
         async queryFn({ pageParam: lastId }) {
             const user = await getUser();
-            const data = await findMyFavorites({ lastId });
+            const data = await findFavorites({ lastId });
 
             return messageSchema.array().parseAsync(data.map((i) => transformMessage(i, user ? user.id : null)));
         },

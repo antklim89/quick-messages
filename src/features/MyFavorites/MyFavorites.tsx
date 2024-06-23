@@ -3,7 +3,7 @@ import { FC, Fragment } from 'react';
 import MessageSkeleton from '~/components/MessageSkeleton';
 import Message from '~/features/Message';
 import { useEndScreenTrigger } from '~/hooks';
-import { MESSAGES_LIMIT, useFindMyFavoritesRequest } from '~/requests';
+import { MESSAGES_LIMIT, useFindFavoritesRequest } from '~/requests';
 
 
 const MyFavorites: FC = () => {
@@ -13,7 +13,7 @@ const MyFavorites: FC = () => {
         isFetchingNextPage,
         fetchNextPage,
         data: { pages } = { pages: [] },
-    } = useFindMyFavoritesRequest();
+    } = useFindFavoritesRequest();
 
     useEndScreenTrigger(fetchNextPage, (!isFetching && (pages.at(-1)?.length || 0) >= MESSAGES_LIMIT), 1000);
 
