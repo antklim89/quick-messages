@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
-import { useUpdateProfie } from '~/requests';
+import { useUpdateProfile } from '~/requests';
 import { profileEditSchema } from '~/schemas';
 import { IProfile } from '~/types';
 
 
 export function useProfileInfoFormik(initialValues: IProfile) {
-    const { mutateAsync: updateProfile } = useUpdateProfie();
+    const { mutateAsync: updateProfile } = useUpdateProfile();
 
     const formik = useFormik<IProfile>({
         initialValues,

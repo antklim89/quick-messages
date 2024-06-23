@@ -26,7 +26,7 @@ export function useRegisterRequest() {
             return register(values);
         },
         async onSuccess() {
-            toast({ title: 'You have successfully registred!', status: 'success' });
+            toast({ title: 'You have successfully register!', status: 'success' });
             window.location.reload();
         },
         onError(error) {

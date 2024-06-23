@@ -49,7 +49,7 @@ export function useAvatarUpload() {
                     avatarUrl: URL.createObjectURL(file),
                 }),
             );
-            toast({ title: 'Avatar succesfully uploaded.', status: 'success' });
+            toast({ title: 'Avatar successfully uploaded.', status: 'success' });
         },
         onError(error) {
             toast({ title: error.message, status: 'error' });

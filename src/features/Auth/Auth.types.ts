@@ -1,6 +1,6 @@
 import { ButtonProps } from '@chakra-ui/react';
 import { z } from 'zod';
-import { authInputSchema } from '../../schemas/authShemas';
+import { authInputSchema } from '../../schemas/authSchemas';
 import { useAuthFormik } from './Auth.formik';
 
 

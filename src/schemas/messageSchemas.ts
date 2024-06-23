@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { authorSchema } from './authShemas';
+import { authorSchema } from './authSchemas';
 import { subjectEditSchema, subjectSchema } from './subjectSchema';
 
 

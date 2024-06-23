@@ -23,7 +23,7 @@ export async function updateProfile(values: IProfile) {
 }
 
 
-export function useUpdateProfie() {
+export function useUpdateProfile() {
     const toast = useToast();
     const queryClient = useQueryClient();
 
