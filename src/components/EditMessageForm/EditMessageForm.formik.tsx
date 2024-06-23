@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useMemo } from 'react';
 import { EditMessageFormProps } from './EditMessageForm.types';
 import { useCreateMessageRequest, useUpdateMessageRequest } from '~/requests';
-import { editMessageSchema } from '~/schemas';
+import { messageEditSchema } from '~/schemas';
 import { IEditMessageInput } from '~/types';
 
 
@@ -34,7 +34,7 @@ export function useEditMessageFormFormik({
             onSuccess?.();
         },
         async validate(values) {
-            const result = await editMessageSchema.safeParseAsync(values);
+            const result = await messageEditSchema.safeParseAsync(values);
             return result.success ? {} : result.error.formErrors.fieldErrors;
         },
         validateOnMount: true,

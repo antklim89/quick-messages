@@ -2,14 +2,14 @@ import { useToast } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { SubjectsQueryKey } from './constants';
-import { subjectBodySchema } from '~/schemas';
+import { subjectEditSchema } from '~/schemas';
 import createSupabaseClient from '~/supabase/app';
 import { ISubject } from '~/types';
 
 
 export async function createSubject(subject: string) {
     const supabase = await createSupabaseClient();
-    const validatedBody = await subjectBodySchema.parse(subject);
+    const validatedBody = await subjectEditSchema.parse(subject);
 
     const { error } = await supabase
         .from('subjects')

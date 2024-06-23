@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-export const profileInputSchema = z.object({
+export const profileEditSchema = z.object({
     name: z.string(),
     bio: z.string(),
 });

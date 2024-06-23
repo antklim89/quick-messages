@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import { authorSchema } from './authShemas';
-import { subjectBodySchema, subjectSchema } from './subjectSchema';
+import { subjectEditSchema, subjectSchema } from './subjectSchema';
 
 
-export const editMessageSchema = z.object({
+export const messageEditSchema = z.object({
     body: z.string()
         .trim()
         .max(400)
         .min(5),
-    subjectBody: subjectBodySchema,
+    subjectBody: subjectEditSchema,
 });
 
 export const messageSchema = z.object({

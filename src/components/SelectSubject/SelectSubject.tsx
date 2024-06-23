@@ -7,7 +7,7 @@ import {
 import { SelectSubjectsProps } from './SelectSubject.types';
 import { useDebounce } from '~/hooks';
 import { useCreateSubject, useFindSubjects } from '~/requests';
-import { subjectBodySchema } from '~/schemas';
+import { subjectEditSchema } from '~/schemas';
 import { addToPreviouslySelectedSubjects, getPreviouslySelectedSubjects } from '~/utils';
 
 
@@ -25,7 +25,7 @@ const SelectSubjects: FC<SelectSubjectsProps> = ({ onChange, subject, defaultSub
 
     const isNewSubject = (input.length > 0) && subjects.indexOf(input) < 0;
 
-    const validatedInput = subjectBodySchema.safeParse(input);
+    const validatedInput = subjectEditSchema.safeParse(input);
 
     const handleAddSubject = async () => {
         if (isFetching) return;
